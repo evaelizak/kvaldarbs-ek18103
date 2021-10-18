@@ -4,10 +4,15 @@ import Layout, { Content, Footer, Header } from 'antd/lib/layout/layout';
 import Sider from 'antd/lib/layout/Sider';
 import SubMenu from 'antd/lib/menu/SubMenu';
 import React, { useState } from 'react';
+import { useProfile } from '../context/profile.context';
+import { onSignOut } from '../misc/auth-functions';
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
 
-const HomePage = ({ signOut }) => {
+const HomePage = () => {
+  const { profile } = useProfile();
+  console.log(profile);
+
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
@@ -42,11 +47,14 @@ const HomePage = ({ signOut }) => {
       </Sider>
       <Layout>
         <Header>
-          <p className="text-white">Header</p>
+          <p className="text-white">For students by students</p>
         </Header>
         <Content>
-          <div className="p-10 min-h-360">This is the content</div>{' '}
-          <Button color="red-500" danger type="primary" onClick={signOut}>
+          <div className="p-10 min-h-360">
+            <h1 className="text-xl text-center">Hey, {profile.name}!</h1>
+            This is the content
+          </div>
+          <Button color="red-500" danger type="primary" onClick={onSignOut}>
             Sign out
           </Button>
         </Content>

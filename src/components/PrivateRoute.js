@@ -4,9 +4,7 @@ import { Redirect, Route } from 'react-router';
 import { useProfile } from '../context/profile.context';
 
 const PrivateRoute = ({ children, ...routeProps }) => {
-  // const { profile, isLoading } = useProfile();
-  const profile = useProfile();
-  const isLoading = useProfile();
+  const { profile, isLoading } = useProfile();
   if (isLoading && !profile) {
     return (
       <div className="text-center my-20 mx-0 py-30 px-50 bg-white rounded-md">
