@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { notification } from 'antd';
 import {
   getAdditionalUserInfo,
@@ -19,13 +19,13 @@ export const signInWithGoogle = async () => {
         createdAt: serverTimestamp(),
       });
     }
-    <notification.success message="Signed in successfully" />;
+    notification.open({ message: 'Signed in successfully', duration: 4 });
   } catch (err) {
-    <notification.error message={err.message} />;
+    notification.open({ message: 'Error has occurred', duration: 4 });
   }
 };
 
 export const onSignOut = () => {
   auth.signOut();
-  <notification.info message="Signed out" duration="4" />;
+  notification.open({ message: 'Signed out', duration: 4 });
 };

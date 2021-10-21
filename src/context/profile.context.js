@@ -20,13 +20,11 @@ export const ProfileProvider = ({ children }) => {
           const data = {
             name,
             createdAt,
-            //            avatar,
+            // avatar,
             uid: authObj.uid,
             email: authObj.email,
           };
           setProfile(data);
-          console.log(data);
-          //   console.log(profile);
           setIsLoading(false);
         });
       } else {
