@@ -1,24 +1,23 @@
-import { Button, Layout } from 'antd';
+import { Button } from 'antd';
 import { GoogleOutlined } from '@ant-design/icons';
 import React from 'react';
 import { signInWithGoogle } from '../misc/auth-functions';
 
 const SignInPage = () => {
   return (
-    <Layout>
+    <>
       <div>
-        <h1 className="text-3xl bold text-center">sign in page</h1>
+        <h1 className="mt-10 text-3xl bold text-center">
+          Sign in to your account
+        </h1>
       </div>
-      <div>
-        <h3 className="text-xl bold text-center">Sign in with</h3>
-      </div>
-      <div className="mt-5">
-        <Button block color="white" onClick={signInWithGoogle}>
+      <div className="mt-5 grid justify-items-center">
+        <Button type="primary" onClick={signInWithGoogle}>
           <GoogleOutlined />
-          Google
+          Sign in with Google
         </Button>
       </div>
-    </Layout>
+    </>
   );
 };
 

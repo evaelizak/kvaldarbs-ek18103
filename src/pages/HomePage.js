@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-curly-brace-presence */
-import { Button } from 'antd';
 import Layout, { Content, Footer, Header } from 'antd/lib/layout/layout';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import SideNav from '../components/SideNav';
 // import { useProfile } from '../context/profile.context';
-import { onSignOut } from '../misc/auth-functions';
+import logo from '../img/logo.png';
 
 const HomePage = ({ props }) => {
   // for when there is no other content in the home page
@@ -17,15 +17,21 @@ const HomePage = ({ props }) => {
       <SideNav />
       <Layout>
         <Header>
+          <div>
+            <Link to="/home">
+              <img
+                src={logo}
+                alt="logo"
+                className="float-left w-30 h-16 mx-16 mr-5 ml-0"
+              />
+            </Link>
+          </div>
           <p className="text-white">For students by students</p>
         </Header>
         <Content className="p-5 m-5 border-2">
           <div>{props}</div>
         </Content>
         <Footer className="text-center">
-          <Button color="red-500" danger type="primary" onClick={onSignOut}>
-            Sign out
-          </Button>
           <p className="text-xs">
             Website made by Eva Eliza Kudina for University of Latvia 2021
           </p>

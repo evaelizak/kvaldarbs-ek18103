@@ -45,12 +45,13 @@ const PublicRoute = ({ children, ...routeProps }) => {
 export const Routes = () => {
   const profilePage = <ProfilePage />;
   const projectsPage = <ProjectsPage />;
+  const signinPage = <SignInPage />;
 
   return (
     <BrowserRouter>
       <Switch>
         <PublicRoute exact path="/signin">
-          <SignInPage />
+          <AboutPage props={signinPage} />
         </PublicRoute>
         <PublicRoute exact path="/">
           <AboutPage />

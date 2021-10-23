@@ -11,7 +11,6 @@ import { Link, useLocation } from 'react-router-dom';
 // Refactored sidebar navigation
 const SideNav = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
-
   const location = useLocation();
   // Sidebar component used from antd
   return (
@@ -21,7 +20,7 @@ const SideNav = () => {
         collapsed={isCollapsed}
         onCollapse={setIsCollapsed}
         collapsedWidth="40"
-        breakpoint="md"
+        breakpoint="sm"
       >
         <div className="h-32 m-16" />
         <Menu
