@@ -1,14 +1,5 @@
-import { EditOutlined, UploadOutlined } from '@ant-design/icons';
-import {
-  Button,
-  Descriptions,
-  Divider,
-  Form,
-  Input,
-  InputNumber,
-  notification,
-  Upload,
-} from 'antd';
+import { EditOutlined } from '@ant-design/icons';
+import { Button, Descriptions, Divider } from 'antd';
 import React from 'react';
 import { useProfile } from '../context/profile.context';
 import { onSignOut } from '../misc/auth-functions';
@@ -16,18 +7,6 @@ import { onSignOut } from '../misc/auth-functions';
 const ProfilePage = () => {
   const { profile, isLoading } = useProfile();
   console.log(isLoading);
-
-  const uploader = {
-    beforeUpload: file => {
-      if (file.type !== 'application/pdf') {
-        notification.error({ message: `${file.type} is not a pdf file` });
-      }
-      return file.type === 'application/pdf' ? true : Upload.LIST_IGNORE;
-    },
-    onChange: info => {
-      console.log(info.fileList);
-    },
-  };
 
   return (
     <>
@@ -60,50 +39,6 @@ const ProfilePage = () => {
         <EditOutlined />
         Edit profile [TBA]
       </Button>
-      <Divider plain>Your Application Template</Divider>
-
-      <div className="mt-5 pr-80">
-        <Form layout="vertical" size="middle">
-          <Form.Item label="About You">
-            <Input placeholder="input placeholder" />
-          </Form.Item>
-          <Form.Item label="Motivation">
-            <Input.TextArea placeholder="input placeholder" />
-          </Form.Item>
-          <Form.Item
-            name={['Age']}
-            label="Age"
-            rules={[
-              {
-                type: 'number',
-                min: 0,
-                max: 99,
-              },
-            ]}
-          >
-            <InputNumber />
-          </Form.Item>
-          <Form.Item name={['Website']} label="Website">
-            <Input />
-          </Form.Item>
-          <Form.Item name={['Social media']} label="Social media">
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="upload"
-            label="Upload your CV"
-            valuePropName="fileList"
-            //   getValueFromEvent={normFile}
-          >
-            <Upload {...uploader} name="CV" listType=".pdf">
-              <Button icon={<UploadOutlined />}>Upload a PDF</Button>
-            </Upload>
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary">Submit</Button>
-          </Form.Item>
-        </Form>
-      </div>
     </>
   );
 };
