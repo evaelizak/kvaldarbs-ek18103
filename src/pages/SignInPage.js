@@ -37,8 +37,8 @@ const SignInPage = () => {
       const userData = getAdditionalUserInfo(signedIn);
 
       // sets the data for new users
-      if (userData.isNewUser) {
-        // // sets the data
+      if (userData.isNewUser && userType === 'student') {
+        // sets the data in the database - set because we use user uid for nodes
         await set(ref(database, `/profiles/${signedIn.user.uid}`), {
           username: signedIn.user.displayName,
           createdAt: serverTimestamp(),
