@@ -16,20 +16,31 @@ export const ProfileProvider = ({ children }) => {
     const authUnsub = onAuthStateChanged(auth, async authObj => {
       if (authObj) {
         userRef = ref(database, `/profiles/${authObj.uid}`);
-
+        let data;
         onValue(userRef, snap => {
-          const { username, createdAt, usertype } = snap.val();
-          console.log(username, createdAt, usertype);
-
-          // data from the snapshot that was received from Google auth
-          const data = {
-            username,
-            createdAt,
-            // avatar,
-            usertype,
-            uid: authObj.uid,
-            email: authObj.email,
-          };
+          const { username, createdAt, usertype, hasCompany } = snap.val();
+          // sets additional data for company accounts
+          if (usertype === 'company') {
+            data = {
+              username,
+              createdAt,
+              // avatar,
+              usertype,
+              hasCompany,
+              uid: authObj.uid,
+              email: authObj.email,
+            };
+          } else {
+            // data from the snapshot that was received from Google auth
+            data = {
+              username,
+              createdAt,
+              // avatar,
+              usertype,
+              uid: authObj.uid,
+              email: authObj.email,
+            };
+          }
           setProfile(data);
           setIsLoading(false);
         });
@@ -38,6 +49,7 @@ export const ProfileProvider = ({ children }) => {
         if (userRef) {
           off(userRef);
         }
+        // removes profile data
         setProfile(null);
         setIsLoading(false);
       }

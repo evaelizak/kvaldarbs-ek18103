@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { Button, Form, Input, InputNumber, notification } from 'antd';
-import { auth, database } from 'firebase-admin';
 import { push, ref, serverTimestamp } from '@firebase/database';
+import { auth, database } from '../misc/firebase';
 
 const INITIALFORM = {
   about: 'About yourself... ',

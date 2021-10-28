@@ -7,8 +7,7 @@ const ProjectsPage = () => {
   /* This is where the main projects rendering logic will be
    */
   // eslint-disable-next-line no-unused-vars
-  const { profile, isLoading } = useProfile();
-  console.log(isLoading);
+  const { profile } = useProfile();
   let shownComponent;
   console.log(profile.usertype);
   if (profile.usertype === 'student') {

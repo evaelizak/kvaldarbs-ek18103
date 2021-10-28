@@ -3,7 +3,7 @@ import { Col, Row, notification } from 'antd';
 import React from 'react';
 import firebase from 'firebase/compat/app';
 import { useList } from 'react-firebase-hooks/database';
-import ProjectCard from '../components/ProjectCard';
+import ProjectCard from './ProjectCard';
 
 // component for projects page for students
 const StudentProjects = () => {

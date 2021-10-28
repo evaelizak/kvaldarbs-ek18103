@@ -1,8 +1,8 @@
 import { EditOutlined } from '@ant-design/icons';
 import { Button, Descriptions, Divider } from 'antd';
 import React from 'react';
-import { useProfile } from '../context/profile.context';
-import { onSignOut } from '../misc/auth-functions';
+import { useProfile } from '../../context/profile.context';
+import { onSignOut } from '../../misc/auth-functions';
 
 const StudentProfile = () => {
   const { profile, isLoading } = useProfile();
@@ -24,7 +24,7 @@ const StudentProfile = () => {
           </Button>
         </h1>
       </div>
-      <Divider plain>Company info</Divider>
+      <Divider plain>Your profile info</Divider>
       <Descriptions
         bordered
         size="small"

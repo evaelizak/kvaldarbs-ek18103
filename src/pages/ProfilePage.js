@@ -1,12 +1,11 @@
 import React from 'react';
-import StudentProfile from '../components/StudentProfile';
-import CompanyProfile from '../components/CompanyProfile';
+import StudentProfile from '../components/profiles/StudentProfile';
+import CompanyProfile from '../components/profiles/CompanyProfile';
 
 import { useProfile } from '../context/profile.context';
 
 const ProfilePage = () => {
-  const { profile, isLoading } = useProfile();
-  console.log(isLoading);
+  const { profile } = useProfile();
 
   let shownComponent;
   console.log(profile.usertype);

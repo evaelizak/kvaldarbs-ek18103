@@ -44,6 +44,13 @@ const SignInPage = () => {
           createdAt: serverTimestamp(),
           usertype: userType,
         });
+      } else {
+        await set(ref(database, `/profiles/${signedIn.user.uid}`), {
+          username: signedIn.user.displayName,
+          createdAt: serverTimestamp(),
+          usertype: userType,
+          hasCompany: false,
+        });
       }
       notification.open({ message: 'Signed in successfully', duration: 4 });
     } catch (err) {

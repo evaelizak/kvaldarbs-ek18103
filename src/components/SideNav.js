@@ -20,7 +20,7 @@ const SideNav = () => {
         collapsed={isCollapsed}
         onCollapse={setIsCollapsed}
         collapsedWidth="40"
-        breakpoint="sm"
+        breakpoint="lg"
       >
         <div className="h-32 m-16" />
         <Menu
