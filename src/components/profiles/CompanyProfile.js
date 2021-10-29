@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Button, Divider } from 'antd';
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 import { useProfile } from '../../context/profile.context';
 import { onSignOut } from '../../misc/auth-functions';
 import CompanyInfo from './CompanyInfo';
