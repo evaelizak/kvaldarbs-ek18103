@@ -38,6 +38,7 @@ const CompanyProjectCard = () => {
                       </ShowMoreText>
                     </h1>
                     <Divider />
+                    {/* TO DO: ADD LOGIC TO SHOW NORMAL DATES */}
                     <p>
                       <b>Project starts:</b>{' '}
                       {!project.val().startDate

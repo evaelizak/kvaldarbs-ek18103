@@ -1,6 +1,6 @@
 import { onValue, ref } from '@firebase/database';
-import React from 'react';
-
+import { Modal, Button } from 'antd';
+import React, { useState } from 'react';
 import { auth, database } from '../misc/firebase';
 import CompanyProjectCard from './CompanyProjectCard';
 import CompanyProjectForm from './CompanyProjectForm';
@@ -8,7 +8,6 @@ import CompanyProjectForm from './CompanyProjectForm';
 
 const CompanyProjects = () => {
   const key = auth.currentUser.uid;
-
   let projectdata;
   const companyprojectdbref = ref(database, `/companies/${key}/projects`);
   onValue(companyprojectdbref, snapshot => {
@@ -16,21 +15,48 @@ const CompanyProjects = () => {
     console.log(projectdata);
   });
 
-  // dbref.on('projects', snapshot => {
-  //   const data = snapshot.val();
-  //   console.log(data);
-  // });
+  // state for showing the modal
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  // console.log(dbref);
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  // getting data for projects from the database
+
+  const newProjectBtn = (
+    <>
+      <Button onClick={setIsModalVisible}>Add a new project</Button>
+      <Modal
+        visible={isModalVisible}
+        title="Apply to this project"
+        onCancel={handleCancel}
+        footer={[
+          <Button key="back" type="ghost" onClick={handleCancel}>
+            Cancel
+          </Button>,
+        ]}
+      >
+        <CompanyProjectForm />
+      </Modal>
+    </>
+  );
+
+  // if (projectdata) {
+  // }
 
   return (
     <>
+      {/* showing project cards if any are added */}
+      {console.log(projectdata ? 'projects exist' : 'projects dont exist')}
+
       {projectdata ? <CompanyProjectCard /> : 'No projects added... yet!'}
-      {/* <CompanyProjectCard /> */}
-      {/* TODO: add logic to show added projects  */}
       {/* TODO: add logic to show a button to add new project if projects exist */}
       {/* TODO: + add update, delete logic for projects */}
-      <CompanyProjectForm />
+
+      {console.log(projectdata ? 'projects exist' : 'projects dont exist')}
+
+      {projectdata ? newProjectBtn : <CompanyProjectForm />}
     </>
   );
 };

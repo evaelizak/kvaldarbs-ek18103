@@ -1,29 +1,83 @@
-import { onValue, ref } from '@firebase/database';
+/* eslint-disable no-unused-vars */
+import { child, get, ref } from '@firebase/database';
 import { Button, Card } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import firebase from '@firebase/app-compat';
+// import countryList from 'react-select-country-list';
 import countryList from 'react-select-country-list';
 import { auth, database } from '../../misc/firebase';
+// import MemoizedGetFullCountry from '../../misc/custom-functions';
+// import GetFullCountry from '../../misc/custom-functions';
+
+// const INITIAL_COMPANY = {
+//   name: '',
+//   about: '',
+//   country: '',
+// };
 
 const CompanyInfo = () => {
-  const key = auth.currentUser.uid;
-  const companydbref = ref(database, `/companies/${key}`);
+  const [company, setCompany] = useState(null);
   let companydata;
-  onValue(companydbref, snapshot => {
-    companydata = snapshot.val();
-  });
 
-  const countryData = companydata.country;
-  const countries = countryList().getData();
-  const fullCountryName = countries.find(
-    country => country.value === countryData
-  );
+  const key = auth.currentUser.uid;
+  // const companydbref = ref(database, `/companies/${key}`);
+
+  const getData = () => {
+    // const dbref = ref(database);
+    firebase
+      .database()
+      .ref(`companies/${key}`)
+      .on('value', snapshot => {
+        setCompany(snapshot.val());
+      });
+    // get(child(dbref, `companies/${key}`))
+    // .then(snapshot => {
+    //   companydata = snapshot.val();
+
+    // setCompany(companydata);
+    //   name: snapshot.val().name,
+    //   about: snapshot.val().about,
+    //   country: snapshot.val().country,
+    // });
+    console.log(company);
+  };
+  // .catch(err => {
+  //   console.log(err);
+  // });
+
+  const GetFullCountry = countryLabel => {
+    const countries = countryList().getData();
+    countryLabel = countries.find(country => country.value === countryLabel);
+    console.log(countryLabel);
+    return countryLabel.label;
+  };
+
+  // use effect hook for showing the company data once it is loaded properly
+  useEffect(() => {
+    getData();
+  }, []);
+
+  let shown;
+  if (company) {
+    const countryLabel = GetFullCountry(company.country);
+    shown = (
+      <>
+        {' '}
+        <p>Name: {company.name}</p>
+        <p>About: {company.about}</p>
+        <p>Location: {countryLabel}</p>
+      </>
+    );
+  } else {
+    shown = 'Loading data... ';
+  }
 
   return (
     <>
       <Card>
-        <p>Name: {companydata.name}</p>
-        <p>About: {companydata.about}</p>
-        <p>Location: {fullCountryName.label}</p>
+        {console.log(company ? 'company exists' : "company doesn't exist")}
+        {shown}
         {/* TODO: add Modal? to show editable form for the data and the update the database */}
         <Button type="primary">Edit company data</Button>
       </Card>

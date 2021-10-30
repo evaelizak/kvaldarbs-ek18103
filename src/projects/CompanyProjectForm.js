@@ -18,6 +18,8 @@ import { database, auth } from '../misc/firebase';
 // const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 
 const CompanyProjectForm = () => {
+  // TODO: add logic to reset form after submitting
+
   const [formValues, setFormValues] = useState({});
   // const { profile } = useProfile();
   const [form] = Form.useForm();
@@ -45,7 +47,7 @@ const CompanyProjectForm = () => {
 
     try {
       // gets the post key
-      const newProjectKey = database.ref('/projects').push().key;
+      const newProjectKey = database.ref('/projects/').push().key;
       // creates an array where the places to update the data are
       const updates = {};
       // updates the data in projects and under company specific projects
@@ -90,8 +92,8 @@ const CompanyProjectForm = () => {
           form={form}
           layout="vertical"
           size="middle"
-          wrapperCol={{ span: 14 }}
-          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 16 }}
+          labelCol={{ span: 10 }}
           validateMessages={validateMessages}
           onValuesChange={(_, values) => setFormValues(values)}
           onFinish={onFinish}
