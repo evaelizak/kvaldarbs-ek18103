@@ -6,9 +6,9 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   getAdditionalUserInfo,
-} from '@firebase/auth';
-import { ref, serverTimestamp, set } from '@firebase/database';
-import { auth, database } from '../misc/firebase';
+} from 'firebase/auth';
+import { ref, serverTimestamp, set } from 'firebase/database';
+import { auth, db } from '../misc/firebase';
 
 const SignInPage = () => {
   // for the radio to set whether the user is a student or a company
@@ -37,15 +37,17 @@ const SignInPage = () => {
       const userData = getAdditionalUserInfo(signedIn);
 
       // sets the data for new users
+      console.log(userData);
       if (userData.isNewUser && userType === 'student') {
         // sets the data in the database - set because we use user uid for nodes
-        await set(ref(database, `/profiles/${signedIn.user.uid}`), {
+        await set(ref(db, `/profiles/${signedIn.user.uid}`), {
           username: signedIn.user.displayName,
           createdAt: serverTimestamp(),
           usertype: userType,
         });
-      } else {
-        await set(ref(database, `/profiles/${signedIn.user.uid}`), {
+      } else if (userData.isNewUser) {
+        // if a user is a new user and is a company then an additional field is added
+        await set(ref(db, `/profiles/${signedIn.user.uid}`), {
           username: signedIn.user.displayName,
           createdAt: serverTimestamp(),
           usertype: userType,

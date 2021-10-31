@@ -1,4 +1,4 @@
-import { serverTimestamp } from '@firebase/database';
+import { serverTimestamp } from 'firebase/database';
 import {
   Button,
   Input,
@@ -12,13 +12,13 @@ import {
 import React, { useState } from 'react';
 // import { useProfile } from '../context/profile.context';
 // import moment from 'moment';
-import { database, auth } from '../misc/firebase';
+import { db, auth } from '../misc/firebase';
 // component for showing project page for companies
-
-// const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 
 const CompanyProjectForm = () => {
   // TODO: add logic to reset form after submitting
+  const [hasProject, setHasProject] = useState(false);
+  console.log(hasProject);
 
   const [formValues, setFormValues] = useState({});
   // const { profile } = useProfile();
@@ -29,7 +29,7 @@ const CompanyProjectForm = () => {
   const onCheckboxChange = e => {
     setIsPaid(e.target.checked);
   };
-
+  // in case there isn't a set message for validation
   const validateMessages = {
     required: `Field is required!`,
   };
@@ -47,7 +47,7 @@ const CompanyProjectForm = () => {
 
     try {
       // gets the post key
-      const newProjectKey = database.ref('/projects/').push().key;
+      const newProjectKey = db.ref('/projects/').push().key;
       // creates an array where the places to update the data are
       const updates = {};
       // updates the data in projects and under company specific projects
@@ -55,7 +55,10 @@ const CompanyProjectForm = () => {
       updates[`/companies/${auth.currentUser.uid}/projects/${newProjectKey}`] =
         cleanedData;
       // updates the data
-      database.ref().update(updates);
+      db.ref().update(updates);
+      form.resetFields();
+
+      setHasProject(true);
 
       // reference to the database
       // const dbref = ref(database, `companies/${profile.uid}/projects`);
@@ -75,7 +78,7 @@ const CompanyProjectForm = () => {
       });
     }
   };
-  // onClick={submitUserForm}
+
   const onFinish = () => {
     submitUserForm();
   };
@@ -141,17 +144,6 @@ const CompanyProjectForm = () => {
             </Button>
           </Form.Item>
         </Form>
-
-        {/* <Form.Item
-                name="upload"
-                label="Upload your CV"
-                valuePropName="fileList"
-                //   getValueFromEvent={normFile}
-              >
-                <Upload {...uploader} name="CV" listType=".pdf">
-                  <Button icon={<UploadOutlined />}>Upload a PDF</Button>
-                </Upload>
-              </Form.Item> */}
       </div>
     </>
   );

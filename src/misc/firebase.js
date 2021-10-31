@@ -1,11 +1,13 @@
 // import { initializeApp } from 'firebase/app';
-// import { getAuth } from 'firebase/auth';
-// import { getDatabase } from 'firebase/database';
-// import { getStorage } from 'firebase/storage';
 import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
 import 'firebase/compat/database';
+import 'firebase/compat/auth';
 import 'firebase/compat/storage';
+// import { getAuth } from 'firebase/auth';
+// import { getDatabase } from '@firebase/database';
+// import { getStorage } from 'firebase/storage';
+// import { getAuth } from '@firebase/auth';
+// import { getDatabase } from '@firebase/database';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCQZc08dOkuDkOKWcoqS-acKSRTlAymUBs',
@@ -27,6 +29,6 @@ const firebaseConfig = {
 
 const app = firebase.initializeApp(firebaseConfig);
 export const auth = app.auth();
-export const database = app.database();
+export const db = app.database();
 export const storage = app.storage();
-export const dbRef = firebase.database().ref();
+// export const dbRef = firebase.database().ref();

@@ -1,7 +1,7 @@
 import { React, createContext, useState, useEffect, useContext } from 'react';
 import { ref, onValue, off } from 'firebase/database';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth, database } from '../misc/firebase';
+import { auth, db } from '../misc/firebase';
 
 const ProfileContext = createContext();
 
@@ -15,7 +15,7 @@ export const ProfileProvider = ({ children }) => {
     // listener for auth changes
     const authUnsub = onAuthStateChanged(auth, async authObj => {
       if (authObj) {
-        userRef = ref(database, `/profiles/${authObj.uid}`);
+        userRef = ref(db, `/profiles/${authObj.uid}`);
         let data;
         onValue(userRef, snap => {
           const { username, createdAt, usertype, hasCompany } = snap.val();

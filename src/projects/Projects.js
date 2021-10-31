@@ -1,17 +1,20 @@
 /* eslint-disable no-unused-vars */
 import { Col, Row, notification } from 'antd';
 import React from 'react';
-import firebase from 'firebase/compat/app';
 import { useList } from 'react-firebase-hooks/database';
 import ProjectCard from './ProjectCard';
+import { auth, db } from '../misc/firebase';
 
-// component for projects page for students
-const StudentProjects = () => {
+// component for projects page
+const Projects = ({ type = 'student' }) => {
   // react firebase hook to get a list of keys from the database reference
-  const projectsRef = firebase
-    .database()
-    .ref('/projects')
-    .orderByChild('startDate');
+  const key = auth.currentUser.uid;
+  let projectsRef;
+  if (type === 'student') {
+    projectsRef = db.ref('/projects').orderByChild('startDate');
+  } else {
+    projectsRef = db.ref(`/companies/${key}/projects`);
+  }
   const [projects, loading, error] = useList(projectsRef);
 
   return (
@@ -38,6 +41,7 @@ const StudentProjects = () => {
                     endDate={project.val().endDate}
                     deadline={project.val().appDeadline}
                     loading={loading}
+                    type={type}
                   />
                 </Col>
               ))}
@@ -49,4 +53,4 @@ const StudentProjects = () => {
   );
 };
 
-export default StudentProjects;
+export default Projects;

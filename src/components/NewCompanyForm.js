@@ -3,7 +3,7 @@ import { Button, Input, message, notification, Select, Form } from 'antd';
 import React, { useMemo, useState } from 'react';
 import countryList from 'react-select-country-list';
 // import { useProfile } from '../context/profile.context';
-import { auth, database } from '../misc/firebase';
+import { auth, db } from '../misc/firebase';
 
 const NewCompanyForm = () => {
   // const { profile } = useProfile();
@@ -27,12 +27,12 @@ const NewCompanyForm = () => {
     const cleanedData = JSON.parse(JSON.stringify(newCompany));
     // reference to the database
     const key = auth.currentUser.uid;
-    const dbref = ref(database, `/companies/${key}`);
+    const dbref = ref(db, `/companies/${key}`);
     try {
       // sets the data
       set(dbref, cleanedData);
       // updates user hasCompany field to true
-      database.ref('/profiles').child(key).update({ hasCompany: true });
+      db.ref('/profiles').child(key).update({ hasCompany: true });
       // profile.hasCompany = true;
 
       notification.open({
