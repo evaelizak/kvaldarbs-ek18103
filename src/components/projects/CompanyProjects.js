@@ -3,7 +3,7 @@ import { Modal, Button } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 import firebase from 'firebase/compat/app';
-import { auth } from '../misc/firebase';
+import { auth } from '../../misc/firebase';
 
 // import CompanyProjectCard from './CompanyProjectCard';
 import CompanyProjectForm from './CompanyProjectForm';

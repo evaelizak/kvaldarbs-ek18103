@@ -1,8 +1,8 @@
-import { EditOutlined } from '@ant-design/icons';
 import { Button, Descriptions, Divider } from 'antd';
 import React from 'react';
 import { useProfile } from '../../context/profile.context';
 import { onSignOut } from '../../misc/auth-functions';
+import StudentEditProfile from './StudentEditProfile';
 
 const StudentProfile = () => {
   const { profile, isLoading } = useProfile();
@@ -32,13 +32,11 @@ const StudentProfile = () => {
       >
         <Descriptions.Item label="E-mail">{profile.email}</Descriptions.Item>
         <Descriptions.Item label="Phone number">
-          {profile.number ? profile.number : 'No phone number set'}
+          {profile.phone ? profile.phone : 'No phone number set'}
         </Descriptions.Item>
       </Descriptions>
-      <Button type="primary" className="mt-3">
-        <EditOutlined />
-        Edit profile [TBA] - will be a pop up modal with editable info
-      </Button>
+
+      <StudentEditProfile />
     </>
   );
 };

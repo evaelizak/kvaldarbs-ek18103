@@ -2,7 +2,7 @@ import { push, ref, serverTimestamp, set } from 'firebase/database';
 import { Button, Form, Input, message, notification, Select } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
 import React, { useState } from 'react';
-import { auth, db } from '../misc/firebase';
+import { auth, db } from '../../misc/firebase';
 
 const StudentProjectApply = ({ id, title }) => {
   // state for showing the modal for projects

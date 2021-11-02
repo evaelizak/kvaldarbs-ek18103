@@ -1,7 +1,7 @@
 import React from 'react';
 import { useProfile } from '../context/profile.context';
-import CompanyProjects from '../projects/CompanyProjects';
-import Projects from '../projects/Projects';
+import CompanyProjects from '../components/projects/CompanyProjects';
+import Projects from '../components/projects/Projects';
 // import StudentProjects from '../projects/StudentProjects';
 
 const ProjectsPage = () => {

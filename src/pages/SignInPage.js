@@ -44,6 +44,7 @@ const SignInPage = () => {
           username: signedIn.user.displayName,
           createdAt: serverTimestamp(),
           usertype: userType,
+          phone: '',
         });
       } else if (userData.isNewUser) {
         // if a user is a new user and is a company then an additional field is added
@@ -52,6 +53,7 @@ const SignInPage = () => {
           createdAt: serverTimestamp(),
           usertype: userType,
           hasCompany: false,
+          phone: '',
         });
       }
       notification.open({ message: 'Signed in successfully', duration: 4 });

@@ -12,7 +12,7 @@ import {
 import React, { useState } from 'react';
 // import { useProfile } from '../context/profile.context';
 // import moment from 'moment';
-import { db, auth } from '../misc/firebase';
+import { db, auth } from '../../misc/firebase';
 // component for showing project page for companies
 
 const CompanyProjectForm = () => {

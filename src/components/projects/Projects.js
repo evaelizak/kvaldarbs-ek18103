@@ -3,7 +3,7 @@ import { Col, Row, notification } from 'antd';
 import React from 'react';
 import { useList } from 'react-firebase-hooks/database';
 import ProjectCard from './ProjectCard';
-import { auth, db } from '../misc/firebase';
+import { auth, db } from '../../misc/firebase';
 
 // component for projects page
 const Projects = ({ type = 'student' }) => {

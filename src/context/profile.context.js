@@ -18,7 +18,8 @@ export const ProfileProvider = ({ children }) => {
         userRef = ref(db, `/profiles/${authObj.uid}`);
         let data;
         onValue(userRef, snap => {
-          const { username, createdAt, usertype, hasCompany } = snap.val();
+          const { username, createdAt, usertype, hasCompany, phone } =
+            snap.val();
           // sets additional data for company accounts
           if (usertype === 'company') {
             data = {
@@ -37,6 +38,7 @@ export const ProfileProvider = ({ children }) => {
               createdAt,
               // avatar,
               usertype,
+              phone,
               uid: authObj.uid,
               email: authObj.email,
             };
