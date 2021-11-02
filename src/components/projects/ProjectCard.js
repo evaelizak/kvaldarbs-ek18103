@@ -1,5 +1,6 @@
 import { Button, Card, Divider } from 'antd';
 import React from 'react';
+import firebase from 'firebase/compat/app';
 import ShowMoreText from 'react-show-more-text';
 import { DateTime } from 'luxon';
 import StudentProjectApply from './StudentProjectApply';
@@ -14,6 +15,7 @@ const ProjectCard = ({
   deadline,
   id,
   type,
+  byUser,
 }) => {
   if (startDate) {
     startDate = DateTime.fromISO(startDate).toFormat('dd.LL.yyyy');
@@ -25,11 +27,36 @@ const ProjectCard = ({
     deadline = DateTime.fromISO(deadline).toFormat('dd.LL.yyyy');
   }
 
-  let shownButton;
-  if (type === 'student') {
-    shownButton = <StudentProjectApply id={id} title={title} />;
+  let company;
+  let showCompany;
+
+  firebase
+    .database()
+    .ref(`companies/${byUser}`)
+    .on('value', snapshot => {
+      company = snapshot.val();
+    });
+
+  if (!company) {
+    showCompany = 'none';
   } else {
-    shownButton = (
+    showCompany = company.name;
+  }
+  // useEffect(() => {
+  //   getData();
+  //   console.log('company:', company);
+  //   console.log('show: ', showCompany);
+  //   // console.log(company);
+  //   // return () => {
+  //   //   company = null;
+  //   // };
+  // }, []);
+
+  let shownButtonFooter;
+  if (type === 'student') {
+    shownButtonFooter = <StudentProjectApply id={id} title={title} />;
+  } else {
+    shownButtonFooter = (
       <>
         <Button type="primary">Edit</Button>{' '}
         <Button danger className="float-right">
@@ -42,14 +69,19 @@ const ProjectCard = ({
   return (
     <Card title={title} loading={loading}>
       {/* <p>{projectInfo}</p> */}
-
+      <p>
+        {console.log('show company', showCompany)}
+        <b>Company:</b> {showCompany}
+      </p>
+      <Divider />
       <h1>
-        <b className="text-base">About:</b>{' '}
+        <b className="text-base">About:</b>
         <ShowMoreText lines={3} more="Show more" less="Show less">
           {about}
         </ShowMoreText>
       </h1>
       <Divider />
+
       <p>
         <b>Project starts:</b> {!startDate ? 'No specified start' : startDate}
       </p>
@@ -63,7 +95,7 @@ const ProjectCard = ({
 
       {/* <p>{projectInfo.about}</p> */}
       {/* <p>{data.title}</p> */}
-      {shownButton}
+      {shownButtonFooter}
     </Card>
   );
 };

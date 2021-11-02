@@ -34,7 +34,7 @@ const CompanyInfo = () => {
   useEffect(() => {
     getData();
     return () => {
-      setCompany(null); // This worked for me
+      setCompany(null);
     };
   }, []);
 

@@ -42,6 +42,7 @@ const Projects = ({ type = 'student' }) => {
                     deadline={project.val().appDeadline}
                     loading={loading}
                     type={type}
+                    byUser={project.val().byUser}
                   />
                 </Col>
               ))}
