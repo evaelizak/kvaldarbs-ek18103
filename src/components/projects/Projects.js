@@ -29,10 +29,14 @@ const Projects = ({ type = 'student' }) => {
         {!loading && projects && (
           <>
             {/* Mapping the projects keys from the database list */}
-            <Row>
+            <Row gutter={{ xs: 4, sm: 8 }}>
               {projects.map((project, index) => (
                 // <Col>{project.val().title}</Col>
-                <Col key={index} className="p-2" span={{ xs: 16, m: 8 }}>
+                <Col
+                  key={index}
+                  className="pt-2 inline-flex self-stretch"
+                  span={{ xs: 16, m: 8 }}
+                >
                   <ProjectCard
                     id={project.key}
                     title={project.val().title}
