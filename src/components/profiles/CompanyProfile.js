@@ -4,7 +4,7 @@ import React from 'react';
 import { useProfile } from '../../context/profile.context';
 import { onSignOut } from '../../misc/auth-functions';
 import CompanyInfo from './CompanyInfo';
-import NewCompanyForm from '../NewCompanyForm';
+import NewCompanyForm from './NewCompanyForm';
 
 const CompanyProfile = () => {
   // for getting profile data

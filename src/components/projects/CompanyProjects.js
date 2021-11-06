@@ -6,7 +6,7 @@ import firebase from 'firebase/compat/app';
 import { auth } from '../../misc/firebase';
 
 // import CompanyProjectCard from './CompanyProjectCard';
-import CompanyProjectForm from './CompanyProjectForm';
+import CompanyCreateProjectForm from './project-actions/CompanyCreateProjectForm';
 // import ProjectCard from './ProjectCard';
 import Projects from './Projects';
 // component for showing project page for companies
@@ -15,13 +15,10 @@ const CompanyProjects = () => {
   const key = auth.currentUser.uid;
 
   const [hasProjects, setHasProjects] = useState(null);
+  // state for showing the modal
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const getProjectData = () => {
-    // const companyprojectdbref = ref(db, `/companies/${key}/projects`);
-    // onValue(companyprojectdbref, snapshot => {
-    //   projectdata = snapshot.val();
-    //   console.log(projectdata);
-    // });
     firebase
       .database()
       .ref(`/companies/${key}/projects`)
@@ -32,22 +29,20 @@ const CompanyProjects = () => {
       });
   };
 
+  // useEffect for getting the project data, it did not work properly otherwise
   useEffect(() => {
     getProjectData();
     return () => {
-      setHasProjects(null); // This worked for me
+      setHasProjects(null);
     };
   }, []);
 
-  // state for showing the modal
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
+  // cancel handling for the modal
   const handleCancel = () => {
     setIsModalVisible(false);
   };
 
-  // getting data for projects from the database
-
+  // button for adding new project, which opens a modal with the new project form inside
   const newProjectBtn = (
     <>
       <Button className="mt-5" type="primary" onClick={setIsModalVisible}>
@@ -63,25 +58,18 @@ const CompanyProjects = () => {
           </Button>,
         ]}
       >
-        <CompanyProjectForm />
+        <CompanyCreateProjectForm />
       </Modal>
     </>
   );
-
-  // let shown;
-
-  // if (hasProjects) {
-  //   shown = <Projects type="company" />;
-  // }
 
   return (
     <>
       {/* showing project cards if any are added */}
       {console.log(hasProjects ? 'projects exist' : 'projects dont exist')}
       {hasProjects ? <Projects type="company" /> : 'No projects added... yet!'}
-      {/* TODO: add logic to show a button to add new project if projects exist */}
       {/* TODO: + add update, delete logic for projects */}
-      {hasProjects ? newProjectBtn : <CompanyProjectForm />}
+      {hasProjects ? newProjectBtn : <CompanyCreateProjectForm />}
     </>
   );
 };

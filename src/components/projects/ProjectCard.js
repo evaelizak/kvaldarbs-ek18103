@@ -4,7 +4,9 @@ import React, { useState } from 'react';
 import firebase from 'firebase/compat/app';
 import ShowMoreText from 'react-show-more-text';
 import { DateTime } from 'luxon';
-import StudentProjectApply from './StudentProjectApply';
+import countryList from 'react-select-country-list';
+import StudentProjectApply from './project-actions/StudentProjectApply';
+import CompanyDeleteProject from './project-actions/CompanyDeleteProject';
 
 // component to show data about submitted projects
 const ProjectCard = ({
@@ -18,8 +20,10 @@ const ProjectCard = ({
   type,
   byUser,
 }) => {
+  // state for showing the clicked tab
   const [activeTab, setActiveTab] = useState('projectTab');
 
+  // if's for changing date format from ISO to a more user friendly format
   if (startDate) {
     startDate = DateTime.fromISO(startDate).toFormat('dd.LL.yyyy');
   }
@@ -30,9 +34,10 @@ const ProjectCard = ({
     deadline = DateTime.fromISO(deadline).toFormat('dd.LL.yyyy');
   }
 
+  // variable for storing company data
   let company;
-  let showCompany;
 
+  // database snapshot for showing company data
   firebase
     .database()
     .ref(`companies/${byUser}`)
@@ -40,35 +45,30 @@ const ProjectCard = ({
       company = snapshot.val();
     });
 
-  if (!company) {
-    showCompany = 'none';
-  } else {
-    showCompany = company.name;
-  }
-  // useEffect(() => {
-  //   getData();
-  //   console.log('company:', company);
-  //   console.log('show: ', showCompany);
-  //   // console.log(company);
-  //   // return () => {
-  //   //   company = null;
-  //   // };
-  // }, []);
+  const GetFullCountry = countryLabel => {
+    const countries = countryList().getData();
+    countryLabel = countries.find(country => country.value === countryLabel);
+    return countryLabel.label;
+  };
 
+  // the button thats shown in the footer - different for students and companies
   let shownButtonFooter;
   if (type === 'student') {
     shownButtonFooter = <StudentProjectApply id={id} title={title} />;
   } else {
     shownButtonFooter = (
       <>
-        <Button type="primary">Edit</Button>{' '}
-        <Button danger className="float-right">
+        <Button type="primary">Edit</Button>
+        <CompanyDeleteProject id={id} companyUser={byUser} />
+
+        {/* <Button danger className="float-right">
           Delete
-        </Button>
+        </Button> */}
       </>
     );
   }
 
+  // tabs in the card
   const tabList = [
     {
       key: 'projectTab',
@@ -79,7 +79,7 @@ const ProjectCard = ({
       tab: 'Company info',
     },
   ];
-
+  // list of content to show in the specific tabs in the cards
   const contentList = {
     projectTab: (
       <>
@@ -106,8 +106,11 @@ const ProjectCard = ({
     companyTab: (
       <>
         <h1 className="text-lg">
-          <b>Company:</b> {showCompany}
+          <b>Company:</b> {company.name}
         </h1>
+        <p>
+          <b>Country:</b> {GetFullCountry(company.country)}
+        </p>
         <p>
           <b>About:</b> {company.about}
         </p>
@@ -120,6 +123,7 @@ const ProjectCard = ({
 
   return (
     <Card
+      headStyle={{ fontSize: '20px' }}
       title={title}
       loading={loading}
       tabList={tabList}
@@ -127,36 +131,9 @@ const ProjectCard = ({
       onTabChange={key => {
         setActiveTab(key);
       }}
-      // className="h-full w-full"
     >
+      {console.log(company.key)}
       {contentList[activeTab]}
-      {/* <p>{projectInfo}</p> */}
-      {/* <p>
-        {console.log('show company', showCompany)}
-        <b>Company:</b> {showCompany}
-      </p>
-      <Divider />
-      <h1>
-        <b className="text-base">About:</b>
-        <ShowMoreText lines={3} more="Show more" less="Show less">
-          {about}
-        </ShowMoreText>
-      </h1>
-      <Divider />
-
-      <p>
-        <b>Project starts:</b> {!startDate ? 'No specified start' : startDate}
-      </p>
-      <p>
-        <b>Project ends:</b> {!endDate ? 'No specified end' : endDate}
-      </p>
-      <p>
-        <b>Application deadline:</b>{' '}
-        {!deadline ? 'No specified deadline' : deadline}
-      </p>
-
-      {/* <p>{projectInfo.about}</p> */}
-      {/* <p>{data.title}</p> */}
       {shownButtonFooter}
     </Card>
   );

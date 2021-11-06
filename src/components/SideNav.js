@@ -21,7 +21,13 @@ const SideNav = () => {
         onCollapse={setIsCollapsed}
         collapsedWidth="40"
         breakpoint="lg"
-        style={{ positon: 'absolute' }}
+        style={{
+          overflow: 'auto',
+          height: '100vh',
+          position: 'sticky',
+          top: 0,
+          left: 0,
+        }}
       >
         <div className="h-32 m-16" />
         <Menu

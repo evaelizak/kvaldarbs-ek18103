@@ -1,9 +1,9 @@
-import { ref, serverTimestamp, set } from '@firebase/database';
+import { ref, serverTimestamp, set } from 'firebase/database';
 import { Button, Input, message, notification, Select, Form } from 'antd';
 import React, { useMemo, useState } from 'react';
 import countryList from 'react-select-country-list';
 // import { useProfile } from '../context/profile.context';
-import { auth, db } from '../misc/firebase';
+import { auth, db } from '../../misc/firebase';
 
 const NewCompanyForm = () => {
   // const { profile } = useProfile();

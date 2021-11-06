@@ -8,14 +8,15 @@ import {
   DatePicker,
   Checkbox,
   InputNumber,
+  Select,
 } from 'antd';
 import React, { useState } from 'react';
 // import { useProfile } from '../context/profile.context';
 // import moment from 'moment';
-import { db, auth } from '../../misc/firebase';
+import { db, auth } from '../../../misc/firebase';
 // component for showing project page for companies
 
-const CompanyProjectForm = () => {
+const CompanyCreateProjectForm = () => {
   // TODO: add logic to reset form after submitting
   const [hasProject, setHasProject] = useState(false);
   console.log(hasProject);
@@ -24,7 +25,7 @@ const CompanyProjectForm = () => {
   // const { profile } = useProfile();
   const [form] = Form.useForm();
 
-  // for showing more fields if the project is paid for
+  // for showing another field if the project has payment
   const [isPaid, setIsPaid] = useState(false);
   const onCheckboxChange = e => {
     setIsPaid(e.target.checked);
@@ -58,14 +59,10 @@ const CompanyProjectForm = () => {
       db.ref().update(updates);
       form.resetFields();
 
-      setHasProject(true);
-
-      // reference to the database
-      // const dbref = ref(database, `companies/${profile.uid}/projects`);
-      // pushes the data with a unique id node
-      // const newPostRef = push(dbref);
-      // sets the data
-      //  set(newPostRef, cleanedData);
+      // updates the state if there are no projects
+      if (!hasProject) {
+        setHasProject(true);
+      }
 
       notification.open({
         message: 'Project submit successfully!',
@@ -107,7 +104,7 @@ const CompanyProjectForm = () => {
             label="Project Title"
             rules={[{ required: true, message: 'Title is required' }]}
           >
-            <Input placeholder="Input the title" />
+            <Input placeholder="Input the project title" />
           </Form.Item>
           <Form.Item
             name="about"
@@ -119,15 +116,63 @@ const CompanyProjectForm = () => {
               },
             ]}
           >
-            <Input.TextArea placeholder="input placeholder" />
+            <Input.TextArea placeholder="What is the project about?" />
           </Form.Item>
-          <Form.Item name="startDate" label="Project Start Date">
+          <Form.Item
+            name="reqs"
+            label="Requirements for joining the project"
+            rules={[
+              {
+                required: true,
+                message: 'Please specify requirements for applying!',
+              },
+            ]}
+          >
+            <Input.TextArea placeholder="Requirements for the perfect candidate" />
+          </Form.Item>
+          <Form.Item
+            name="jobType"
+            label="Job type"
+            rules={[
+              {
+                required: true,
+                message: 'Choose time type',
+              },
+            ]}
+          >
+            <Select placeholder="Select the job type">
+              <Select.Option value="part-time">Part time</Select.Option>
+              <Select.Option value="full-time">Full time</Select.Option>
+              <Select.Option value="full-time">Temporary</Select.Option>
+              <Select.Option value="full-time">Contract</Select.Option>
+              <Select.Option value="full-time">Internship</Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="startDate"
+            label="Project Start Date"
+            rules={[
+              {
+                required: true,
+                message: 'Choose the project start date, can be approximate',
+              },
+            ]}
+          >
             <DatePicker showToday format="DD MM YYYY" />
           </Form.Item>
           <Form.Item name="endDate" label="Project End Date">
             <DatePicker format="DD MM YYYY" />
           </Form.Item>
-          <Form.Item name="appDeadline" label="Project Application Deadline">
+          <Form.Item
+            name="appDeadline"
+            label="Project Application Deadline"
+            rules={[
+              {
+                required: true,
+                message: 'Choose the application deadline',
+              },
+            ]}
+          >
             <DatePicker format="DD MM YYYY" />
           </Form.Item>
           <Form.Item name="isPaid">
@@ -149,4 +194,4 @@ const CompanyProjectForm = () => {
   );
 };
 
-export default CompanyProjectForm;
+export default CompanyCreateProjectForm;
