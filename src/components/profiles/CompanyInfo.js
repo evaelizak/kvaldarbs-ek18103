@@ -5,7 +5,7 @@ import countryList from 'react-select-country-list';
 import { auth } from '../../misc/firebase';
 
 const CompanyInfo = () => {
-  const [company, setCompany] = useState(null);
+  const [isCompany, setIsCompany] = useState(null);
 
   const key = auth.currentUser.uid;
 
@@ -14,14 +14,11 @@ const CompanyInfo = () => {
       .database()
       .ref(`companies/${key}`)
       .on('value', snapshot => {
-        setCompany(snapshot.val());
+        setIsCompany(snapshot.val());
       });
 
-    console.log(company);
+    console.log('company: ', isCompany);
   };
-  // .catch(err => {
-  //   console.log(err);
-  // });
 
   // function for showing the full country name, because the database contains only short 2 letter name, f.e. LV -> Latvia
   const GetFullCountry = countryLabel => {
@@ -33,19 +30,19 @@ const CompanyInfo = () => {
   // use effect hook for showing the company data once it is loaded properly
   useEffect(() => {
     getData();
-    return () => {
-      setCompany(null);
-    };
+    // return () => {
+    //   setIsCompany(null);
+    // };
   }, []);
 
   let shown;
-  if (company) {
-    const countryLabel = GetFullCountry(company.country);
+  if (isCompany) {
+    const countryLabel = GetFullCountry(isCompany.country);
     shown = (
       <>
         {' '}
-        <p>Name: {company.name}</p>
-        <p>About: {company.about}</p>
+        <p>Name: {isCompany.name}</p>
+        <p>About: {isCompany.about}</p>
         <p>Location: {countryLabel}</p>
       </>
     );
@@ -56,7 +53,7 @@ const CompanyInfo = () => {
   return (
     <>
       <Card>
-        {console.log(company ? 'company exists' : "company doesn't exist")}
+        {console.log(isCompany ? 'company exists' : "company doesn't exist")}
         {shown}
         {/* TODO: add Modal? to show editable form for the data and the update the database */}
         <Button type="primary">Edit company data</Button>

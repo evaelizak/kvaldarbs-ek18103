@@ -15,6 +15,7 @@ const CompanyProjects = () => {
   const key = auth.currentUser.uid;
 
   const [hasProjects, setHasProjects] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   // state for showing the modal
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -25,12 +26,14 @@ const CompanyProjects = () => {
       .on('value', snapshot => {
         if (snapshot.val()) {
           setHasProjects(true);
+          setIsLoading(false);
         }
       });
   };
 
   // useEffect for getting the project data, it did not work properly otherwise
   useEffect(() => {
+    setIsLoading(true);
     getProjectData();
     return () => {
       setHasProjects(null);
@@ -67,6 +70,11 @@ const CompanyProjects = () => {
     <>
       {/* showing project cards if any are added */}
       {console.log(hasProjects ? 'projects exist' : 'projects dont exist')}
+      {isLoading && (
+        <>
+          <p>data is loading...</p>
+        </>
+      )}
       {hasProjects ? <Projects type="company" /> : 'No projects added... yet!'}
       {/* TODO: + add update, delete logic for projects */}
       {hasProjects ? newProjectBtn : <CompanyCreateProjectForm />}

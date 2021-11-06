@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Button, Card, Divider } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import firebase from 'firebase/compat/app';
 import ShowMoreText from 'react-show-more-text';
 import { DateTime } from 'luxon';
@@ -10,7 +10,6 @@ import CompanyDeleteProject from './project-actions/CompanyDeleteProject';
 
 // component to show data about submitted projects
 const ProjectCard = ({
-  loading,
   title,
   about,
   startDate,
@@ -21,7 +20,17 @@ const ProjectCard = ({
   byUser,
 }) => {
   // state for showing the clicked tab
+  const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('projectTab');
+
+  let companyData;
+  firebase
+    .database()
+    .ref(`companies/${byUser}`)
+    .on('value', snapshot => {
+      //  setCompanyData(snapshot.val());
+      companyData = snapshot.val();
+    });
 
   // if's for changing date format from ISO to a more user friendly format
   if (startDate) {
@@ -33,17 +42,6 @@ const ProjectCard = ({
   if (deadline) {
     deadline = DateTime.fromISO(deadline).toFormat('dd.LL.yyyy');
   }
-
-  // variable for storing company data
-  let company;
-
-  // database snapshot for showing company data
-  firebase
-    .database()
-    .ref(`companies/${byUser}`)
-    .on('value', snapshot => {
-      company = snapshot.val();
-    });
 
   const GetFullCountry = countryLabel => {
     const countries = countryList().getData();
@@ -60,12 +58,31 @@ const ProjectCard = ({
       <>
         <Button type="primary">Edit</Button>
         <CompanyDeleteProject id={id} companyUser={byUser} />
-
-        {/* <Button danger className="float-right">
-          Delete
-        </Button> */}
       </>
     );
+  }
+
+  // variable for storing company tab data, i had problems with the data not fetching on page load and this was the only way to get around this issue, its dumb
+  let companyInfo;
+  if (companyData) {
+    companyInfo = (
+      <>
+        <h1 className="text-lg">
+          <b>Company:</b> {companyData.name}
+        </h1>
+        <p>
+          <b>Country:</b> {GetFullCountry(companyData.country)}
+        </p>
+        <p>
+          <b>About:</b> {companyData.about}
+        </p>
+        <p>
+          <b>Sector:</b> [TBA] f.e. Medicine, IT
+        </p>
+      </>
+    );
+  } else {
+    companyInfo = 'Data is loading...';
   }
 
   // tabs in the card
@@ -79,6 +96,7 @@ const ProjectCard = ({
       tab: 'Company info',
     },
   ];
+
   // list of content to show in the specific tabs in the cards
   const contentList = {
     projectTab: (
@@ -103,22 +121,7 @@ const ProjectCard = ({
         </p>
       </>
     ),
-    companyTab: (
-      <>
-        <h1 className="text-lg">
-          <b>Company:</b> {company.name}
-        </h1>
-        <p>
-          <b>Country:</b> {GetFullCountry(company.country)}
-        </p>
-        <p>
-          <b>About:</b> {company.about}
-        </p>
-        <p>
-          <b>Sector:</b> [TBA] f.e. Medicine, IT
-        </p>
-      </>
-    ),
+    companyTab: companyInfo,
   };
 
   return (
@@ -132,7 +135,6 @@ const ProjectCard = ({
         setActiveTab(key);
       }}
     >
-      {console.log(company.key)}
       {contentList[activeTab]}
       {shownButtonFooter}
     </Card>

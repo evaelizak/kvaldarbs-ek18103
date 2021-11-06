@@ -7,25 +7,32 @@ import { auth, db } from '../../misc/firebase';
 
 // component for projects page
 const Projects = ({ type = 'student' }) => {
-  // react firebase hook to get a list of keys from the database reference
   const key = auth.currentUser.uid;
+  // database reference to take either specific company projects or show all for students
   let projectsRef;
   if (type === 'student') {
     projectsRef = db.ref('/projects').orderByChild('startDate');
-  } else {
+  } else if (type === 'company') {
     projectsRef = db.ref(`/companies/${key}/projects`);
   }
+  // react firebase hook to get a list of keys from the database reference
   const [projects, loading, error] = useList(projectsRef);
 
   return (
     <div>
       <div>
-        {console.log(projects)}
         {error &&
           notification.error({
             message: 'An error has occured, try again later',
             duration: 4,
           })}
+        {!loading && !projects && (
+          <>
+            <div>
+              No projects added... yet! Feel free to add a new one below:
+            </div>
+          </>
+        )}
         {!loading && projects && (
           <>
             {/* Mapping the projects keys from the database list */}
@@ -35,7 +42,6 @@ const Projects = ({ type = 'student' }) => {
                   key={index}
                   className="xl:w-1/3 md:w-1/2 sm:w-full  pt-2"
                   span={{ xs: 16, m: 8 }}
-                  // className="h-full"
                 >
                   <ProjectCard
                     id={project.key}
@@ -44,7 +50,7 @@ const Projects = ({ type = 'student' }) => {
                     startDate={project.val().startDate}
                     endDate={project.val().endDate}
                     deadline={project.val().appDeadline}
-                    loading={loading}
+                    // loading={loading}
                     type={type}
                     byUser={project.val().byUser}
                   />

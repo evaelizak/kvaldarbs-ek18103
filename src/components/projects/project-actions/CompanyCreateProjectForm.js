@@ -7,7 +7,6 @@ import {
   message,
   DatePicker,
   Checkbox,
-  InputNumber,
   Select,
 } from 'antd';
 import React, { useState } from 'react';
@@ -136,16 +135,16 @@ const CompanyCreateProjectForm = () => {
             rules={[
               {
                 required: true,
-                message: 'Choose time type',
+                message: 'Choose job type',
               },
             ]}
           >
             <Select placeholder="Select the job type">
               <Select.Option value="part-time">Part time</Select.Option>
               <Select.Option value="full-time">Full time</Select.Option>
-              <Select.Option value="full-time">Temporary</Select.Option>
-              <Select.Option value="full-time">Contract</Select.Option>
-              <Select.Option value="full-time">Internship</Select.Option>
+              <Select.Option value="temporary">Temporary</Select.Option>
+              <Select.Option value="contract">Contract</Select.Option>
+              <Select.Option value="internship">Internship</Select.Option>
             </Select>
           </Form.Item>
           <Form.Item
@@ -181,7 +180,7 @@ const CompanyCreateProjectForm = () => {
             </Checkbox>
           </Form.Item>
           <Form.Item name="payment" label="Payment amount" hidden={!isPaid}>
-            <InputNumber />
+            <Input />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">
