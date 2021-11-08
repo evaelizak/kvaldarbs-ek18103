@@ -1,11 +1,21 @@
 import { EditOutlined } from '@ant-design/icons';
-import { Button, Form, Input, message, Modal, notification } from 'antd';
+import {
+  Button,
+  Form,
+  Input,
+  message,
+  Modal,
+  notification,
+  Select,
+} from 'antd';
 import { ref, update } from 'firebase/database';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import countryList from 'react-select-country-list';
 import { useProfile } from '../../context/profile.context';
 import { db } from '../../misc/firebase';
 
-const StudentEditProfile = () => {
+const CompanyEditProfile = ({ companyName, companyAbout, companyLocation }) => {
+  // profile for getting the uid
   const { profile } = useProfile();
 
   // state for showing the modal for projects
@@ -14,43 +24,44 @@ const StudentEditProfile = () => {
   // state for saving the form values from the project form application
   const [formValues, setFormValues] = useState({});
   const [form] = Form.useForm();
+
+  // memo for the country options
+  const options = useMemo(() => countryList().getData(), []);
+
   // submit user form to the database
   const submitUserForm = () => {
     // transforming the form data into json
     const newUserData = {
       ...formValues,
-      //  usertype: profile.usertype,
-      //   createdAt: profile.createdAt,
     };
+    console.log(newUserData);
+
     // removes all the undefined values in case there are some
     const cleanedData = JSON.parse(JSON.stringify(newUserData));
-    console.log(cleanedData);
 
     try {
       // reference to the database
-      const dbref = ref(db, `profiles/${profile.uid}`);
+      const dbref = ref(db, `companies/${profile.uid}`);
 
       // updates the values that were changed
       update(dbref, {
-        username: cleanedData.username,
-        phone: cleanedData.phone,
+        name: cleanedData.name,
+        about: cleanedData.about,
+        country: cleanedData.country,
       });
 
-      // sets the data
-      //  set(dbref, cleanedData);
-
       notification.open({
-        message: 'Profile edited successfully!',
+        message: 'Company information edited successfully!',
         duration: 4,
       });
     } catch (err) {
-      // console.log(err.message);
       notification.open({
         message: err.message,
         duration: 4,
       });
     }
   };
+
   const handleCancel = () => {
     setIsModalVisible(false);
   };
@@ -66,9 +77,9 @@ const StudentEditProfile = () => {
 
   return (
     <>
-      <Button type="primary" className="mt-3" onClick={setIsModalVisible}>
+      <Button type="primary" onClick={setIsModalVisible}>
         <EditOutlined />
-        Edit profile
+        Edit company data
       </Button>
       <Modal
         visible={isModalVisible}
@@ -88,34 +99,36 @@ const StudentEditProfile = () => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           initialValues={{
-            username: profile.username,
-            phone: !profile.phone ? '' : profile.phone,
+            name: companyName,
+            about: companyAbout,
+            country: companyLocation,
           }}
         >
           <Form.Item />
           <Form.Item
-            name="username"
-            label="Your name"
-            rules={[{ required: true, message: 'Your name is required' }]}
+            name="name"
+            label="Company name"
+            rules={[
+              { required: true, message: 'Your company name is required' },
+            ]}
           >
-            <Input placeholder="Your full name" />
+            <Input placeholder="Your company name" />
           </Form.Item>
-          <Form.Item name="phone" label="Your phone number">
-            <Input placeholder="Your phone number" />
+          <Form.Item
+            name="about"
+            label="About your company"
+            rules={[
+              {
+                required: true,
+                message: 'Info about your company is required',
+              },
+            ]}
+          >
+            <Input.TextArea placeholder="About your company" />
           </Form.Item>
-
-          {/* TO DO: Add logic for uploading CVs, selecting already uploaded CV */}
-          {/* <Form.Item
-                name="upload"
-                label="Upload your CV"
-                valuePropName="fileList"
-                //   getValueFromEvent={normFile}
-              >
-                <Upload {...uploader} name="CV" listType=".pdf">
-                  <Button icon={<UploadOutlined />}>Upload a PDF</Button>
-                </Upload>
-              </Form.Item> */}
-
+          <Form.Item name="country" label="Country">
+            <Select placeholder="Country" options={options} />
+          </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">
               Submit
@@ -127,4 +140,4 @@ const StudentEditProfile = () => {
   );
 };
 
-export default StudentEditProfile;
+export default CompanyEditProfile;

@@ -26,9 +26,9 @@ const CompanyProjects = () => {
       .on('value', snapshot => {
         if (snapshot.val()) {
           setHasProjects(true);
-          setIsLoading(false);
         }
       });
+    setIsLoading(false);
   };
 
   // useEffect for getting the project data, it did not work properly otherwise
@@ -69,14 +69,19 @@ const CompanyProjects = () => {
   return (
     <>
       {/* showing project cards if any are added */}
-      {console.log(hasProjects ? 'projects exist' : 'projects dont exist')}
       {isLoading && (
         <>
-          <p>data is loading...</p>
+          <p>Data is loading...</p>
         </>
       )}
-      {hasProjects ? <Projects type="company" /> : 'No projects added... yet!'}
-      {/* TODO: + add update, delete logic for projects */}
+      {hasProjects ? (
+        <Projects type="company" />
+      ) : (
+        <p className="pb-2">
+          No projects added... yet! Feel free to add one below.
+        </p>
+      )}
+      {/* TODO: + add update logic for projects */}
       {hasProjects ? newProjectBtn : <CompanyCreateProjectForm />}
     </>
   );

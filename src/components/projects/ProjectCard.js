@@ -7,6 +7,7 @@ import { DateTime } from 'luxon';
 import countryList from 'react-select-country-list';
 import StudentProjectApply from './project-actions/StudentProjectApply';
 import CompanyDeleteProject from './project-actions/CompanyDeleteProject';
+import CompanyUpdateProject from './project-actions/CompanyUpdateProject';
 
 // component to show data about submitted projects
 const ProjectCard = ({
@@ -20,7 +21,7 @@ const ProjectCard = ({
   byUser,
 }) => {
   // state for showing the clicked tab
-  const [loading, setLoading] = useState(false);
+  //   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('projectTab');
 
   let companyData;
@@ -56,7 +57,7 @@ const ProjectCard = ({
   } else {
     shownButtonFooter = (
       <>
-        <Button type="primary">Edit</Button>
+        <CompanyUpdateProject />
         <CompanyDeleteProject id={id} companyUser={byUser} />
       </>
     );
@@ -128,7 +129,7 @@ const ProjectCard = ({
     <Card
       headStyle={{ fontSize: '20px' }}
       title={title}
-      loading={loading}
+      // loading={loading}
       tabList={tabList}
       activeTabKey={activeTab}
       onTabChange={key => {

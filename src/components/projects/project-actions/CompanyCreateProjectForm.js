@@ -10,11 +10,9 @@ import {
   Select,
 } from 'antd';
 import React, { useState } from 'react';
-// import { useProfile } from '../context/profile.context';
-// import moment from 'moment';
 import { db, auth } from '../../../misc/firebase';
-// component for showing project page for companies
 
+// component for showing project page for companies
 const CompanyCreateProjectForm = () => {
   // TODO: add logic to reset form after submitting
   const [hasProject, setHasProject] = useState(false);

@@ -25,13 +25,10 @@ const CompanyDeleteProject = ({ id, companyUser }) => {
         duration: 4,
       });
     }
-
-    console.log('confirmed');
   };
 
   // function for showing the delete confirmation modal
   const showDeleteConfirm = () => {
-    console.log(id);
     confirm({
       title: 'Are you sure you want to delete this project?',
       icon: <ExclamationCircleTwoTone twoToneColor="#ff3030" />,
@@ -41,7 +38,6 @@ const CompanyDeleteProject = ({ id, companyUser }) => {
       cancelText: 'No',
       onOk() {
         onConfirmation();
-        console.log('OK');
       },
       onCancel() {},
     });

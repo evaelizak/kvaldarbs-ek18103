@@ -1,8 +1,9 @@
-import { Button, Card } from 'antd';
+import { Card } from 'antd';
 import React, { useEffect, useState } from 'react';
 import firebase from 'firebase/compat/app';
 import countryList from 'react-select-country-list';
 import { auth } from '../../misc/firebase';
+import CompanyEditProfile from './CompanyEditProfile';
 
 const CompanyInfo = () => {
   const [isCompany, setIsCompany] = useState(null);
@@ -44,6 +45,11 @@ const CompanyInfo = () => {
         <p>Name: {isCompany.name}</p>
         <p>About: {isCompany.about}</p>
         <p>Location: {countryLabel}</p>
+        <CompanyEditProfile
+          companyName={isCompany.name}
+          companyAbout={isCompany.about}
+          companyLocation={countryLabel}
+        />
       </>
     );
   } else {
@@ -53,10 +59,8 @@ const CompanyInfo = () => {
   return (
     <>
       <Card>
-        {console.log(isCompany ? 'company exists' : "company doesn't exist")}
         {shown}
         {/* TODO: add Modal? to show editable form for the data and the update the database */}
-        <Button type="primary">Edit company data</Button>
       </Card>
     </>
   );
