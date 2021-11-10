@@ -24,7 +24,8 @@ const StudentProfile = () => {
           </Button>
         </h1>
       </div>
-      <Divider plain>Your profile info</Divider>
+      <Divider>Your profile info</Divider>
+      <Divider plain>Contact info</Divider>
       <Descriptions
         bordered
         size="small"
@@ -33,6 +34,23 @@ const StudentProfile = () => {
         <Descriptions.Item label="E-mail">{profile.email}</Descriptions.Item>
         <Descriptions.Item label="Phone number">
           {profile.phone ? profile.phone : 'No phone number set'}
+        </Descriptions.Item>
+        <Descriptions.Item label="Your LinkedIn">
+          {profile.linkedin ? profile.linkedin : 'LinkedIn not added'}
+        </Descriptions.Item>
+      </Descriptions>
+      <Divider plain>About you</Divider>
+      <Descriptions
+        bordered
+        size="small"
+        column={{ xxl: 1, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
+      >
+        <Descriptions.Item label="Your age">
+          {profile.age ? profile.age : 'No age set'}
+          {console.log(profile.age)}{' '}
+        </Descriptions.Item>
+        <Descriptions.Item name="about" label="About You">
+          {profile.about ? profile.about : 'Nothing written about you yet...'}
         </Descriptions.Item>
       </Descriptions>
 

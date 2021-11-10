@@ -45,6 +45,9 @@ const SignInPage = () => {
           createdAt: serverTimestamp(),
           usertype: userType,
           phone: '',
+          linkedin: '',
+          age: '',
+          about: '',
         });
       } else if (userData.isNewUser) {
         // if a user is a new user and is a company then an additional field is added

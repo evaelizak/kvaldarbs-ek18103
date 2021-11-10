@@ -1,5 +1,13 @@
 import { EditOutlined } from '@ant-design/icons';
-import { Button, Form, Input, message, Modal, notification } from 'antd';
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  message,
+  Modal,
+  notification,
+} from 'antd';
 import { ref, update } from 'firebase/database';
 import React, { useState } from 'react';
 import { useProfile } from '../../context/profile.context';
@@ -26,6 +34,18 @@ const StudentEditProfile = () => {
     const cleanedData = JSON.parse(JSON.stringify(newUserData));
     console.log(cleanedData);
 
+    if (!cleanedData.phone) {
+      cleanedData.phone = '';
+    }
+    if (!cleanedData.about) {
+      cleanedData.about = '';
+    }
+    if (!cleanedData.age) {
+      cleanedData.age = '';
+    }
+    if (!cleanedData.linkedin) {
+      cleanedData.linkedin = '';
+    }
     try {
       // reference to the database
       const dbref = ref(db, `profiles/${profile.uid}`);
@@ -34,6 +54,9 @@ const StudentEditProfile = () => {
       update(dbref, {
         username: cleanedData.username,
         phone: cleanedData.phone,
+        about: cleanedData.about,
+        age: cleanedData.age,
+        linkedin: cleanedData.linkedin,
       });
 
       // sets the data
@@ -90,6 +113,9 @@ const StudentEditProfile = () => {
           initialValues={{
             username: profile.username,
             phone: !profile.phone ? '' : profile.phone,
+            age: !profile.age ? '' : profile.age,
+            linkedin: !profile.linkedin ? '' : profile.linkedin,
+            about: !profile.about ? '' : profile.about,
           }}
         >
           <Form.Item />
@@ -100,8 +126,36 @@ const StudentEditProfile = () => {
           >
             <Input placeholder="Your full name" />
           </Form.Item>
+          <Form.Item
+            name="age"
+            label="Age"
+            rules={[
+              {
+                type: 'number',
+                min: 16,
+                max: 99,
+                message: 'You have to be 16+ to participate in projects',
+              },
+            ]}
+          >
+            <InputNumber />
+          </Form.Item>
           <Form.Item name="phone" label="Your phone number">
             <Input placeholder="Your phone number" />
+          </Form.Item>
+          <Form.Item
+            name="linkedin"
+            label="Your LinkedIn profile link"
+            rules={[
+              { required: true },
+              { type: 'url', warningOnly: true },
+              { type: 'string', min: 6 },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item name="about" label="About You">
+            <Input.TextArea placeholder="input placeholder" />
           </Form.Item>
 
           {/* TO DO: Add logic for uploading CVs, selecting already uploaded CV */}

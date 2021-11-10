@@ -1,5 +1,5 @@
 import {
-  MessageOutlined,
+  LineChartOutlined,
   ProjectOutlined,
   UserOutlined,
 } from '@ant-design/icons';
@@ -43,8 +43,8 @@ const SideNav = () => {
           <Menu.Item key="/projects" icon={<ProjectOutlined />}>
             <Link to="/projects">Projects</Link>
           </Menu.Item>
-          <Menu.Item key="3" icon={<MessageOutlined />}>
-            Messaging
+          <Menu.Item key="/applications" icon={<LineChartOutlined />}>
+            <Link to="/applications">Applications</Link>
           </Menu.Item>
         </Menu>
       </Sider>

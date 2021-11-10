@@ -155,22 +155,50 @@ const CompanyCreateProjectForm = () => {
               },
             ]}
           >
-            <DatePicker showToday format="DD MM YYYY" />
+            <DatePicker showToday format="DD.MM.YYYY" />
           </Form.Item>
-          <Form.Item name="endDate" label="Project End Date">
-            <DatePicker format="DD MM YYYY" />
+          <Form.Item
+            name="endDate"
+            label="Project End Date"
+            dependencies={['startDate']}
+            hasFeedback
+            rules={[
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('startDate') < value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error('End date must be later than start date!')
+                  );
+                },
+              }),
+            ]}
+          >
+            <DatePicker format="DD.MM.YYYY" />
           </Form.Item>
           <Form.Item
             name="appDeadline"
             label="Project Application Deadline"
+            dependencies={['endDate']}
+            hasFeedback
             rules={[
-              {
-                required: true,
-                message: 'Choose the application deadline',
-              },
+              { required: true, message: 'Set the application deadline' },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('endDate') < value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error(
+                      'Application deadline must be earlier than project end date!'
+                    )
+                  );
+                },
+              }),
             ]}
           >
-            <DatePicker format="DD MM YYYY" />
+            <DatePicker format="DD.MM.YYYY" />
           </Form.Item>
           <Form.Item name="isPaid">
             <Checkbox checked={isPaid} onChange={onCheckboxChange}>

@@ -21,15 +21,14 @@ const ProjectCard = ({
   byUser,
 }) => {
   // state for showing the clicked tab
-  //   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('projectTab');
 
+  // fetching the company data from the database
   let companyData;
   firebase
     .database()
     .ref(`companies/${byUser}`)
     .on('value', snapshot => {
-      //  setCompanyData(snapshot.val());
       companyData = snapshot.val();
     });
 
@@ -53,7 +52,9 @@ const ProjectCard = ({
   // the button thats shown in the footer - different for students and companies
   let shownButtonFooter;
   if (type === 'student') {
-    shownButtonFooter = <StudentProjectApply id={id} title={title} />;
+    shownButtonFooter = (
+      <StudentProjectApply id={id} title={title} companyID={byUser} />
+    );
   } else {
     shownButtonFooter = (
       <>

@@ -1,10 +1,10 @@
-import { push, ref, serverTimestamp, set } from 'firebase/database';
+import { ref, serverTimestamp, set } from 'firebase/database';
 import { Button, Form, Input, message, notification, Select } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
 import React, { useState } from 'react';
 import { auth, db } from '../../../misc/firebase';
 
-const StudentProjectApply = ({ id, title }) => {
+const StudentProjectApply = ({ id, title, companyID }) => {
   // state for showing the modal for projects
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -26,11 +26,15 @@ const StudentProjectApply = ({ id, title }) => {
 
     try {
       // reference to the database
-      const dbref = ref(db, `projects/${id}/applications`);
+      const dbref = ref(
+        db,
+        `company/${companyID}/projects/${id}/applications/${auth.currentUser.uid}`
+      );
       // pushes the data with a unique id node
-      const newPostRef = push(dbref);
+      // const newPostRef = push(dbref);
+
       // sets the data
-      set(newPostRef, cleanedData);
+      set(dbref, cleanedData);
 
       notification.open({
         message: 'Application submit successfully!',

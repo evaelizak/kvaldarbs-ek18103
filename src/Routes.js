@@ -5,6 +5,7 @@ import { Redirect, Route, Switch } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import { useProfile } from './context/profile.context';
 import AboutPage from './pages/AboutPage';
+import ApplicationsPage from './pages/ApplicationsPage';
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import ProjectsPage from './pages/ProjectsPage';
@@ -46,6 +47,7 @@ export const Routes = () => {
   const profilePage = <ProfilePage />;
   const projectsPage = <ProjectsPage />;
   const signinPage = <SignInPage />;
+  const appsPage = <ApplicationsPage />;
 
   return (
     <BrowserRouter>
@@ -66,9 +68,12 @@ export const Routes = () => {
         <PrivateRoute exact path="/projects">
           <HomePage props={projectsPage} />
         </PrivateRoute>
+        <PrivateRoute exact path="/applications">
+          <HomePage props={appsPage} />
+        </PrivateRoute>
         {/* When the route is not set to any of the above */}
         <Route>
-          <div>404 page :( </div>
+          <HomePage props={<div>404 page :( </div>} />
         </Route>
       </Switch>
     </BrowserRouter>
