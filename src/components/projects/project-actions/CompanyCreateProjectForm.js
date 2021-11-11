@@ -38,6 +38,7 @@ const CompanyCreateProjectForm = () => {
     const newProject = {
       ...formValues,
       byUser: auth.currentUser.uid,
+      status: 'new',
       createdAt: serverTimestamp(),
     };
     // removes all the undefined values in case there are some
@@ -186,6 +187,10 @@ const CompanyCreateProjectForm = () => {
               { required: true, message: 'Set the application deadline' },
               ({ getFieldValue }) => ({
                 validator(_, value) {
+                  console.log(getFieldValue('endDate'));
+                  if (getFieldValue('endDate') === undefined) {
+                    return Promise.resolve();
+                  }
                   if (!value || getFieldValue('endDate') < value) {
                     return Promise.resolve();
                   }

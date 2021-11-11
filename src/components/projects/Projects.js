@@ -2,6 +2,7 @@
 import { Col, Row, notification } from 'antd';
 import React from 'react';
 import { useList } from 'react-firebase-hooks/database';
+import { DateTime } from 'luxon';
 import ProjectCard from './ProjectCard';
 import { auth, db } from '../../misc/firebase';
 
@@ -11,7 +12,7 @@ const Projects = ({ type = 'student' }) => {
   // database reference to take either specific company projects or show all for students
   let projectsRef;
   if (type === 'student') {
-    projectsRef = db.ref('/projects').orderByChild('startDate');
+    projectsRef = db.ref('/projects').orderByChild('appDeadline');
   } else if (type === 'company') {
     projectsRef = db.ref(`/companies/${key}/projects`);
   }
@@ -21,6 +22,7 @@ const Projects = ({ type = 'student' }) => {
   return (
     <div>
       <div>
+        {console.log(DateTime.local().ts)}
         {error &&
           notification.error({
             message: 'An error has occured, try again later',
@@ -43,6 +45,10 @@ const Projects = ({ type = 'student' }) => {
                   className="xl:w-1/3 md:w-1/2 sm:w-full  pt-2"
                   span={{ xs: 16, m: 8 }}
                 >
+                  {console.log(
+                    DateTime.fromISO(project.val().appDeadline) <
+                      DateTime.local()
+                  )}
                   <ProjectCard
                     id={project.key}
                     title={project.val().title}

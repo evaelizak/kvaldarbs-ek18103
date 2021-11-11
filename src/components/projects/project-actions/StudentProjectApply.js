@@ -1,3 +1,4 @@
+/* eslint-disable object-shorthand */
 import { ref, serverTimestamp, set } from 'firebase/database';
 import { Button, Form, Input, message, notification, Select } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
@@ -5,6 +6,9 @@ import React, { useState } from 'react';
 import { auth, db } from '../../../misc/firebase';
 
 const StudentProjectApply = ({ id, title, companyID }) => {
+  // TODO: Add logic to see if project has been applied to, and if so, change button to edit or delete the application instead
+  // TODO: Add logic to disable this button if the current date is later than project app deadline
+
   // state for showing the modal for projects
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -15,26 +19,40 @@ const StudentProjectApply = ({ id, title, companyID }) => {
   // submit user form to the database
   const submitUserForm = () => {
     // transforming the form data into json
-    const newProjectApp = {
+    const newProjectAppCompany = {
       ...formValues,
       byUser: auth.currentUser.uid,
       createdAt: serverTimestamp(),
-      projectID: id,
+      // projectID: id,
+    };
+
+    const newProjectAppStudent = {
+      ...formValues,
+      byUser: auth.currentUser.uid,
+      createdAt: serverTimestamp(),
+      companyID: companyID,
     };
     // removes all the undefined values in case there are some
-    const cleanedData = JSON.parse(JSON.stringify(newProjectApp));
+    const cleanedDataCompany = JSON.parse(JSON.stringify(newProjectAppCompany));
+    const cleanedDataStudent = JSON.parse(JSON.stringify(newProjectAppStudent));
 
     try {
       // reference to the database
-      const dbref = ref(
+      const dbrefcompany = ref(
         db,
-        `company/${companyID}/projects/${id}/applications/${auth.currentUser.uid}`
+        `companies/${companyID}/projects/${id}/applications/${auth.currentUser.uid}`
+      );
+
+      const dbrefstudent = ref(
+        db,
+        `profiles/${auth.currentUser.uid}/projectApps/${id}/`
       );
       // pushes the data with a unique id node
-      // const newPostRef = push(dbref);
+      // const newstudentprojectapp = push(dbrefstudent);
 
       // sets the data
-      set(dbref, cleanedData);
+      set(dbrefcompany, cleanedDataCompany);
+      set(dbrefstudent, cleanedDataStudent);
 
       notification.open({
         message: 'Application submit successfully!',

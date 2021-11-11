@@ -79,6 +79,7 @@ const SignInPage = () => {
             We&apos;re a company looking for bright minds!
           </Radio>
         </Radio.Group>
+        {/* TO DO: ADD AGE VERIFICATION */}
         <Button type="primary" onClick={signInWithGoogle} className="mt-5">
           <GoogleOutlined />
           Sign in with Google
