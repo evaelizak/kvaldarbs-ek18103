@@ -1,7 +1,8 @@
 import React from 'react';
+import Applications from './Applications';
 
 const StudentApplications = () => {
-  return <div>Application page for students</div>;
+  return <Applications />;
 };
 
 export default StudentApplications;

@@ -38,7 +38,7 @@ const CompanyCreateProjectForm = () => {
     const newProject = {
       ...formValues,
       byUser: auth.currentUser.uid,
-      status: 'new',
+      status: '0', // new status
       createdAt: serverTimestamp(),
     };
     // removes all the undefined values in case there are some
