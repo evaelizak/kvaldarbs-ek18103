@@ -11,7 +11,6 @@ import {
 } from 'antd';
 import { ref, update } from 'firebase/database';
 import React, { useState } from 'react';
-// import { useProfile } from '../../../../context/profile.context';
 import { auth, db } from '../../../../misc/firebase';
 
 const StudentEditApplication = ({
@@ -19,13 +18,9 @@ const StudentEditApplication = ({
   experience,
   motivation,
   type,
-  // status,
   id,
   companyID,
 }) => {
-  // profile for getting the uid
-  // const { profile } = useProfile();
-  //  console.log(status);
   // state for showing the modal for projects
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -40,15 +35,8 @@ const StudentEditApplication = ({
       ...formValues,
     };
 
-    // removes all the undefined values in case there are some
-
+    // removes all the undefined values in case there are any
     const cleanedData = JSON.parse(JSON.stringify(newUserData));
-    // const updateData = {
-    //   about: cleanedData.about,
-    //   motivation: cleanedData.motivation,
-    //   experience: cleanedData.experience,
-    //   status: 'edited',
-    // };
 
     try {
       // reference to the database
@@ -60,26 +48,17 @@ const StudentEditApplication = ({
         db,
         `profiles/${auth.currentUser.uid}/projectApps/${id}/`
       );
-
+      // updates the relevant data
       update(applicationRef1, {
         about: cleanedData.about,
         motivation: cleanedData.motivation,
         experience: cleanedData.experience,
-        sortStatus: '1',
       });
       update(applicationRef2, {
         about: cleanedData.about,
         motivation: cleanedData.motivation,
         experience: cleanedData.experience,
-        sortStatus: '1',
       });
-
-      // const updates = {};
-      // // updates the data in projects and under company specific projects
-      // updates[`${applicationRef1}`] = updateData;
-      // updates[`${applicationRef2}`] = updateData;
-      // // updates the data
-      // db.ref().update(updates);
 
       notification.open({
         message: 'Company information edited successfully!',
@@ -110,7 +89,7 @@ const StudentEditApplication = ({
     <>
       <Button type="primary" onClick={setIsModalVisible}>
         <EditOutlined />
-        Edit application
+        Edit
       </Button>
       <Modal
         visible={isModalVisible}

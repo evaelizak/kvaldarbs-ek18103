@@ -22,14 +22,13 @@ const StudentProjectApply = ({ id, title, companyID }) => {
       ...formValues,
       byUser: auth.currentUser.uid,
       createdAt: serverTimestamp(),
-      status: '2', // new
-      // projectID: id,
+      status: 'pending',
     };
 
     const newProjectAppStudent = {
       ...formValues,
       byUser: auth.currentUser.uid,
-      status: '2', // new
+      status: 'pending',
       createdAt: serverTimestamp(),
       companyID: companyID,
     };

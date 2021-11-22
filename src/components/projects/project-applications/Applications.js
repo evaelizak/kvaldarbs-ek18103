@@ -72,6 +72,7 @@ const Applications = ({ type = 'student' }) => {
                     projectID={application.key}
                     companyID={application.val().companyID}
                     about={application.val().about}
+                    status={application.val().status}
                     experience={application.val().experience}
                     motivation={application.val().motivation}
                     type={application.val().type}

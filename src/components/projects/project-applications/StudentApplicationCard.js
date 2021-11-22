@@ -16,6 +16,7 @@ const StudentApplicationCard = ({
   companyID,
   projectID,
   type,
+  status,
 }) => {
   // state for showing the clicked tab
   const [activeTab, setActiveTab] = useState('applicationTab');
@@ -135,6 +136,13 @@ const StudentApplicationCard = ({
     projectTab: projectInfo,
   };
 
+  let statusColor;
+  if (status === 'accepted') {
+    statusColor = 'mediumseagreen';
+  } else if (status === 'rejected') {
+    statusColor = 'tomato';
+  } else statusColor = 'black';
+
   return (
     <Card
       headStyle={{ fontSize: '20px' }}
@@ -145,8 +153,8 @@ const StudentApplicationCard = ({
         setActiveTab(key);
       }}
     >
-      <h1 className="text-lg">
-        <b>Status:</b> TBA
+      <h1 className="text-lg" style={{ color: statusColor }}>
+        <b>Status:</b> {status}
       </h1>
       <Divider />
       {contentList[activeTab]}
