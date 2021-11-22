@@ -43,7 +43,7 @@ const Applications = ({ type = 'student' }) => {
   return (
     <div>
       <div>
-        {console.log(DateTime.local().ts)}
+        {/* {console.log(DateTime.local().ts)} */}
         {error &&
           notification.error({
             message: 'An error has occured, try again later',
@@ -74,6 +74,7 @@ const Applications = ({ type = 'student' }) => {
                     about={application.val().about}
                     experience={application.val().experience}
                     motivation={application.val().motivation}
+                    type={application.val().type}
                   />
                 </Col>
               ))}

@@ -8,6 +8,7 @@ import countryList from 'react-select-country-list';
 import StudentProjectApply from './project-actions/StudentProjectApply';
 import CompanyDeleteProject from './project-actions/CompanyDeleteProject';
 import CompanyUpdateProject from './project-actions/CompanyUpdateProject';
+import { auth } from '../../misc/firebase';
 
 // component to show data about submitted projects
 const ProjectCard = ({
@@ -32,6 +33,14 @@ const ProjectCard = ({
       companyData = snapshot.val();
     });
 
+  let isStudentApplied;
+  firebase
+    .database()
+    .ref(`profiles/${auth.currentUser.uid}/projectApps/${id}`)
+    .on('value', snapshot => {
+      isStudentApplied = snapshot.val();
+    });
+
   // if's for changing date format from ISO to a more user friendly format
   if (startDate) {
     startDate = DateTime.fromISO(startDate).toFormat('dd.LL.yyyy');
@@ -52,9 +61,22 @@ const ProjectCard = ({
   // the button thats shown in the footer - different for students and companies
   let shownButtonFooter;
   if (type === 'student') {
-    shownButtonFooter = (
-      <StudentProjectApply id={id} title={title} companyID={byUser} />
-    );
+    if (isStudentApplied) {
+      shownButtonFooter = (
+        <>
+          <span className=" text-gray-500">
+            You have already applied to this project
+            {/* , to see your application
+            and edit or delete, click <a href="/applications">here</a> */}
+          </span>
+          {/* TODO: Make Homepage have this information, and then just keep the first part of this text */}
+        </>
+      );
+    } else {
+      shownButtonFooter = (
+        <StudentProjectApply id={id} title={title} companyID={byUser} />
+      );
+    }
   } else {
     shownButtonFooter = (
       <>

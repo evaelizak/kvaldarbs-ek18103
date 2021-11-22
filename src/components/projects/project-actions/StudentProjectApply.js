@@ -6,7 +6,6 @@ import React, { useState } from 'react';
 import { auth, db } from '../../../misc/firebase';
 
 const StudentProjectApply = ({ id, title, companyID }) => {
-  // TODO: Add logic to see if project has been applied to, and if so, change button to edit or delete the application instead
   // TODO: Add logic to disable this button if the current date is later than project app deadline
 
   // state for showing the modal for projects
@@ -23,12 +22,14 @@ const StudentProjectApply = ({ id, title, companyID }) => {
       ...formValues,
       byUser: auth.currentUser.uid,
       createdAt: serverTimestamp(),
+      status: '2', // new
       // projectID: id,
     };
 
     const newProjectAppStudent = {
       ...formValues,
       byUser: auth.currentUser.uid,
+      status: '2', // new
       createdAt: serverTimestamp(),
       companyID: companyID,
     };
@@ -47,8 +48,6 @@ const StudentProjectApply = ({ id, title, companyID }) => {
         db,
         `profiles/${auth.currentUser.uid}/projectApps/${id}/`
       );
-      // pushes the data with a unique id node
-      // const newstudentprojectapp = push(dbrefstudent);
 
       // sets the data
       set(dbrefcompany, cleanedDataCompany);
@@ -59,7 +58,6 @@ const StudentProjectApply = ({ id, title, companyID }) => {
         duration: 4,
       });
     } catch (err) {
-      // console.log(err.message);
       notification.open({
         message: err.message,
         duration: 4,

@@ -58,10 +58,7 @@ const CompanyInfo = () => {
 
   return (
     <>
-      <Card>
-        {shown}
-        {/* TODO: add Modal? to show editable form for the data and the update the database */}
-      </Card>
+      <Card>{shown}</Card>
     </>
   );
 };

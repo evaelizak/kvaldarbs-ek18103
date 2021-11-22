@@ -5,6 +5,8 @@ import firebase from 'firebase/compat/app';
 import ShowMoreText from 'react-show-more-text';
 import { DateTime } from 'luxon';
 import countryList from 'react-select-country-list';
+import StudentDeleteApplication from './project-application-actions/StudentDeleteApplication';
+import StudentEditApplication from './project-application-actions/StudentEditApplication';
 
 // component to show data about submitted projects
 const StudentApplicationCard = ({
@@ -13,6 +15,7 @@ const StudentApplicationCard = ({
   motivation,
   companyID,
   projectID,
+  type,
 }) => {
   // state for showing the clicked tab
   const [activeTab, setActiveTab] = useState('applicationTab');
@@ -33,31 +36,22 @@ const StudentApplicationCard = ({
     .on('value', snapshot => {
       companyData = snapshot.val();
     });
-  console.log('compID ', companyID, ' projectID: ', projectID);
-
-  // if's for changing date format from ISO to a more user friendly format
-  // if (startDate) {
-  //   startDate = DateTime.fromISO(startDate).toFormat('dd.LL.yyyy');
-  // }
-  // if (endDate) {
-  //   endDate = DateTime.fromISO(endDate).toFormat('dd.LL.yyyy');
-  // }
-  // if (deadline) {
-  //   deadline = DateTime.fromISO(deadline).toFormat('dd.LL.yyyy');
-  // }
-
-  const GetFullCountry = countryLabel => {
-    const countries = countryList().getData();
-    countryLabel = countries.find(country => country.value === countryLabel);
-    return countryLabel.label;
-  };
 
   // the button thats shown in the footer - different for students and companies
   const shownButtonFooter = (
     // TODO: Add logic to disable editing after project deadline
     <>
-      <Button>Edit</Button>
-      <Button>Delete</Button>
+      <StudentEditApplication
+        id={projectID}
+        companyID={companyID}
+        about={about}
+        experience={experience}
+        motivation={motivation}
+        type={type}
+      >
+        Edit
+      </StudentEditApplication>
+      <StudentDeleteApplication id={projectID} companyID={companyID} />
     </>
   );
 

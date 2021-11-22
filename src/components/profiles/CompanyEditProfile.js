@@ -29,6 +29,7 @@ const CompanyEditProfile = ({ companyName, companyAbout, companyLocation }) => {
   const options = useMemo(() => countryList().getData(), []);
 
   // submit user form to the database
+
   const submitUserForm = () => {
     // transforming the form data into json
     const newUserData = {
