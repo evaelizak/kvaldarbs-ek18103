@@ -3,27 +3,34 @@ import { Col, Row, notification, Select } from 'antd';
 import React, { useState } from 'react';
 import { useList } from 'react-firebase-hooks/database';
 import { DateTime } from 'luxon';
+import { get, orderByChild, query, ref } from 'firebase/database';
 import ProjectCard from './ProjectCard';
 import { auth, db } from '../../misc/firebase';
 
 // component for projects page
 const Projects = ({ type = 'student' }) => {
-  const [sortChild, setSortChild] = useState('startDate');
-
   const key = auth.currentUser.uid;
+  const [sortChild, setSortChild] = useState('startDate');
   // database reference to take either specific company projects or show all for students
   let projectsRef;
   if (type === 'student') {
-    projectsRef = db.ref('/projects').orderByChild(sortChild);
+    projectsRef = query(ref(db, '/projects'), orderByChild(sortChild));
   } else if (type === 'company') {
-    projectsRef = db.ref(`/companies/${key}/projects`);
+    projectsRef = query(
+      ref(db, `/companies/${key}/projects`),
+      orderByChild(sortChild)
+    );
   }
+
+  console.log('reference: ', projectsRef);
   // react firebase hook to get a list of keys from the database reference
   const [projects, loading, error] = useList(projectsRef);
 
-  const handleChange = value => {
+  const changeSortDeadlines = value => {
     setSortChild(value);
-    console.log(`selected ${value}`);
+  };
+  const changeType = value => {
+    console.log(value);
   };
 
   return (
@@ -44,13 +51,12 @@ const Projects = ({ type = 'student' }) => {
         )}
         {!loading && projects && (
           <>
-            {/* Mapping the projects keys from the database list */}
             <div>
               Sort by:
               <Select
                 defaultValue="appDeadline"
                 style={{ width: 200 }}
-                onChange={handleChange}
+                onChange={changeSortDeadlines}
               >
                 <Select.Option value="appDeadline">
                   Application Deadline
@@ -59,7 +65,19 @@ const Projects = ({ type = 'student' }) => {
                   Project Start Date
                 </Select.Option>
               </Select>
+              <Select
+                defaultValue="part-time"
+                style={{ width: 200 }}
+                onChange={changeType}
+              >
+                <Select.Option value="part-time">Part time</Select.Option>
+                <Select.Option value="full-time">Full time</Select.Option>
+                <Select.Option value="contract">Contract</Select.Option>
+                <Select.Option value="temporary">Temporary</Select.Option>
+              </Select>
             </div>
+
+            {/* Mapping the projects keys from the database list */}
             <Row gutter={{ xs: 4, sm: 8 }} type="flex">
               {projects.map((project, index) => (
                 <Col
@@ -78,8 +96,9 @@ const Projects = ({ type = 'student' }) => {
                     startDate={project.val().startDate}
                     endDate={project.val().endDate}
                     deadline={project.val().appDeadline}
-                    // loading={loading}
+                    payment={project.val().payment}
                     type={type}
+                    projectType={project.val().jobType}
                     byUser={project.val().byUser}
                   />
                 </Col>

@@ -39,22 +39,28 @@ const StudentApplicationCard = ({
     });
 
   // the button thats shown in the footer - different for students and companies
-  const shownButtonFooter = (
-    // TODO: Add logic to disable editing after project deadline
-    <>
-      <StudentEditApplication
-        id={projectID}
-        companyID={companyID}
-        about={about}
-        experience={experience}
-        motivation={motivation}
-        type={type}
-      >
-        Edit
-      </StudentEditApplication>
-      <StudentDeleteApplication id={projectID} companyID={companyID} />
-    </>
-  );
+  let shownButtonFooter;
+
+  if (status === 'pending' || status === 'new') {
+    shownButtonFooter = (
+      <>
+        <StudentEditApplication
+          id={projectID}
+          companyID={companyID}
+          about={about}
+          experience={experience}
+          motivation={motivation}
+          type={type}
+        >
+          Edit
+        </StudentEditApplication>
+        <StudentDeleteApplication id={projectID} companyID={companyID} />
+      </>
+    );
+  } else {
+    shownButtonFooter = 'you cannot edit this anymore';
+  }
+  // TODO: Add logic to disable editing after project deadline and after it has been accepted
 
   // variable for storing company tab data, i had problems with the data not fetching on page load and this was the only way to get around this issue, its dumb
   let projectInfo;

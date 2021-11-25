@@ -1,9 +1,10 @@
 import { Card } from 'antd';
 import React, { useEffect, useState } from 'react';
-import firebase from 'firebase/compat/app';
 import countryList from 'react-select-country-list';
-import { auth } from '../../misc/firebase';
+import { onValue, ref } from 'firebase/database';
+import { auth, db } from '../../misc/firebase';
 import CompanyEditProfile from './CompanyEditProfile';
+import CompanyDeleteProfile from './CompanyDeleteProfile';
 
 const CompanyInfo = () => {
   const [isCompany, setIsCompany] = useState(null);
@@ -11,12 +12,9 @@ const CompanyInfo = () => {
   const key = auth.currentUser.uid;
 
   const getData = () => {
-    firebase
-      .database()
-      .ref(`companies/${key}`)
-      .on('value', snapshot => {
-        setIsCompany(snapshot.val());
-      });
+    onValue(ref(db, `companies/${key}`), snapshot => {
+      setIsCompany(snapshot.val());
+    });
 
     console.log('company: ', isCompany);
   };
@@ -59,6 +57,7 @@ const CompanyInfo = () => {
   return (
     <>
       <Card>{shown}</Card>
+      <CompanyDeleteProfile />
     </>
   );
 };

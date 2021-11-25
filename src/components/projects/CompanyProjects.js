@@ -2,8 +2,9 @@
 import { Modal, Button } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-import firebase from 'firebase/compat/app';
-import { auth } from '../../misc/firebase';
+// import firebase from 'firebase/compat/app';
+import { onValue, ref } from 'firebase/database';
+import { auth, db } from '../../misc/firebase';
 
 // import CompanyProjectCard from './CompanyProjectCard';
 import CompanyCreateProjectForm from './project-actions/CompanyCreateProjectForm';
@@ -20,14 +21,11 @@ const CompanyProjects = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const getProjectData = () => {
-    firebase
-      .database()
-      .ref(`/companies/${key}/projects`)
-      .on('value', snapshot => {
-        if (snapshot.val()) {
-          setHasProjects(true);
-        }
-      });
+    onValue(ref(db, `/companies/${key}/projects`), snapshot => {
+      if (snapshot.val()) {
+        setHasProjects(true);
+      }
+    });
     setIsLoading(false);
   };
 

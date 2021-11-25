@@ -1,3 +1,4 @@
+/* eslint-disable object-shorthand */
 import { serverTimestamp } from 'firebase/database';
 import {
   Button,
@@ -37,6 +38,7 @@ const CompanyCreateProjectForm = () => {
     // transforming the form data into json
     const newProject = {
       ...formValues,
+      isPaid: isPaid,
       byUser: auth.currentUser.uid,
       status: '0', // new status
       createdAt: serverTimestamp(),

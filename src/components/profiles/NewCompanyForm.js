@@ -1,4 +1,4 @@
-import { ref, serverTimestamp, set } from 'firebase/database';
+import { ref, serverTimestamp, set, update } from 'firebase/database';
 import { Button, Input, message, notification, Select, Form } from 'antd';
 import React, { useMemo, useState } from 'react';
 import countryList from 'react-select-country-list';
@@ -32,7 +32,8 @@ const NewCompanyForm = () => {
       // sets the data
       set(dbref, cleanedData);
       // updates user hasCompany field to true
-      db.ref('/profiles').child(key).update({ hasCompany: true });
+      // db.ref('/profiles').child(key).update({ hasCompany: true });
+      update(ref(db, `/profiles${key}`), { hasCompany: true });
       // profile.hasCompany = true;
 
       notification.open({
