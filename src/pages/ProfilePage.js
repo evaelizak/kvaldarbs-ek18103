@@ -8,7 +8,6 @@ const ProfilePage = () => {
   const { profile } = useProfile();
 
   let shownComponent;
-  console.log(profile.usertype);
   if (profile.usertype === 'student') {
     shownComponent = <StudentProfile />;
   } else {

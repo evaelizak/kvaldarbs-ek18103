@@ -10,7 +10,6 @@ const ProjectsPage = () => {
   // eslint-disable-next-line no-unused-vars
   const { profile } = useProfile();
   let shownComponent;
-  console.log(profile.usertype);
   if (profile.usertype === 'student') {
     shownComponent = <Projects />;
   } else {

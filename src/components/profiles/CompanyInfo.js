@@ -15,8 +15,6 @@ const CompanyInfo = () => {
     onValue(ref(db, `companies/${key}`), snapshot => {
       setIsCompany(snapshot.val());
     });
-
-    console.log('company: ', isCompany);
   };
 
   // function for showing the full country name, because the database contains only short 2 letter name, f.e. LV -> Latvia

@@ -26,7 +26,6 @@ const SignInPage = () => {
     } else {
       userType = 'company';
     }
-    console.log(userType);
 
     const provider = new GoogleAuthProvider();
 
@@ -37,7 +36,6 @@ const SignInPage = () => {
       const userData = getAdditionalUserInfo(signedIn);
 
       // sets the data for new users
-      console.log(userData);
       if (userData.isNewUser && userType === 'student') {
         // sets the data in the database - set because we use user uid for nodes
         await set(ref(db, `/profiles/${signedIn.user.uid}`), {

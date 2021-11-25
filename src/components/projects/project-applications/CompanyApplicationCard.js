@@ -2,6 +2,7 @@ import { Col, Divider, notification, Row } from 'antd';
 import React from 'react';
 import { DateTime } from 'luxon';
 import { useList } from 'react-firebase-hooks/database';
+import { ref } from 'firebase/database';
 import { auth, db } from '../../../misc/firebase';
 import CompanyProjectApplicationCard from './CompanyProjectApplicationCard';
 
@@ -15,7 +16,8 @@ const CompanyApplicationCard = ({
   projectID,
 }) => {
   // fetching the project data from the database
-  const projectApplicationRef = db.ref(
+  const projectApplicationRef = ref(
+    db,
     `companies/${auth.currentUser.uid}/projects/${projectID}/applications`
   );
 

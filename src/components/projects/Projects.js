@@ -21,8 +21,6 @@ const Projects = ({ type = 'student' }) => {
       orderByChild(sortChild)
     );
   }
-
-  console.log('reference: ', projectsRef);
   // react firebase hook to get a list of keys from the database reference
   const [projects, loading, error] = useList(projectsRef);
 
@@ -36,7 +34,7 @@ const Projects = ({ type = 'student' }) => {
   return (
     <div>
       <div>
-        {/*       {console.log(DateTime.local().ts)} */}
+        {/* {console.log(DateTime.local().ts)} */}
         {error &&
           notification.error({
             message: 'An error has occured, try again later',

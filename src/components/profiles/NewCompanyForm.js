@@ -41,7 +41,6 @@ const NewCompanyForm = () => {
         duration: 4,
       });
     } catch (err) {
-      console.log(err.message);
       notification.open({
         message: err.message,
         duration: 4,

@@ -1,5 +1,5 @@
 /* eslint-disable object-shorthand */
-import { serverTimestamp } from 'firebase/database';
+import { push, ref, serverTimestamp, update } from 'firebase/database';
 import {
   Button,
   Input,
@@ -17,7 +17,6 @@ import { db, auth } from '../../../misc/firebase';
 const CompanyCreateProjectForm = () => {
   // TODO: add logic to reset form after submitting
   const [hasProject, setHasProject] = useState(false);
-  console.log(hasProject);
 
   const [formValues, setFormValues] = useState({});
   // const { profile } = useProfile();
@@ -48,7 +47,7 @@ const CompanyCreateProjectForm = () => {
 
     try {
       // gets the post key
-      const newProjectKey = db.ref('/projects/').push().key;
+      const newProjectKey = push(ref(db, '/projects/')).key;
       // creates an array where the places to update the data are
       const updates = {};
       // updates the data in projects and under company specific projects
@@ -56,7 +55,7 @@ const CompanyCreateProjectForm = () => {
       updates[`/companies/${auth.currentUser.uid}/projects/${newProjectKey}`] =
         cleanedData;
       // updates the data
-      db.ref().update(updates);
+      update(ref(db), updates);
       form.resetFields();
 
       // updates the state if there are no projects
@@ -189,7 +188,6 @@ const CompanyCreateProjectForm = () => {
               { required: true, message: 'Set the application deadline' },
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  console.log(getFieldValue('endDate'));
                   if (getFieldValue('endDate') === undefined) {
                     return Promise.resolve();
                   }

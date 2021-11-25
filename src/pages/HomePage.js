@@ -8,6 +8,7 @@ import logo from '../img/logo.png';
 
 const HomePage = ({ props }) => {
   // for when there is no other content in the home page
+  // TODO: add some more buttons for page links etc
   if (!props) {
     props = <div>Hey and welcome to the site :)</div>;
   }

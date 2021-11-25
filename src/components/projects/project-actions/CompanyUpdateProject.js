@@ -5,7 +5,7 @@ import React from 'react';
 const CompanyUpdateProject = () => {
   return (
     <>
-      <Button type="primary">Edit</Button>
+      <Button type="primary">Edit TBA</Button>
       <Modal> Hello! </Modal>
     </>
   );

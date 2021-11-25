@@ -2,6 +2,7 @@ import { Col, Row, notification } from 'antd';
 import React from 'react';
 import { useList } from 'react-firebase-hooks/database';
 import { DateTime } from 'luxon';
+import { ref } from 'firebase/database';
 import { auth, db } from '../../../misc/firebase';
 import StudentApplicationCard from './StudentApplicationCard';
 import CompanyApplicationCard from './CompanyApplicationCard';
@@ -13,10 +14,10 @@ const Applications = ({ type = 'student' }) => {
   let applicationsRef;
   let isStudent;
   if (type === 'student') {
-    applicationsRef = db.ref(`/profiles/${key}/projectApps`);
+    applicationsRef = ref(db, `/profiles/${key}/projectApps`);
     isStudent = true;
   } else if (type === 'company') {
-    applicationsRef = db.ref(`/companies/${key}/projects`);
+    applicationsRef = ref(db, `/companies/${key}/projects`);
     isStudent = false;
   }
   // react firebase hook to get a list of keys from the database reference

@@ -1,12 +1,14 @@
 /* eslint-disable no-unused-vars */
-import { Button, Card, Divider } from 'antd';
+import { Card, Divider } from 'antd';
 import React, { useState } from 'react';
 import firebase from 'firebase/compat/app';
 import ShowMoreText from 'react-show-more-text';
 import { DateTime } from 'luxon';
 import countryList from 'react-select-country-list';
+import { onValue, ref } from 'firebase/database';
 import StudentDeleteApplication from './project-application-actions/StudentDeleteApplication';
 import StudentEditApplication from './project-application-actions/StudentEditApplication';
+import { db } from '../../../misc/firebase';
 
 // component to show data about submitted projects
 const StudentApplicationCard = ({
@@ -23,25 +25,18 @@ const StudentApplicationCard = ({
 
   // fetching the project data from the database
   let projectData;
-  firebase
-    .database()
-    .ref(`companies/${companyID}/projects/${projectID}`)
-    .on('value', snapshot => {
-      projectData = snapshot.val();
-    });
+  onValue(ref(db, `companies/${companyID}/projects/${projectID}`), snapshot => {
+    projectData = snapshot.val();
+  });
 
   let companyData;
-  firebase
-    .database()
-    .ref(`companies/${companyID}`)
-    .on('value', snapshot => {
-      companyData = snapshot.val();
-    });
+  onValue(ref(db, `companies/${companyID}`), snapshot => {
+    companyData = snapshot.val();
+  });
 
   // the button thats shown in the footer - different for students and companies
   let shownButtonFooter;
-
-  if (status === 'pending' || status === 'new') {
+  if (status !== 'accepted' && status !== 'rejected') {
     shownButtonFooter = (
       <>
         <StudentEditApplication
