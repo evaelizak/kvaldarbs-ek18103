@@ -3,32 +3,45 @@ import { Col, Row, notification, Select } from 'antd';
 import React, { useState } from 'react';
 import { useList } from 'react-firebase-hooks/database';
 import { DateTime } from 'luxon';
-import { get, orderByChild, query, ref } from 'firebase/database';
+import { equalTo, get, orderByChild, query, ref, set } from 'firebase/database';
 import ProjectCard from './ProjectCard';
 import { auth, db } from '../../misc/firebase';
 
 // component for projects page
 const Projects = ({ type = 'student' }) => {
   const key = auth.currentUser.uid;
-  const [sortChild, setSortChild] = useState('startDate');
+  const [sortChild, setSortChild] = useState('appDeadline');
   // database reference to take either specific company projects or show all for students
   let projectsRef;
   if (type === 'student') {
-    projectsRef = query(ref(db, '/projects'), orderByChild(sortChild));
+    if (sortChild === 'isPaid') {
+      projectsRef = query(
+        ref(db, '/projects'),
+        orderByChild('isPaid'),
+        equalTo(true)
+      );
+    } else if (sortChild !== 'appDeadline' && sortChild !== 'startDate') {
+      projectsRef = query(
+        ref(db, '/projects'),
+        orderByChild('jobType'),
+        equalTo(sortChild)
+      );
+    } else projectsRef = query(ref(db, '/projects'), orderByChild(sortChild));
   } else if (type === 'company') {
-    projectsRef = query(
-      ref(db, `/companies/${key}/projects`),
-      orderByChild(sortChild)
-    );
+    projectsRef = query(ref(db, `/companies/${key}/projects`));
   }
   // react firebase hook to get a list of keys from the database reference
   const [projects, loading, error] = useList(projectsRef);
 
-  const changeSortDeadlines = value => {
+  const changeSort = value => {
+    // if (value === 'appDeadline' || value === 'startDate') {
+    //   setSortChild(orderByChild(value));
+    // } else {
+    //   const extraSorting = equalTo(value);
+    //  value = value.path;
     setSortChild(value);
-  };
-  const changeType = value => {
-    console.log(value);
+    //  }
+    console.log(sortChild);
   };
 
   return (
@@ -50,11 +63,11 @@ const Projects = ({ type = 'student' }) => {
         {!loading && projects && (
           <>
             <div>
-              Sort by:
+              Filter by:
               <Select
-                defaultValue="appDeadline"
+                defaultValue={sortChild}
                 style={{ width: 200 }}
-                onChange={changeSortDeadlines}
+                onChange={changeSort}
               >
                 <Select.Option value="appDeadline">
                   Application Deadline
@@ -62,8 +75,18 @@ const Projects = ({ type = 'student' }) => {
                 <Select.Option value="startDate">
                   Project Start Date
                 </Select.Option>
+                <Select.Option value="part-time">Type: Part time</Select.Option>
+                <Select.Option value="full-time">Type: Full time</Select.Option>
+                <Select.Option value="contract">Type: Contract</Select.Option>
+                <Select.Option value="temporary">Type: Temporary</Select.Option>
+                <Select.Option value="internship">
+                  Type: Internship
+                </Select.Option>
+                <Select.Option value="isPaid">Is Paid</Select.Option>
+
+                {/* There was another... */}
               </Select>
-              <Select
+              {/* <Select
                 defaultValue="part-time"
                 style={{ width: 200 }}
                 onChange={changeType}
@@ -72,7 +95,7 @@ const Projects = ({ type = 'student' }) => {
                 <Select.Option value="full-time">Full time</Select.Option>
                 <Select.Option value="contract">Contract</Select.Option>
                 <Select.Option value="temporary">Temporary</Select.Option>
-              </Select>
+              </Select> */}
             </div>
 
             {/* Mapping the projects keys from the database list */}
