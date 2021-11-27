@@ -20,38 +20,37 @@ export const ProfileProvider = ({ children }) => {
         onValue(userRef, snap => {
           const {
             username,
+            email,
             createdAt,
             usertype,
             hasCompany,
             phone,
             linkedin,
             age,
-            about,
           } = snap.val();
           // sets additional data for company accounts
           if (usertype === 'company') {
             data = {
               username,
               createdAt,
+              email,
               // avatar,
               usertype,
               hasCompany,
               uid: authObj.uid,
-              email: authObj.email,
             };
           } else {
             // data from the snapshot that was received from Google auth
             data = {
               username,
+              email,
               createdAt,
               // avatar,
               usertype,
               phone,
               linkedin,
               age,
-              about,
               uid: authObj.uid,
-              email: authObj.email,
             };
           }
           setProfile(data);

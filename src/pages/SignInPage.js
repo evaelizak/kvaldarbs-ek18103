@@ -1,5 +1,5 @@
 /* eslint-disable object-shorthand */
-import { Button, notification, Radio } from 'antd';
+import { Button, Col, notification, Radio, Row } from 'antd';
 import { GoogleOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import {
@@ -40,12 +40,12 @@ const SignInPage = () => {
         // sets the data in the database - set because we use user uid for nodes
         await set(ref(db, `/profiles/${signedIn.user.uid}`), {
           username: signedIn.user.displayName,
+          email: signedIn.user.email,
           createdAt: serverTimestamp(),
           usertype: userType,
           phone: '',
           linkedin: '',
           age: '',
-          about: '',
         });
       } else if (userData.isNewUser) {
         // if a user is a new user and is a company then an additional field is added
@@ -59,30 +59,55 @@ const SignInPage = () => {
       }
       notification.open({ message: 'Signed in successfully', duration: 4 });
     } catch (err) {
-      notification.open({ message: 'Error has occurred', duration: 4 });
+      notification.open({
+        message: 'Error has occured, try again later',
+        duration: 4,
+      });
     }
   };
 
   return (
     <>
-      <div>
-        <h1 className="mt-10 text-3xl bold text-center">
-          Sign in to your account
-        </h1>
-      </div>
-      <div className="mt-5 grid justify-items-center">
-        <Radio.Group onChange={onChange} value={value} defaultValue={1}>
-          <Radio value={1}>I&apos;m a student looking for opportunities!</Radio>
-          <Radio value={2}>
-            We&apos;re a company looking for bright minds!
-          </Radio>
-        </Radio.Group>
-        {/* TO DO: ADD AGE VERIFICATION */}
-        <Button type="primary" onClick={signInWithGoogle} className="mt-5">
-          <GoogleOutlined />
-          Sign in with Google
-        </Button>
-      </div>
+      <Row justify="center" gutter="20">
+        <Col span={{ xs: 0, md: 12 }}>
+          <h1 className="mt-10 text-3xl bold text-center">
+            Register with Google
+          </h1>
+          <h2 className="text-2xl text-center">Choose your account type</h2>
+          <div className="mt-5 grid justify-items-center">
+            <Radio.Group
+              className="mt-3"
+              onChange={onChange}
+              value={value}
+              defaultValue={1}
+            >
+              <Radio value={1}>
+                I&apos;m a student looking for opportunities!
+              </Radio>
+              <Radio value={2}>
+                We&apos;re a company looking for bright minds!
+              </Radio>
+            </Radio.Group>
+            {/* TO DO: ADD AGE VERIFICATION */}
+            <Button type="primary" onClick={signInWithGoogle} className="mt-5">
+              <GoogleOutlined />
+              Register with Google
+            </Button>
+          </div>
+        </Col>
+        <Col span={{ xs: 0, md: 12 }} className="justify-items-center">
+          <h1 className="mt-10 text-3xl bold text-center">
+            Sign in to your account
+          </h1>
+          <div className="mt-5 grid justify-items-center">
+            {/* TO DO: ADD AGE VERIFICATION */}
+            <Button type="primary" onClick={signInWithGoogle} className="mt-5">
+              <GoogleOutlined />
+              Sign in with Google
+            </Button>
+          </div>
+        </Col>
+      </Row>
     </>
   );
 };

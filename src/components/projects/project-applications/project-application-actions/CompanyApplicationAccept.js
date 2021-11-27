@@ -32,7 +32,7 @@ const CompanyApplicationAccept = ({ companyID, projectID, applicantID }) => {
       });
     } catch (err) {
       notification.open({
-        message: err.message,
+        message: 'An error has occured, try again later',
         duration: 4,
       });
     }

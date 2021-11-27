@@ -69,7 +69,7 @@ const StudentEditProfile = () => {
     } catch (err) {
       // console.log(err.message);
       notification.open({
-        message: err.message,
+        message: 'An error has occured, try again later',
         duration: 4,
       });
     }

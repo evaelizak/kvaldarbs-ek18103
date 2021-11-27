@@ -5,8 +5,7 @@ import { onSignOut } from '../../misc/auth-functions';
 import StudentEditProfile from './StudentEditProfile';
 
 const StudentProfile = () => {
-  const { profile, isLoading } = useProfile();
-  console.log(isLoading);
+  const { profile } = useProfile();
 
   return (
     <>
@@ -47,7 +46,6 @@ const StudentProfile = () => {
       >
         <Descriptions.Item label="Your age">
           {profile.age ? profile.age : 'No age set'}
-          {console.log(profile.age)}{' '}
         </Descriptions.Item>
         <Descriptions.Item name="about" label="About You">
           {profile.about ? profile.about : 'Nothing written about you yet...'}
