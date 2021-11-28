@@ -37,6 +37,8 @@ export const ProfileProvider = ({ children }) => {
               // avatar,
               usertype,
               hasCompany,
+              linkedin,
+              phone,
               uid: authObj.uid,
             };
           } else {

@@ -55,6 +55,7 @@ const SignInPage = () => {
           usertype: userType,
           hasCompany: false,
           phone: '',
+          linkedin: '',
         });
       }
       notification.open({ message: 'Signed in successfully', duration: 4 });

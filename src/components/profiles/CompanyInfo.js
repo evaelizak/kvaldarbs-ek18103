@@ -7,13 +7,13 @@ import CompanyEditProfile from './CompanyEditProfile';
 import CompanyDeleteProfile from './CompanyDeleteProfile';
 
 const CompanyInfo = () => {
-  const [isCompany, setIsCompany] = useState(null);
+  const [hasCompany, setHasCompany] = useState(null);
 
   const key = auth.currentUser.uid;
 
   const getData = () => {
     onValue(ref(db, `companies/${key}`), snapshot => {
-      setIsCompany(snapshot.val());
+      setHasCompany(snapshot.val());
     });
   };
 
@@ -27,23 +27,20 @@ const CompanyInfo = () => {
   // use effect hook for showing the company data once it is loaded properly
   useEffect(() => {
     getData();
-    // return () => {
-    //   setIsCompany(null);
-    // };
   }, []);
 
   let shown;
-  if (isCompany) {
-    const countryLabel = GetFullCountry(isCompany.country);
+  if (hasCompany) {
+    const countryLabel = GetFullCountry(hasCompany.country);
     shown = (
       <>
         {' '}
-        <p>Name: {isCompany.name}</p>
-        <p>About: {isCompany.about}</p>
+        <p>Name: {hasCompany.name}</p>
+        <p>About: {hasCompany.about}</p>
         <p>Location: {countryLabel}</p>
         <CompanyEditProfile
-          companyName={isCompany.name}
-          companyAbout={isCompany.about}
+          companyName={hasCompany.name}
+          companyAbout={hasCompany.about}
           companyLocation={countryLabel}
         />
       </>
