@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useList } from 'react-firebase-hooks/database';
 import { DateTime } from 'luxon';
 import { equalTo, get, orderByChild, query, ref, set } from 'firebase/database';
+import Checkbox from 'antd/lib/checkbox/Checkbox';
 import ProjectCard from './ProjectCard';
 import { auth, db } from '../../misc/firebase';
 
@@ -11,6 +12,10 @@ import { auth, db } from '../../misc/firebase';
 const Projects = ({ type = 'student' }) => {
   const key = auth.currentUser.uid;
   const [sortChild, setSortChild] = useState('appDeadline');
+  const [showExpired, setShowExpired] = useState(false);
+  const onCheckboxChange = e => {
+    setShowExpired(e.target.checked);
+  };
   // database reference to take either specific company projects or show all for students
   let projectsRef;
   if (type === 'student') {
@@ -34,13 +39,7 @@ const Projects = ({ type = 'student' }) => {
   const [projects, loading, error] = useList(projectsRef);
 
   const changeSort = value => {
-    // if (value === 'appDeadline' || value === 'startDate') {
-    //   setSortChild(orderByChild(value));
-    // } else {
-    //   const extraSorting = equalTo(value);
-    //  value = value.path;
     setSortChild(value);
-    //  }
     console.log(sortChild);
   };
 
@@ -83,47 +82,58 @@ const Projects = ({ type = 'student' }) => {
                   Type: Internship
                 </Select.Option>
                 <Select.Option value="isPaid">Is Paid</Select.Option>
-
-                {/* There was another... */}
               </Select>
-              {/* <Select
-                defaultValue="part-time"
-                style={{ width: 200 }}
-                onChange={changeType}
-              >
-                <Select.Option value="part-time">Part time</Select.Option>
-                <Select.Option value="full-time">Full time</Select.Option>
-                <Select.Option value="contract">Contract</Select.Option>
-                <Select.Option value="temporary">Temporary</Select.Option>
-              </Select> */}
+              <span className="ml-5">Show expired</span>{' '}
+              <Checkbox checked={showExpired} onChange={onCheckboxChange} />
             </div>
 
             {/* Mapping the projects keys from the database list */}
             <Row gutter={{ xs: 4, sm: 8 }} type="flex">
-              {projects.map((project, index) => (
-                <Col
-                  key={index}
-                  className="xl:w-1/3 md:w-1/2 sm:w-full  pt-2"
-                  span={{ xs: 16, m: 8 }}
-                >
-                  {/* {console.log(
-                    DateTime.fromISO(project.val().appDeadline) <
-                      DateTime.local()
-                  )} */}
-                  <ProjectCard
-                    id={project.key}
-                    title={project.val().title}
-                    about={project.val().about}
-                    startDate={project.val().startDate}
-                    endDate={project.val().endDate}
-                    deadline={project.val().appDeadline}
-                    payment={project.val().payment}
-                    type={type}
-                    projectType={project.val().jobType}
-                    byUser={project.val().byUser}
-                  />
-                </Col>
-              ))}
+              {projects.map((project, index) =>
+                // eslint-disable-next-line no-nested-ternary
+                showExpired ? (
+                  <Col
+                    key={index}
+                    className="xl:w-1/3 md:w-1/2 sm:w-full  pt-2"
+                    span={{ xs: 16, m: 8 }}
+                  >
+                    <ProjectCard
+                      id={project.key}
+                      title={project.val().title}
+                      about={project.val().about}
+                      startDate={project.val().startDate}
+                      endDate={project.val().endDate}
+                      deadline={project.val().appDeadline}
+                      payment={project.val().payment}
+                      type={type}
+                      projectType={project.val().jobType}
+                      byUser={project.val().byUser}
+                    />
+                  </Col>
+                ) : DateTime.fromISO(project.val().appDeadline) >
+                  DateTime.local() ? (
+                  <Col
+                    key={index}
+                    className="xl:w-1/3 md:w-1/2 sm:w-full  pt-2"
+                    span={{ xs: 16, m: 8 }}
+                  >
+                    <ProjectCard
+                      id={project.key}
+                      title={project.val().title}
+                      about={project.val().about}
+                      startDate={project.val().startDate}
+                      endDate={project.val().endDate}
+                      deadline={project.val().appDeadline}
+                      payment={project.val().payment}
+                      type={type}
+                      projectType={project.val().jobType}
+                      byUser={project.val().byUser}
+                    />
+                  </Col>
+                ) : (
+                  ' '
+                )
+              )}
             </Row>
           </>
         )}

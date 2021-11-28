@@ -31,26 +31,21 @@ const ProjectCard = ({
   onValue(ref(db, `companies/${byUser}`), snapshot => {
     companyData = snapshot.val();
   });
-  // firebase
-  // .database()
-  // .ref(`companies/${byUser}`)
-  // .on('value', snapshot => {
-  //   companyData = snapshot.val();
-  // });
 
   let isStudentApplied;
-  // firebase
-  //   .database()
-  //   .ref(`profiles/${auth.currentUser.uid}/projectApps/${id}`)
-  //   .on('value', snapshot => {
-  //     isStudentApplied = snapshot.val();
-  //   });
   onValue(
     ref(db, `profiles/${auth.currentUser.uid}/projectApps/${id}`),
     snapshot => {
       isStudentApplied = snapshot.val();
     }
   );
+
+  console.log('1', DateTime.fromISO(deadline) > DateTime.local());
+
+  let pastDeadline;
+  if (DateTime.fromISO(deadline) > DateTime.local()) {
+    pastDeadline = false;
+  } else pastDeadline = true;
 
   // if's for changing date format from ISO to a more user friendly format
   if (startDate) {
@@ -72,7 +67,7 @@ const ProjectCard = ({
   // the button thats shown in the footer - different for students and companies
   let shownButtonFooter;
   if (type === 'student') {
-    if (isStudentApplied) {
+    if (isStudentApplied && !pastDeadline) {
       shownButtonFooter = (
         <>
           <span className=" text-gray-500">
@@ -83,11 +78,11 @@ const ProjectCard = ({
           {/* TODO: Make Homepage have this information, and then just keep the first part of this text */}
         </>
       );
-    } else {
+    } else if (!pastDeadline) {
       shownButtonFooter = (
         <StudentProjectApply id={id} title={title} companyID={byUser} />
       );
-    }
+    } else shownButtonFooter = 'Project has expired';
   } else {
     shownButtonFooter = (
       <>
