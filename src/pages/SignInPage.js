@@ -1,5 +1,5 @@
 /* eslint-disable object-shorthand */
-import { Button, Col, notification, Radio, Row } from 'antd';
+import { Button, Col, InputNumber, notification, Radio, Row, Form } from 'antd';
 import { GoogleOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import {
@@ -13,9 +13,19 @@ import { auth, db } from '../misc/firebase';
 const SignInPage = () => {
   // for the radio to set whether the user is a student or a company
   const [value, setValue] = useState(1);
+  const [number, setNumber] = useState('16');
   const onChange = e => {
     setValue(e.target.value);
   };
+  const onNumberChange = n => {
+    setNumber(n.target.value);
+  };
+  let disabledButton;
+  if (number < 16) {
+    disabledButton = true;
+  } else {
+    disabledButton = false;
+  }
 
   // sign in with google
   const signInWithGoogle = async () => {
@@ -45,7 +55,7 @@ const SignInPage = () => {
           usertype: userType,
           phone: '',
           linkedin: '',
-          age: '',
+          age: number,
         });
       } else if (userData.isNewUser) {
         // if a user is a new user and is a company then an additional field is added
@@ -76,24 +86,66 @@ const SignInPage = () => {
           </h1>
           <h2 className="text-2xl text-center">Choose your account type</h2>
           <div className="mt-5 grid justify-items-center">
-            <Radio.Group
-              className="mt-3"
-              onChange={onChange}
-              value={value}
-              defaultValue={1}
+            <Form
+              type="flex"
+              justify="center"
+              align="middle"
+              initialValues={{ age: number }}
             >
-              <Radio value={1}>
-                I&apos;m a student looking for opportunities!
-              </Radio>
-              <Radio value={2}>
-                We&apos;re a company looking for bright minds!
-              </Radio>
-            </Radio.Group>
-            {/* TO DO: ADD AGE VERIFICATION */}
-            <Button type="primary" onClick={signInWithGoogle} className="mt-5">
-              <GoogleOutlined />
-              Register with Google
-            </Button>
+              <Form.Item>
+                <Radio.Group
+                  className="mt-3"
+                  onChange={onChange}
+                  value={value}
+                  defaultValue={1}
+                >
+                  <Radio value={1}>
+                    I&apos;m a student looking for opportunities!
+                  </Radio>
+                  <Radio value={2}>
+                    We&apos;re a company looking for bright minds!
+                  </Radio>
+                </Radio.Group>
+              </Form.Item>
+              <Form.Item
+                hidden={value === 2}
+                name="age"
+                label="Your age"
+                rules={[
+                  {
+                    required: true,
+                    type: 'number',
+                    min: 16,
+                    max: 120,
+                    message: 'You have to be 16+ to register',
+                  },
+                ]}
+                onChange={onNumberChange}
+                value={number.value}
+              >
+                <InputNumber />
+              </Form.Item>
+            </Form>
+            {disabledButton && value === 1 ? (
+              <Button
+                type="primary"
+                onClick={signInWithGoogle}
+                className="mt-3"
+                disabled
+              >
+                <GoogleOutlined />
+                Register with Google
+              </Button>
+            ) : (
+              <Button
+                type="primary"
+                onClick={signInWithGoogle}
+                className="mt-3"
+              >
+                <GoogleOutlined />
+                Register with Google
+              </Button>
+            )}
           </div>
         </Col>
         <Col span={{ xs: 0, md: 12 }} className="justify-items-center">

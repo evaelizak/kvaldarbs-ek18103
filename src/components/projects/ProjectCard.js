@@ -83,9 +83,20 @@ const ProjectCard = ({
         <StudentProjectApply id={id} title={title} companyID={byUser} />
       );
     } else shownButtonFooter = 'Project has expired';
+  } else if (type === 'company' && !pastDeadline) {
+    shownButtonFooter = (
+      <>
+        <CompanyUpdateProject />
+        <CompanyDeleteProject id={id} companyUser={byUser} />
+      </>
+    );
   } else {
     shownButtonFooter = (
       <>
+        <p>
+          Project application deadline has passed, but you can extend the
+          deadline
+        </p>
         <CompanyUpdateProject />
         <CompanyDeleteProject id={id} companyUser={byUser} />
       </>

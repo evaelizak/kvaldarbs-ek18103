@@ -46,7 +46,7 @@ const CompanyProjects = () => {
   // button for adding new project, which opens a modal with the new project form inside
   const newProjectBtn = (
     <>
-      <Button className="mt-5" type="primary" onClick={setIsModalVisible}>
+      <Button className="mt-5 mb-5" type="primary" onClick={setIsModalVisible}>
         Add a new project
       </Button>
       <Modal
@@ -66,6 +66,7 @@ const CompanyProjects = () => {
 
   return (
     <>
+      {hasProjects ? newProjectBtn : <CompanyCreateProjectForm />}
       {/* showing project cards if any are added */}
       {isLoading && (
         <>
@@ -80,7 +81,6 @@ const CompanyProjects = () => {
         </p>
       )}
       {/* TODO: + add update logic for projects */}
-      {hasProjects ? newProjectBtn : <CompanyCreateProjectForm />}
     </>
   );
 };
