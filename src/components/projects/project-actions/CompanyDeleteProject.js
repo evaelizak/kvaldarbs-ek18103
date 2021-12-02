@@ -1,16 +1,34 @@
 import { ExclamationCircleTwoTone } from '@ant-design/icons';
 import { Button, notification } from 'antd';
 import confirm from 'antd/lib/modal/confirm';
-import { ref, remove } from 'firebase/database';
+// eslint-disable-next-line no-unused-vars
+import { query, ref, remove, update } from 'firebase/database';
 // import { auth } from 'firebase-admin';
 import React from 'react';
+import { useListKeys } from 'react-firebase-hooks/database';
 import { db } from '../../../misc/firebase';
 
 const CompanyDeleteProject = ({ id, companyUser }) => {
+  const projectsRef3 = ref(
+    db,
+    `/companies/${companyUser}/projects/${id}/applications`
+  );
+  const [studentProjectApps, loading, error] = useListKeys(projectsRef3);
+
   const onConfirmation = () => {
     try {
       const projectsRef1 = `/projects/${id}`;
       const projectsRef2 = `/companies/${companyUser}/projects/${id}`;
+
+      studentProjectApps.map((studentProjectApp, index) => (
+        <>
+          {update(ref(db, `profiles/${studentProjectApp}/projectApps/${id}`), {
+            status: 'deleted',
+          })}
+          {console.log('1', studentProjectApp, index, loading, error)}
+        </>
+      ));
+
       // removes the project from the database
       remove(ref(db, projectsRef1));
       remove(ref(db, projectsRef2));

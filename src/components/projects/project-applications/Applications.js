@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
 import { ref } from 'firebase/database';
 import { auth, db } from '../../../misc/firebase';
 import StudentApplicationCard from './StudentApplicationCard';
-import CompanyApplicationCard from './CompanyApplicationCard';
+import CompanyApplications from './CompanyApplications';
 
 // component for projects page
 const Applications = ({ type = 'student' }) => {
@@ -23,24 +23,6 @@ const Applications = ({ type = 'student' }) => {
   // react firebase hook to get a list of keys from the database reference
   const [applications, loading, error] = useList(applicationsRef);
 
-  //   let returnedCard;
-  //   if (type === 'student') {
-  //     returnedCard = (
-  //       <StudentApplicationCard
-  //         projectID={application.key}
-  //         about={application.val().about}
-  //         companyID={application.val().companyID}
-  //         experience={application.val().experience}
-  //         motivation={application.val().motivation}
-  //         // loading={loading}
-  //         type={application.val().type}
-  //         byUser={application.val().byUser}
-  //       />
-  //     );
-  //   } else if (type === 'company') {
-  //     returnedCard = <CompanyApplicationCard />;
-  //   }
-
   return (
     <div>
       <div>
@@ -52,7 +34,7 @@ const Applications = ({ type = 'student' }) => {
           })}
         {!loading && !applications && (
           <>
-            <div>No applications submitted... / received</div>
+            <div>No applications submitted... </div>
           </>
         )}
         {!loading && applications && isStudent && (
@@ -93,7 +75,7 @@ const Applications = ({ type = 'student' }) => {
                   className="xl:w-full md:w-full sm:w-full  pt-2"
                   // span={{ xs: 24, m: 24 }}
                 >
-                  <CompanyApplicationCard
+                  <CompanyApplications
                     projectID={application.key}
                     title={application.val().title}
                     about={application.val().about}

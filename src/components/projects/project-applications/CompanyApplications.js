@@ -7,7 +7,7 @@ import { auth, db } from '../../../misc/firebase';
 import CompanyProjectApplicationCard from './CompanyProjectApplicationCard';
 
 // component to show data about submitted projects
-const CompanyApplicationCard = ({
+const CompanyApplications = ({
   title,
   about,
   startDate,
@@ -105,4 +105,4 @@ const CompanyApplicationCard = ({
   );
 };
 
-export default CompanyApplicationCard;
+export default CompanyApplications;

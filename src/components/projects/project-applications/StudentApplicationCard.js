@@ -1,14 +1,13 @@
 /* eslint-disable no-unused-vars */
 import { Card, Divider } from 'antd';
 import React, { useState } from 'react';
-import firebase from 'firebase/compat/app';
 import ShowMoreText from 'react-show-more-text';
 import { DateTime } from 'luxon';
 import countryList from 'react-select-country-list';
-import { onValue, ref } from 'firebase/database';
+import { onValue, ref, update } from 'firebase/database';
 import StudentDeleteApplication from './project-application-actions/StudentDeleteApplication';
 import StudentEditApplication from './project-application-actions/StudentEditApplication';
-import { db } from '../../../misc/firebase';
+import { db, auth } from '../../../misc/firebase';
 
 // component to show data about submitted projects
 const StudentApplicationCard = ({
@@ -36,7 +35,7 @@ const StudentApplicationCard = ({
 
   // the button thats shown in the footer - different for students and companies
   let shownButtonFooter;
-  if (status !== 'accepted' && status !== 'rejected') {
+  if (status !== 'accepted' && status !== 'rejected' && status !== 'deleted') {
     shownButtonFooter = (
       <>
         <StudentEditApplication
@@ -50,6 +49,13 @@ const StudentApplicationCard = ({
           Edit
         </StudentEditApplication>
         <StudentDeleteApplication id={projectID} companyID={companyID} />
+      </>
+    );
+  } else if (status === 'deleted') {
+    shownButtonFooter = (
+      <>
+        <p className="text-red-600">This project has been removed :(</p>
+        <StudentDeleteApplication id={projectID} companyID={companyID} />{' '}
       </>
     );
   } else {
@@ -95,7 +101,7 @@ const StudentApplicationCard = ({
       </>
     );
   } else {
-    projectInfo = 'Data is loading...';
+    projectInfo = 'Project has been deleted or data is still loading...';
   }
 
   // tabs in the card
