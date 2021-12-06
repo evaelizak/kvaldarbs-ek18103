@@ -1,6 +1,7 @@
 import { Col, Divider, notification, Row } from 'antd';
 import React from 'react';
 import { DateTime } from 'luxon';
+import ShowMoreText from 'react-show-more-text';
 import { useList } from 'react-firebase-hooks/database';
 import { ref } from 'firebase/database';
 import { auth, db } from '../../../misc/firebase';
@@ -10,6 +11,7 @@ import CompanyProjectApplicationCard from './CompanyProjectApplicationCard';
 const CompanyApplications = ({
   title,
   about,
+  reqs,
   startDate,
   endDate,
   deadline,
@@ -27,7 +29,32 @@ const CompanyApplications = ({
     <>
       <Divider />
       <h1 className="text-xl">{title}</h1>
-      <h1>{about}</h1>
+      <div className="pb-3">
+        <b className="text-base">About:</b>
+        <ShowMoreText lines={3} more="Show more" less="Show less">
+          {about.split('\n').map(item => {
+            return (
+              <span>
+                {item}
+                <br />
+              </span>
+            );
+          })}
+        </ShowMoreText>
+      </div>
+      <div>
+        <b className="text-base">Requirements:</b>
+        <ShowMoreText lines={3} more="Show more" less="Show less">
+          {reqs.split('\n').map(item => {
+            return (
+              <span>
+                {item}
+                <br />
+              </span>
+            );
+          })}{' '}
+        </ShowMoreText>
+      </div>
       <Divider />
       <p>
         <b>Project starts:</b>{' '}
@@ -60,11 +87,14 @@ const CompanyApplications = ({
             message: 'An error has occured, try again later',
             duration: 4,
           })}
-        {!loading && !applications && (
-          <>
-            <div>No applications received</div>
-          </>
-        )}
+        {(!loading && !applications) ||
+          (applications.length < 1 && (
+            <>
+              <div className="text-xl text-red-700">
+                No applications received
+              </div>
+            </>
+          ))}
         {!loading && applications && (
           <>
             <Row gutter={{ xs: 4, sm: 8 }} type="flex">
@@ -80,6 +110,7 @@ const CompanyApplications = ({
                     experience={application.val().experience}
                     motivation={application.val().motivation}
                     status={application.val().status}
+                    cv={application.val().cv}
                     projectID={projectID}
                     companyID={auth.currentUser.uid}
                     applicantID={application.key}

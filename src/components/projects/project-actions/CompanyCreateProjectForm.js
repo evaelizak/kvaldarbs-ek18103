@@ -188,10 +188,13 @@ const CompanyCreateProjectForm = () => {
               { required: true, message: 'Set the application deadline' },
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  if (getFieldValue('endDate') === undefined) {
+                  if (
+                    getFieldValue('endDate') === undefined ||
+                    getFieldValue('endDate') === ''
+                  ) {
                     return Promise.resolve();
                   }
-                  if (!value || getFieldValue('endDate') < value) {
+                  if (!value || getFieldValue('endDate') > value) {
                     return Promise.resolve();
                   }
                   return Promise.reject(

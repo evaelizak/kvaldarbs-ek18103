@@ -173,18 +173,32 @@ const ProjectCard = ({
   const contentList = {
     projectTab: (
       <>
-        <p>
+        <div className="pb-3">
           <b className="text-base">About:</b>
           <ShowMoreText lines={3} more="Show more" less="Show less">
-            {about}
+            {about.split('\n').map(item => {
+              return (
+                <span>
+                  {item}
+                  <br />
+                </span>
+              );
+            })}
           </ShowMoreText>
-        </p>
-        <p>
+        </div>
+        <div className="pb-3">
           <b className="text-base">Requirements:</b>
           <ShowMoreText lines={3} more="Show more" less="Show less">
-            {reqs}
+            {reqs.split('\n').map(item => {
+              return (
+                <span>
+                  {item}
+                  <br />
+                </span>
+              );
+            })}{' '}
           </ShowMoreText>
-        </p>
+        </div>
 
         <p>
           <b>Type: </b> {projectType}
@@ -220,7 +234,6 @@ const ProjectCard = ({
         setActiveTab(key);
       }}
     >
-      {console.log(startDate2, endDate2, deadline2)}
       {contentList[activeTab]}
       {shownButtonFooter}
     </Card>

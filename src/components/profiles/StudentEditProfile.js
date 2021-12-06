@@ -32,7 +32,6 @@ const StudentEditProfile = () => {
     };
     // removes all the undefined values in case there are some
     const cleanedData = JSON.parse(JSON.stringify(newUserData));
-    console.log(cleanedData);
 
     if (!cleanedData.phone) {
       cleanedData.phone = '';

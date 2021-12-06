@@ -89,7 +89,7 @@ const StudentProjectApply = ({ id, title, companyID }) => {
           </Button>,
         ]}
       >
-        <h1 className="pb-0 ">Apply to {title}</h1>
+        <h1 className="pb-3 text-xl ">Apply to {title}</h1>
         <Form
           form={form}
           layout="vertical"
@@ -98,7 +98,6 @@ const StudentProjectApply = ({ id, title, companyID }) => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
-          <Form.Item />
           <Form.Item
             name="about"
             label="About Yourself"
@@ -147,19 +146,20 @@ const StudentProjectApply = ({ id, title, companyID }) => {
               <Select.Option value="graduate">Graduate</Select.Option>
             </Select>
           </Form.Item>
-
-          {/* TO DO: Add logic for uploading CVs, selecting already uploaded CV */}
-          {/* <Form.Item
-                name="upload"
-                label="Upload your CV"
-                valuePropName="fileList"
-                //   getValueFromEvent={normFile}
-              >
-                <Upload {...uploader} name="CV" listType=".pdf">
-                  <Button icon={<UploadOutlined />}>Upload a PDF</Button>
-                </Upload>
-              </Form.Item> */}
-
+          <Form.Item
+            name="cv"
+            label="Your CV"
+            rules={[
+              {
+                message: 'Add a link to your CV',
+              },
+              {
+                type: 'url',
+              },
+            ]}
+          >
+            <Input.TextArea placeholder="Input your experience relevant to the project" />
+          </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">
               Submit

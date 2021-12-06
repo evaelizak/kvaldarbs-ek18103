@@ -16,6 +16,8 @@ const Projects = ({ type = 'student' }) => {
   const onCheckboxChange = e => {
     setShowExpired(e.target.checked);
   };
+  const studentRef = ref(db, '/projects');
+  const companyRef = ref(db, `/companies/${key}/projects`);
   // database reference to take either specific company projects or show all for students
   let projectsRef;
   if (type === 'student') {
@@ -33,7 +35,19 @@ const Projects = ({ type = 'student' }) => {
       );
     } else projectsRef = query(ref(db, '/projects'), orderByChild(sortChild));
   } else if (type === 'company') {
-    projectsRef = query(ref(db, `/companies/${key}/projects`));
+    if (sortChild === 'isPaid') {
+      projectsRef = query(companyRef, orderByChild('isPaid'), equalTo(true));
+    } else if (sortChild !== 'appDeadline' && sortChild !== 'startDate') {
+      projectsRef = query(
+        companyRef,
+        orderByChild('jobType'),
+        equalTo(sortChild)
+      );
+    } else
+      projectsRef = query(
+        ref(db, `/companies/${key}/projects`),
+        orderByChild(sortChild)
+      );
   }
   // react firebase hook to get a list of keys from the database reference
   const [projects, loading, error] = useList(projectsRef);
@@ -51,13 +65,12 @@ const Projects = ({ type = 'student' }) => {
             message: 'An error has occured, try again later',
             duration: 4,
           })}
-        {!loading && !projects && (
-          <>
-            <div>
-              No projects added... yet! Feel free to add a new one below:
-            </div>
-          </>
-        )}
+        {(!loading && !projects) ||
+          (projects.length < 1 && (
+            <>
+              <div className="pb-5 text-xl">No projects here...</div>
+            </>
+          ))}
         {!loading && projects && (
           <>
             <div>

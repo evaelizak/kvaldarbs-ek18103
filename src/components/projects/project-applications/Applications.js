@@ -59,6 +59,7 @@ const Applications = ({ type = 'student' }) => {
                     experience={application.val().experience}
                     motivation={application.val().motivation}
                     type={application.val().type}
+                    cv={application.val().cv}
                   />
                 </Col>
               ))}
@@ -79,6 +80,7 @@ const Applications = ({ type = 'student' }) => {
                     projectID={application.key}
                     title={application.val().title}
                     about={application.val().about}
+                    reqs={application.val().reqs}
                     startDate={application.val().startDate}
                     endDate={application.val().endDate}
                     deadline={application.val().appDeadline}

@@ -17,6 +17,7 @@ const StudentEditApplication = ({
   about,
   experience,
   motivation,
+  cv,
   type,
   id,
   companyID,
@@ -53,15 +54,17 @@ const StudentEditApplication = ({
         about: cleanedData.about,
         motivation: cleanedData.motivation,
         experience: cleanedData.experience,
+        cv: cleanedData.cv,
       });
       update(applicationRef2, {
         about: cleanedData.about,
         motivation: cleanedData.motivation,
         experience: cleanedData.experience,
+        cv: cleanedData.cv,
       });
 
       notification.open({
-        message: 'Company information edited successfully!',
+        message: 'Application edited successfully!',
         duration: 4,
       });
     } catch (err) {
@@ -113,6 +116,7 @@ const StudentEditApplication = ({
             experience: experience,
             motivation: motivation,
             type: type,
+            cv: cv,
           }}
         >
           <Form.Item />
@@ -163,6 +167,20 @@ const StudentEditApplication = ({
               <Select.Option value="student">Student</Select.Option>
               <Select.Option value="graduate">Graduate</Select.Option>
             </Select>
+          </Form.Item>
+          <Form.Item
+            name="cv"
+            label="Your CV"
+            rules={[
+              {
+                message: 'Add a link to your CV',
+              },
+              {
+                type: 'url',
+              },
+            ]}
+          >
+            <Input.TextArea placeholder="Add a link to your CV (Google Drive, Dropbox, etc.)" />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">

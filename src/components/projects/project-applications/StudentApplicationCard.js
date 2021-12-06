@@ -17,6 +17,7 @@ const StudentApplicationCard = ({
   companyID,
   projectID,
   type,
+  cv,
   status,
 }) => {
   // state for showing the clicked tab
@@ -45,6 +46,7 @@ const StudentApplicationCard = ({
           experience={experience}
           motivation={motivation}
           type={type}
+          cv={cv}
         >
           Edit
         </StudentEditApplication>
@@ -120,24 +122,54 @@ const StudentApplicationCard = ({
   const contentList = {
     applicationTab: (
       <>
-        <p>
+        <div className="pb-3">
           <b className="text-base">About:</b>
           <ShowMoreText lines={3} more="Show more" less="Show less">
-            {about}
+            {about.split('\n').map(item => {
+              return (
+                <span>
+                  {item}
+                  <br />
+                </span>
+              );
+            })}
           </ShowMoreText>
-        </p>
-        <p>
+        </div>
+        <div className="pb-3">
           <b className="text-base">Experience:</b>
           <ShowMoreText lines={3} more="Show more" less="Show less">
-            {experience}
+            {experience.split('\n').map(item => {
+              return (
+                <span>
+                  {item}
+                  <br />
+                </span>
+              );
+            })}
           </ShowMoreText>
-        </p>
-        <p>
+        </div>
+        <div className="pb-3">
           <b className="text-base">Motivation:</b>
           <ShowMoreText lines={3} more="Show more" less="Show less">
-            {motivation}
+            {motivation.split('\n').map(item => {
+              return (
+                <span>
+                  {item}
+                  <br />
+                </span>
+              );
+            })}
           </ShowMoreText>
-        </p>
+        </div>
+        <div className="pb-3">
+          {cv ? (
+            <a href={cv} target="_blank" rel="noopener noreferrer">
+              <b className="text-base">CV link</b>
+            </a>
+          ) : (
+            <b className="text-base">No CV added</b>
+          )}
+        </div>
       </>
     ),
     projectTab: projectInfo,

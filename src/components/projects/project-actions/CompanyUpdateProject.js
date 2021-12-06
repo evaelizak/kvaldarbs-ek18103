@@ -35,17 +35,17 @@ const CompanyUpdateProject = ({
   let setState;
   if (payment) {
     setState = true;
-  }
+  } else setState = false;
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   // state for saving the form values from the project form application
   const [formValues, setFormValues] = useState({});
   const [form] = Form.useForm();
 
+  // state for the Paid checkbox
   const [isPaid, setIsPaid] = useState(setState);
   const onCheckboxChange = e => {
     setIsPaid(e.target.checked);
-    console.log(isPaid);
   };
 
   // submit user form to the database
@@ -54,31 +54,21 @@ const CompanyUpdateProject = ({
     const newProjectData = {
       ...formValues,
     };
-    console.log('1', newProjectData);
-    console.log(isPaid);
 
     // removes all the undefined values in case there are some
     const cleanedData = JSON.parse(JSON.stringify(newProjectData));
+    // fixes if the unrequired fields are empty
     if (!cleanedData.endDate) {
       cleanedData.endDate = '';
     }
-    if (isPaid === false) {
+    if (isPaid === false || !cleanedData.payment) {
       cleanedData.payment = '';
     }
 
     try {
-      console.log('2', cleanedData);
       // reference to the database
       const projectsRef1 = ref(db, `/companies/${companyUser}/projects/${id}`);
       const projectsRef2 = ref(db, `/projects/${id}`);
-      console.log(
-        '3',
-        cleanedData.startDate,
-        cleanedData.endDate,
-        cleanedData.appDeadline,
-        cleanedData.jobType,
-        cleanedData.payment
-      );
 
       // updates the values that were changed
       update(projectsRef1, {
@@ -109,7 +99,6 @@ const CompanyUpdateProject = ({
         duration: 4,
       });
     } catch (err) {
-      console.log(err.message);
       notification.open({
         message: 'An error has occured, try again later',
         duration: 4,
@@ -150,7 +139,7 @@ const CompanyUpdateProject = ({
           </Button>,
         ]}
       >
-        <h1 className="text-3xl">Submit a new project</h1>
+        <h1 className="text-3xl">Edit your project</h1>
         <div className="mt-2">
           <Form
             form={form}
@@ -263,10 +252,13 @@ const CompanyUpdateProject = ({
                 { required: true, message: 'Set the application deadline' },
                 ({ getFieldValue }) => ({
                   validator(_, value) {
-                    if (getFieldValue('endDate') === undefined) {
+                    if (
+                      !getFieldValue('endDate') ||
+                      getFieldValue('endDate') === undefined
+                    ) {
                       return Promise.resolve();
                     }
-                    if (!value || getFieldValue('endDate') < value) {
+                    if (!value || getFieldValue('endDate') > value) {
                       return Promise.resolve();
                     }
                     return Promise.reject(
