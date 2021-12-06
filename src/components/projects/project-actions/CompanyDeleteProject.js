@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { ExclamationCircleTwoTone } from '@ant-design/icons';
 import { Button, notification } from 'antd';
 import confirm from 'antd/lib/modal/confirm';
@@ -13,6 +14,7 @@ const CompanyDeleteProject = ({ id, companyUser }) => {
     db,
     `/companies/${companyUser}/projects/${id}/applications`
   );
+  // gets the keys for the users that have applied to this project
   const [studentProjectApps, loading, error] = useListKeys(projectsRef3);
 
   const onConfirmation = () => {
@@ -20,12 +22,12 @@ const CompanyDeleteProject = ({ id, companyUser }) => {
       const projectsRef1 = `/projects/${id}`;
       const projectsRef2 = `/companies/${companyUser}/projects/${id}`;
 
+      // changes the status
       studentProjectApps.map((studentProjectApp, index) => (
         <>
           {update(ref(db, `profiles/${studentProjectApp}/projectApps/${id}`), {
             status: 'deleted',
           })}
-          {console.log('1', studentProjectApp, index, loading, error)}
         </>
       ));
 

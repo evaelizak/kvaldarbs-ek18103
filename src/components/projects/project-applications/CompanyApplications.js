@@ -23,17 +23,6 @@ const CompanyApplications = ({
 
   const [applications, loading, error] = useList(projectApplicationRef);
 
-  // TO DO change this to user data
-  // console.log(byUser);
-  //   let companyData;
-  //   firebase
-  //     .database()
-  //     .ref(`companies/${companyID}`)
-  //     .on('value', snapshot => {
-  //       companyData = snapshot.val();
-  //     });
-  //   console.log('compID ', companyID, ' projectID: ', projectID);
-
   const projectInfo = (
     <>
       <Divider />

@@ -14,6 +14,7 @@ import { auth, db } from '../../misc/firebase';
 const ProjectCard = ({
   title,
   about,
+  reqs,
   startDate,
   endDate,
   deadline,
@@ -40,12 +41,14 @@ const ProjectCard = ({
     }
   );
 
-  console.log('1', DateTime.fromISO(deadline) > DateTime.local());
-
   let pastDeadline;
   if (DateTime.fromISO(deadline) > DateTime.local()) {
     pastDeadline = false;
   } else pastDeadline = true;
+
+  const startDate2 = startDate;
+  const endDate2 = endDate;
+  const deadline2 = deadline;
 
   // if's for changing date format from ISO to a more user friendly format
   if (startDate) {
@@ -86,7 +89,19 @@ const ProjectCard = ({
   } else if (type === 'company' && !pastDeadline) {
     shownButtonFooter = (
       <>
-        <CompanyUpdateProject />
+        <CompanyUpdateProject
+          id={id}
+          companyUser={byUser}
+          reqs={reqs}
+          title={title}
+          about={about}
+          startDate={startDate2}
+          endDate={endDate2}
+          deadline={deadline2}
+          payment={payment}
+          type={type}
+          projectType={projectType}
+        />
         <CompanyDeleteProject id={id} companyUser={byUser} />
       </>
     );
@@ -97,7 +112,19 @@ const ProjectCard = ({
           Project application deadline has passed, but you can extend the
           deadline
         </p>
-        <CompanyUpdateProject />
+        <CompanyUpdateProject
+          id={id}
+          companyUser={byUser}
+          reqs={reqs}
+          title={title}
+          about={about}
+          startDate={startDate2}
+          endDate={endDate2}
+          deadline={deadline2}
+          payment={payment}
+          type={type}
+          projectType={projectType}
+        />
         <CompanyDeleteProject id={id} companyUser={byUser} />
       </>
     );
@@ -153,6 +180,13 @@ const ProjectCard = ({
           </ShowMoreText>
         </p>
         <p>
+          <b className="text-base">Requirements:</b>
+          <ShowMoreText lines={3} more="Show more" less="Show less">
+            {reqs}
+          </ShowMoreText>
+        </p>
+
+        <p>
           <b>Type: </b> {projectType}
         </p>
         <p>
@@ -186,6 +220,7 @@ const ProjectCard = ({
         setActiveTab(key);
       }}
     >
+      {console.log(startDate2, endDate2, deadline2)}
       {contentList[activeTab]}
       {shownButtonFooter}
     </Card>

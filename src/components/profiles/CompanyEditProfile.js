@@ -35,7 +35,6 @@ const CompanyEditProfile = ({ companyName, companyAbout, companyLocation }) => {
     const newUserData = {
       ...formValues,
     };
-    console.log(newUserData);
 
     // removes all the undefined values in case there are some
     const cleanedData = JSON.parse(JSON.stringify(newUserData));

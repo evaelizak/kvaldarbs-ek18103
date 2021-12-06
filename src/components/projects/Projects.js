@@ -3,7 +3,7 @@ import { Col, Row, notification, Select } from 'antd';
 import React, { useState } from 'react';
 import { useList } from 'react-firebase-hooks/database';
 import { DateTime } from 'luxon';
-import { equalTo, get, orderByChild, query, ref, set } from 'firebase/database';
+import { equalTo, orderByChild, query, ref } from 'firebase/database';
 import Checkbox from 'antd/lib/checkbox/Checkbox';
 import ProjectCard from './ProjectCard';
 import { auth, db } from '../../misc/firebase';
@@ -40,7 +40,6 @@ const Projects = ({ type = 'student' }) => {
 
   const changeSort = value => {
     setSortChild(value);
-    console.log(sortChild);
   };
 
   return (
@@ -101,6 +100,7 @@ const Projects = ({ type = 'student' }) => {
                       id={project.key}
                       title={project.val().title}
                       about={project.val().about}
+                      reqs={project.val().reqs}
                       startDate={project.val().startDate}
                       endDate={project.val().endDate}
                       deadline={project.val().appDeadline}
@@ -121,6 +121,7 @@ const Projects = ({ type = 'student' }) => {
                       id={project.key}
                       title={project.val().title}
                       about={project.val().about}
+                      reqs={project.val().reqs}
                       startDate={project.val().startDate}
                       endDate={project.val().endDate}
                       deadline={project.val().appDeadline}
