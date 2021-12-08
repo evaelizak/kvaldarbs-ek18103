@@ -27,8 +27,6 @@ const StudentEditProfile = () => {
     // transforming the form data into json
     const newUserData = {
       ...formValues,
-      //  usertype: profile.usertype,
-      //   createdAt: profile.createdAt,
     };
     // removes all the undefined values in case there are some
     const cleanedData = JSON.parse(JSON.stringify(newUserData));
@@ -53,16 +51,11 @@ const StudentEditProfile = () => {
         age: cleanedData.age,
         linkedin: cleanedData.linkedin,
       });
-
-      // sets the data
-      //  set(dbref, cleanedData);
-
       notification.open({
         message: 'Profile edited successfully!',
         duration: 4,
       });
     } catch (err) {
-      // console.log(err.message);
       notification.open({
         message: 'An error has occured, try again later',
         duration: 4,
@@ -145,19 +138,6 @@ const StudentEditProfile = () => {
           >
             <Input />
           </Form.Item>
-
-          {/* TO DO: Add logic for uploading CVs, selecting already uploaded CV */}
-          {/* <Form.Item
-                name="upload"
-                label="Upload your CV"
-                valuePropName="fileList"
-                //   getValueFromEvent={normFile}
-              >
-                <Upload {...uploader} name="CV" listType=".pdf">
-                  <Button icon={<UploadOutlined />}>Upload a PDF</Button>
-                </Upload>
-              </Form.Item> */}
-
           <Form.Item>
             <Button type="primary" htmlType="submit">
               Submit

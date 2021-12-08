@@ -1,5 +1,16 @@
+/* eslint-disable prefer-promise-reject-errors */
+/* eslint-disable no-unused-vars */
 /* eslint-disable object-shorthand */
-import { Button, Col, InputNumber, notification, Radio, Row, Form } from 'antd';
+import {
+  Button,
+  Col,
+  InputNumber,
+  notification,
+  Radio,
+  Row,
+  Form,
+  Input,
+} from 'antd';
 import { GoogleOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import {
@@ -21,7 +32,8 @@ const SignInPage = () => {
     setNumber(n.target.value);
   };
   let disabledButton;
-  if (number < 16) {
+  // eslint-disable-next-line no-restricted-globals
+  if (number < 16 || number > 120 || isNaN(number)) {
     disabledButton = true;
   } else {
     disabledButton = false;
@@ -108,22 +120,31 @@ const SignInPage = () => {
                 </Radio.Group>
               </Form.Item>
               <Form.Item
-                hidden={value === 2}
                 name="age"
                 label="Your age"
                 rules={[
                   {
                     required: true,
-                    type: 'number',
-                    min: 16,
-                    max: 120,
-                    message: 'You have to be 16+ to register',
+                    message: 'Your age must be entered',
+                    pattern: new RegExp(/^[0-9]+$/),
                   },
+                  () => ({
+                    validator(_, val) {
+                      if (!val) {
+                        return Promise.reject();
+                      }
+                      if (number < 16) {
+                        return Promise.reject('You must be 16+');
+                      }
+                      if (number > 120) {
+                        return Promise.reject("Are you sure you're 120+?");
+                      }
+                      return Promise.resolve();
+                    },
+                  }),
                 ]}
-                onChange={onNumberChange}
-                value={number.value}
               >
-                <InputNumber />
+                <Input maxLength={3} onChange={onNumberChange} />
               </Form.Item>
             </Form>
             {disabledButton && value === 1 ? (
@@ -153,11 +174,26 @@ const SignInPage = () => {
             Sign in to your account
           </h1>
           <div className="mt-5 grid justify-items-center">
-            {/* TO DO: ADD AGE VERIFICATION */}
-            <Button type="primary" onClick={signInWithGoogle} className="mt-5">
-              <GoogleOutlined />
-              Sign in with Google
-            </Button>
+            {disabledButton ? (
+              <Button
+                type="primary"
+                onClick={signInWithGoogle}
+                className="mt-5"
+                disabled
+              >
+                <GoogleOutlined />
+                Sign in with Google
+              </Button>
+            ) : (
+              <Button
+                type="primary"
+                onClick={signInWithGoogle}
+                className="mt-5"
+              >
+                <GoogleOutlined />
+                Sign in with Google
+              </Button>
+            )}
           </div>
         </Col>
       </Row>
