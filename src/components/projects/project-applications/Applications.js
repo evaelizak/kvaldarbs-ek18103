@@ -1,44 +1,86 @@
-import { Col, Row, notification } from 'antd';
-import React from 'react';
+import { Col, Row, notification, Select } from 'antd';
+import React, { useState } from 'react';
 import { useList } from 'react-firebase-hooks/database';
 import { DateTime } from 'luxon';
-import { ref } from 'firebase/database';
+import { equalTo, orderByChild, query, ref } from 'firebase/database';
 import { auth, db } from '../../../misc/firebase';
 import StudentApplicationCard from './StudentApplicationCard';
 import CompanyApplications from './CompanyApplications';
 
-// component for projects page
 const Applications = ({ type = 'student' }) => {
   const key = auth.currentUser.uid;
-  // database reference to take either specific company projects or show all for students
-  let applicationsRef;
+
+  // sorting state
+  const [sortChild, setSortChild] = useState('appDeadline');
+  // changing the sort value
+  const changeSort = value => {
+    setSortChild(value);
+  };
+
+  // for showing the correct component
   let isStudent;
   if (type === 'student') {
-    applicationsRef = ref(db, `/profiles/${key}/projectApps`);
     isStudent = true;
   } else if (type === 'company') {
-    applicationsRef = ref(db, `/companies/${key}/projects`);
     isStudent = false;
   }
+
+  const studentRef = ref(db, `/profiles/${key}/projectApps`);
+  const companyRef = ref(db, `/companies/${key}/projects`);
+
+  // for showing the chosen sorting
+  let applicationsRef;
+  if (type === 'student') {
+    if (sortChild !== 'all') {
+      applicationsRef = query(
+        studentRef,
+        orderByChild('status'),
+        equalTo(sortChild)
+      );
+    } else applicationsRef = studentRef;
+  } else if (type === 'company') {
+    if (sortChild === 'isPaid') {
+      applicationsRef = query(
+        companyRef,
+        orderByChild('isPaid'),
+        equalTo(true)
+      );
+    } else applicationsRef = query(companyRef, orderByChild(sortChild));
+  }
+
   // react firebase hook to get a list of keys from the database reference
   const [applications, loading, error] = useList(applicationsRef);
 
   return (
     <div>
       <div>
-        {/* {console.log(DateTime.local().ts)} */}
         {error &&
           notification.error({
             message: 'An error has occured, try again later',
             duration: 4,
           })}
-        {!loading && !applications && (
-          <>
-            <div>No applications submitted... </div>
-          </>
-        )}
+        {(!loading && !applications) ||
+          (applications.length < 1 && (
+            <>
+              <div>No applications here... </div>
+            </>
+          ))}
         {!loading && applications && isStudent && (
           <>
+            <div>
+              Filter by:
+              <Select
+                defaultValue={sortChild}
+                style={{ width: 200 }}
+                onChange={changeSort}
+              >
+                <Select.Option value="all">Show all</Select.Option>
+                <Select.Option value="accepted">Status: Accepted</Select.Option>
+                <Select.Option value="rejected">Status: Rejected</Select.Option>
+                <Select.Option value="pending">Status: Pending</Select.Option>
+                <Select.Option value="deleted">Status: Deleted</Select.Option>
+              </Select>
+            </div>
             {/* Mapping the application keys from the database list */}
             <Row gutter={{ xs: 4, sm: 8 }} type="flex">
               {applications.map((application, index) => (

@@ -1,6 +1,10 @@
-import { Card, Divider } from 'antd';
-import React from 'react';
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-unused-vars */
+import { Button, Card, Divider, Drawer } from 'antd';
+import { off, onValue, ref } from 'firebase/database';
+import React, { useEffect, useState } from 'react';
 import ShowMoreText from 'react-show-more-text';
+import { db } from '../../../misc/firebase';
 import AcceptedApplicationContacts from './AcceptedApplicationContacts';
 import CompanyApplicationAccept from './project-application-actions/CompanyApplicationAccept';
 import CompanyApplicationReject from './project-application-actions/CompanyApplicationReject';
@@ -16,12 +20,26 @@ const CompanyProjectApplicationCard = ({
   companyID,
   applicantID,
 }) => {
+  const [applicantData, setApplicantData] = useState(null);
+
+  const getData = () => {
+    onValue(ref(db, `profiles/${applicantID}`), snapshot => {
+      setApplicantData(snapshot.val());
+    });
+  };
+  // use effect hook for getting applicant data
+  useEffect(() => {
+    getData();
+  }, []);
+
   // the button thats shown in the footer of the application - different if the app has been accepted
   let shownButtonFooter;
   if (status === 'accepted') {
-    shownButtonFooter = <AcceptedApplicationContacts />;
+    shownButtonFooter = (
+      <AcceptedApplicationContacts applicantID={applicantID} />
+    );
   } else if (status === 'rejected') {
-    shownButtonFooter = 'you have rejected this';
+    shownButtonFooter = 'You have rejected this application';
   } else
     shownButtonFooter = (
       <>
@@ -51,13 +69,28 @@ const CompanyProjectApplicationCard = ({
           <b>Status: </b>
           {status}
         </h1>
-        <Divider />
+        <Divider plain>Applicant info</Divider>
         <div>
-          <b className="text-base">Person is a: </b>
+          {applicantData ? (
+            <div>
+              <b>Name: </b> {applicantData.username}
+              <br />
+              <b>Age: </b>
+              {applicantData.age ? applicantData.age : 'No age set'}
+              <br />
+              <b>Linkedin: </b>
+              {applicantData.linkedin ? applicantData.linkedin : 'Not added'}
+              <br />{' '}
+            </div>
+          ) : (
+            'Loading...'
+          )}
+          <b>Person is a: </b>
           {type}
         </div>
-        <div className="pb-3 pt-3">
-          <b className="text-base">About:</b>
+        <Divider plain>Application</Divider>
+        <div className="pb-3">
+          <b>About:</b>
           <ShowMoreText lines={3} more="Show more" less="Show less">
             {about.split('\n').map(item => {
               return (
@@ -70,7 +103,7 @@ const CompanyProjectApplicationCard = ({
           </ShowMoreText>
         </div>
         <div className="pb-3">
-          <b className="text-base">Experience:</b>
+          <b>Experience:</b>
           <ShowMoreText lines={3} more="Show more" less="Show less">
             {experience.split('\n').map(item => {
               return (
@@ -83,7 +116,7 @@ const CompanyProjectApplicationCard = ({
           </ShowMoreText>
         </div>
         <div className="pb-3">
-          <b className="text-base">Motivation:</b>
+          <b>Motivation:</b>
           <ShowMoreText lines={3} more="Show more" less="Show less">
             {motivation.split('\n').map(item => {
               return (

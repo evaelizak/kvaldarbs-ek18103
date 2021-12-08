@@ -158,7 +158,7 @@ const StudentProjectApply = ({ id, title, companyID }) => {
               },
             ]}
           >
-            <Input.TextArea placeholder="Input your experience relevant to the project" />
+            <Input.TextArea placeholder="Add a link to your CV (Google Drive, Dropbox, etc.)" />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">

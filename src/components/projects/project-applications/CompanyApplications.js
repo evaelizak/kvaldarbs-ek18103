@@ -42,7 +42,7 @@ const CompanyApplications = ({
           })}
         </ShowMoreText>
       </div>
-      <div>
+      <div className="pb-5">
         <b className="text-base">Requirements:</b>
         <ShowMoreText lines={3} more="Show more" less="Show less">
           {reqs.split('\n').map(item => {
@@ -55,7 +55,7 @@ const CompanyApplications = ({
           })}{' '}
         </ShowMoreText>
       </div>
-      <Divider />
+      {/* <Divider /> */}
       <p>
         <b>Project starts:</b>{' '}
         {!startDate

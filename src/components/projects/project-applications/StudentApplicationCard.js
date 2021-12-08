@@ -3,11 +3,10 @@ import { Card, Divider } from 'antd';
 import React, { useState } from 'react';
 import ShowMoreText from 'react-show-more-text';
 import { DateTime } from 'luxon';
-import countryList from 'react-select-country-list';
-import { onValue, ref, update } from 'firebase/database';
+import { onValue, ref } from 'firebase/database';
 import StudentDeleteApplication from './project-application-actions/StudentDeleteApplication';
 import StudentEditApplication from './project-application-actions/StudentEditApplication';
-import { db, auth } from '../../../misc/firebase';
+import { db } from '../../../misc/firebase';
 
 // component to show data about submitted projects
 const StudentApplicationCard = ({
@@ -61,15 +60,19 @@ const StudentApplicationCard = ({
       </>
     );
   } else {
-    shownButtonFooter = 'you cannot edit this anymore';
+    shownButtonFooter = (
+      <>
+        {' '}
+        <>You can not edit this anymore</>{' '}
+        <StudentDeleteApplication id={projectID} companyID={companyID} />
+      </>
+    );
   }
   // TODO: Add logic to disable editing after project deadline and after it has been accepted
 
   // variable for storing company tab data, i had problems with the data not fetching on page load and this was the only way to get around this issue, its dumb
   let projectInfo;
-  // console.log(projectData.about);
   if (projectData) {
-    // console.log(projectData.title);
     projectInfo = (
       <>
         <div>

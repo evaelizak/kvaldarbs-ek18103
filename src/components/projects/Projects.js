@@ -22,18 +22,14 @@ const Projects = ({ type = 'student' }) => {
   let projectsRef;
   if (type === 'student') {
     if (sortChild === 'isPaid') {
-      projectsRef = query(
-        ref(db, '/projects'),
-        orderByChild('isPaid'),
-        equalTo(true)
-      );
+      projectsRef = query(studentRef, orderByChild('isPaid'), equalTo(true));
     } else if (sortChild !== 'appDeadline' && sortChild !== 'startDate') {
       projectsRef = query(
-        ref(db, '/projects'),
+        studentRef,
         orderByChild('jobType'),
         equalTo(sortChild)
       );
-    } else projectsRef = query(ref(db, '/projects'), orderByChild(sortChild));
+    } else projectsRef = query(ref(studentRef), orderByChild(sortChild));
   } else if (type === 'company') {
     if (sortChild === 'isPaid') {
       projectsRef = query(companyRef, orderByChild('isPaid'), equalTo(true));
@@ -43,11 +39,7 @@ const Projects = ({ type = 'student' }) => {
         orderByChild('jobType'),
         equalTo(sortChild)
       );
-    } else
-      projectsRef = query(
-        ref(db, `/companies/${key}/projects`),
-        orderByChild(sortChild)
-      );
+    } else projectsRef = query(companyRef, orderByChild(sortChild));
   }
   // react firebase hook to get a list of keys from the database reference
   const [projects, loading, error] = useList(projectsRef);
