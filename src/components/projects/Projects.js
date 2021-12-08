@@ -29,7 +29,7 @@ const Projects = ({ type = 'student' }) => {
         orderByChild('jobType'),
         equalTo(sortChild)
       );
-    } else projectsRef = query(ref(studentRef), orderByChild(sortChild));
+    } else projectsRef = query(studentRef, orderByChild(sortChild));
   } else if (type === 'company') {
     if (sortChild === 'isPaid') {
       projectsRef = query(companyRef, orderByChild('isPaid'), equalTo(true));

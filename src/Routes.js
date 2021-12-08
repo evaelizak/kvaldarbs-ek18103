@@ -72,7 +72,7 @@ export const Routes = () => {
           <HomePage props={appsPage} />
         </PrivateRoute>
         {/* When the route is not set to any of the above */}
-        <Route>
+        <Route path="*">
           <HomePage props={<div>404 page :( </div>} />
         </Route>
       </Switch>

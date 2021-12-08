@@ -189,14 +189,16 @@ const ProjectCard = ({
         <div className="pb-3">
           <b className="text-base">Requirements:</b>
           <ShowMoreText lines={3} more="Show more" less="Show less">
-            {reqs.split('\n').map(item => {
-              return (
-                <span>
-                  {item}
-                  <br />
-                </span>
-              );
-            })}{' '}
+            {reqs
+              ? reqs.split('\n').map(item => {
+                  return (
+                    <span>
+                      {item}
+                      <br />
+                    </span>
+                  );
+                })
+              : 'Loading...'}{' '}
           </ShowMoreText>
         </div>
 

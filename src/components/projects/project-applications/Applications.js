@@ -11,7 +11,7 @@ const Applications = ({ type = 'student' }) => {
   const key = auth.currentUser.uid;
 
   // sorting state
-  const [sortChild, setSortChild] = useState('appDeadline');
+  const [sortChild, setSortChild] = useState('all');
   // changing the sort value
   const changeSort = value => {
     setSortChild(value);

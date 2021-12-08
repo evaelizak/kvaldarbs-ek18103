@@ -124,6 +124,7 @@ const StudentEditProfile = () => {
             name="age"
             label="Age"
             rules={[
+              { required: true, message: 'Your age is required' },
               {
                 type: 'number',
                 min: 16,

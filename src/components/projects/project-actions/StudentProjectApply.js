@@ -155,6 +155,7 @@ const StudentProjectApply = ({ id, title, companyID }) => {
               },
               {
                 type: 'url',
+                message: 'Must be a full URL including https://',
               },
             ]}
           >
