@@ -1,6 +1,6 @@
 /* eslint-disable object-shorthand */
 import { ref, serverTimestamp, set } from 'firebase/database';
-import { Button, Form, Input, message, notification, Select } from 'antd';
+import { Button, Form, Input, message, notification } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
 import React, { useState } from 'react';
 import { auth, db } from '../../../misc/firebase';
@@ -131,7 +131,7 @@ const StudentProjectApply = ({ id, title, companyID }) => {
           >
             <Input.TextArea placeholder="Input your experience relevant to the project" />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             name="type"
             label="I am a..."
             rules={[
@@ -145,7 +145,7 @@ const StudentProjectApply = ({ id, title, companyID }) => {
               <Select.Option value="student">Student</Select.Option>
               <Select.Option value="graduate">Graduate</Select.Option>
             </Select>
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             name="cv"
             label="Your CV"

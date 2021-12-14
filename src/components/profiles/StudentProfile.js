@@ -46,6 +46,9 @@ const StudentProfile = () => {
         <Descriptions.Item label="Your age">
           {profile.age ? profile.age : 'No age set'}
         </Descriptions.Item>
+        <Descriptions.Item label="I am a">
+          {profile.studentType ? profile.studentType : 'No type set'}
+        </Descriptions.Item>
       </Descriptions>
 
       <StudentEditProfile />

@@ -48,6 +48,7 @@ const CompanyEditProfile = ({ companyName, companyAbout, companyLocation }) => {
         name: cleanedData.name,
         about: cleanedData.about,
         country: cleanedData.country,
+        website: cleanedData.website,
       });
 
       notification.open({
@@ -128,6 +129,21 @@ const CompanyEditProfile = ({ companyName, companyAbout, companyLocation }) => {
           </Form.Item>
           <Form.Item name="country" label="Country">
             <Select placeholder="Country" options={options} />
+          </Form.Item>
+          <Form.Item
+            name="website"
+            label="Company website"
+            rules={[
+              {
+                required: true,
+                message: 'Company website is required',
+              },
+              {
+                type: 'url',
+              },
+            ]}
+          >
+            <Input placeholder="Your company website (must include https:// at the start)" />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">

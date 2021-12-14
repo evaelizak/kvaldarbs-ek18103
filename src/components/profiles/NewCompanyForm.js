@@ -2,7 +2,6 @@ import { ref, serverTimestamp, set, update } from 'firebase/database';
 import { Button, Input, message, notification, Select, Form } from 'antd';
 import React, { useMemo, useState } from 'react';
 import countryList from 'react-select-country-list';
-// import { useProfile } from '../context/profile.context';
 import { auth, db } from '../../misc/firebase';
 
 const NewCompanyForm = () => {
@@ -33,9 +32,8 @@ const NewCompanyForm = () => {
       set(dbref, cleanedData);
       // updates user hasCompany field to true
       // db.ref('/profiles').child(key).update({ hasCompany: true });
-      update(ref(db, `/profiles${key}`), { hasCompany: true });
+      update(ref(db, `/profiles/${key}`), { hasCompany: true });
       // profile.hasCompany = true;
-
       notification.open({
         message: 'Company added successfully!',
         duration: 4,
@@ -84,10 +82,34 @@ const NewCompanyForm = () => {
               },
             ]}
           >
-            <Input.TextArea placeholder="input placeholder" />
+            <Input.TextArea placeholder="Write a short description about your company" />
           </Form.Item>
-          <Form.Item name="country" label="Country">
+          <Form.Item
+            name="country"
+            label="Country"
+            rules={[
+              {
+                required: true,
+                message: 'Your company country is required!',
+              },
+            ]}
+          >
             <Select placeholder="Country" options={options} />
+          </Form.Item>
+          <Form.Item
+            name="website"
+            label="Company website"
+            rules={[
+              {
+                required: true,
+                message: 'Company website is required',
+              },
+              {
+                type: 'url',
+              },
+            ]}
+          >
+            <Input placeholder="Your company website (must include https:// at the start)" />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">

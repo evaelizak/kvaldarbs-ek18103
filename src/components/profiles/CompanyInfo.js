@@ -35,9 +35,28 @@ const CompanyInfo = () => {
     shown = (
       <>
         {' '}
-        <p>Name: {hasCompany.name}</p>
-        <p>About: {hasCompany.about}</p>
-        <p>Location: {countryLabel}</p>
+        <p className="pb-3">
+          <b>Name: </b>
+          {hasCompany.name}
+        </p>
+        <p className="pb-3">
+          <b>About: </b>
+          {hasCompany.about}
+        </p>
+        <p className="pb-3">
+          <b>Location: </b>
+          {countryLabel}
+        </p>
+        <p className="pb-3">
+          <b>Website: </b>
+          <a
+            href={hasCompany.website}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            {hasCompany.website}
+          </a>
+        </p>
         <CompanyEditProfile
           companyName={hasCompany.name}
           companyAbout={hasCompany.about}

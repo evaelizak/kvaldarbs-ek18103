@@ -1,16 +1,6 @@
 /* eslint-disable prefer-promise-reject-errors */
-/* eslint-disable no-unused-vars */
 /* eslint-disable object-shorthand */
-import {
-  Button,
-  Col,
-  InputNumber,
-  notification,
-  Radio,
-  Row,
-  Form,
-  Input,
-} from 'antd';
+import { Button, Col, notification, Radio, Row, Form, Input } from 'antd';
 import { GoogleOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
 import {
@@ -73,9 +63,11 @@ const SignInPage = () => {
         // if a user is a new user and is a company then an additional field is added
         await set(ref(db, `/profiles/${signedIn.user.uid}`), {
           username: signedIn.user.displayName,
+          email: signedIn.user.email,
           createdAt: serverTimestamp(),
           usertype: userType,
           hasCompany: false,
+          website: '',
           phone: '',
           linkedin: '',
         });

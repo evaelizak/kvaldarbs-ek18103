@@ -145,8 +145,22 @@ const ProjectCard = ({
           <b>About:</b> {companyData.about}
         </p>
         <p>
-          <b>Sector:</b> [TBA] f.e. Medicine, IT
+          <b>Country:</b> {GetFullCountry(companyData.country)}
         </p>
+        <p className="pb-3">
+          <b>Website: </b>
+          <a
+            href={companyData.website}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            {companyData.website}
+          </a>
+        </p>
+        {/* <p>
+          
+          <b>Website:</b> {companyData.website}
+        </p> */}
       </>
     );
   } else {
@@ -202,7 +216,7 @@ const ProjectCard = ({
           </ShowMoreText>
         </div>
 
-        <p>
+        <p className="pb-3">
           <b>Type: </b> {projectType}
         </p>
         <p>
@@ -210,13 +224,13 @@ const ProjectCard = ({
         </p>
         <Divider />
 
-        <p>
+        <p className="pb-3">
           <b>Project starts:</b> {!startDate ? 'No specified start' : startDate}
         </p>
-        <p>
+        <p className="pb-3">
           <b>Project ends:</b> {!endDate ? 'No specified end' : endDate}
         </p>
-        <p>
+        <p className="pb-3">
           <b>Application deadline:</b>{' '}
           {!deadline ? 'No specified deadline' : deadline}
         </p>

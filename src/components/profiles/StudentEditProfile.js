@@ -7,6 +7,7 @@ import {
   message,
   Modal,
   notification,
+  Select,
 } from 'antd';
 import { ref, update } from 'firebase/database';
 import React, { useState } from 'react';
@@ -103,6 +104,7 @@ const StudentEditProfile = () => {
             phone: !profile.phone ? '' : profile.phone,
             age: !profile.age ? '' : profile.age,
             linkedin: !profile.linkedin ? '' : profile.linkedin,
+            studentType: !profile.studentType ? '' : profile.studentType,
           }}
         >
           <Form.Item />
@@ -137,6 +139,21 @@ const StudentEditProfile = () => {
             rules={[{ type: 'string', min: 6 }]}
           >
             <Input />
+          </Form.Item>
+          <Form.Item
+            name="profileType"
+            label="I am a..."
+            rules={[
+              {
+                required: true,
+                message: 'Student or graduate',
+              },
+            ]}
+          >
+            <Select placeholder="Select your position">
+              <Select.Option value="student">Student</Select.Option>
+              <Select.Option value="graduate">Graduate</Select.Option>
+            </Select>
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">

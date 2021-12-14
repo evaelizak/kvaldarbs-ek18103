@@ -1,14 +1,6 @@
 /* eslint-disable object-shorthand */
 import { EditOutlined } from '@ant-design/icons';
-import {
-  Button,
-  Form,
-  Input,
-  message,
-  Modal,
-  notification,
-  Select,
-} from 'antd';
+import { Button, Form, Input, message, Modal, notification } from 'antd';
 import { ref, update } from 'firebase/database';
 import React, { useState } from 'react';
 import { auth, db } from '../../../../misc/firebase';
@@ -152,21 +144,6 @@ const StudentEditApplication = ({
             ]}
           >
             <Input.TextArea placeholder="Input your experience relevant to the project" />
-          </Form.Item>
-          <Form.Item
-            name="type"
-            label="I am a..."
-            rules={[
-              {
-                required: true,
-                message: 'Choose your position',
-              },
-            ]}
-          >
-            <Select placeholder="Select your position">
-              <Select.Option value="student">Student</Select.Option>
-              <Select.Option value="graduate">Graduate</Select.Option>
-            </Select>
           </Form.Item>
           <Form.Item
             name="cv"

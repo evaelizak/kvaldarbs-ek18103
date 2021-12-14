@@ -213,7 +213,12 @@ const CompanyCreateProjectForm = () => {
               Is Paid
             </Checkbox>
           </Form.Item>
-          <Form.Item name="payment" label="Payment amount" hidden={!isPaid}>
+          <Form.Item
+            name="payment"
+            label="Payment amount"
+            hidden={!isPaid}
+            rules={[{ required: isPaid }]}
+          >
             <Input />
           </Form.Item>
           <Form.Item>

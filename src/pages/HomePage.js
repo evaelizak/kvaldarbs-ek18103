@@ -1,8 +1,11 @@
 /* eslint-disable react/jsx-curly-brace-presence */
+import { Button } from 'antd';
 import Layout, { Content, Footer, Header } from 'antd/lib/layout/layout';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { onSignOut } from '../misc/auth-functions';
 import SideNav from '../components/SideNav';
+
 // import { useProfile } from '../context/profile.context';
 import logo from '../img/logo.png';
 
@@ -27,7 +30,15 @@ const HomePage = ({ props }) => {
               />
             </Link>
           </div>
-          <p className="text-white">For students by students</p>
+          <Button
+            className="float-right align-bottom mt-4"
+            color="red-500"
+            danger
+            type="primary"
+            onClick={onSignOut}
+          >
+            Sign out
+          </Button>
         </Header>
         <Content className="p-5 m-5 border-2">
           <div>{props}</div>
