@@ -85,7 +85,7 @@ const ProjectCard = ({
       shownButtonFooter = (
         <StudentProjectApply id={id} title={title} companyID={byUser} />
       );
-    } else shownButtonFooter = 'Project has expired';
+    } else shownButtonFooter = 'Project application deadline has expired';
   } else if (type === 'company' && !pastDeadline) {
     shownButtonFooter = (
       <>
@@ -144,9 +144,7 @@ const ProjectCard = ({
         <p>
           <b>About:</b> {companyData.about}
         </p>
-        <p>
-          <b>Country:</b> {GetFullCountry(companyData.country)}
-        </p>
+
         <p className="pb-3">
           <b>Website: </b>
           <a
@@ -188,8 +186,13 @@ const ProjectCard = ({
     projectTab: (
       <>
         <div className="pb-3">
-          <b className="text-base">About:</b>
-          <ShowMoreText lines={3} more="Show more" less="Show less">
+          <b className="text-base">About: </b>
+          <ShowMoreText
+            className="inline"
+            lines={3}
+            more="Show more"
+            less="Show less"
+          >
             {about.split('\n').map(item => {
               return (
                 <span>
@@ -201,8 +204,13 @@ const ProjectCard = ({
           </ShowMoreText>
         </div>
         <div className="pb-3">
-          <b className="text-base">Requirements:</b>
-          <ShowMoreText lines={3} more="Show more" less="Show less">
+          <b className="text-base">Requirements: </b>
+          <ShowMoreText
+            className="inline"
+            lines={3}
+            more="Show more"
+            less="Show less"
+          >
             {reqs
               ? reqs.split('\n').map(item => {
                   return (

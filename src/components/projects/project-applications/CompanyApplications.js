@@ -9,6 +9,9 @@ import CompanyProjectApplicationCard from './CompanyProjectApplicationCard';
 
 // component to show data about submitted projects
 const CompanyApplications = ({
+  // eslint-disable-next-line no-unused-vars
+  jobType,
+  payment,
   title,
   about,
   reqs,
@@ -25,13 +28,22 @@ const CompanyApplications = ({
 
   const [applications, loading, error] = useList(projectApplicationRef);
 
+  if (!payment) {
+    payment = 'unpaid';
+  }
+
   const projectInfo = (
     <>
       <Divider />
       <h1 className="text-xl">{title}</h1>
       <div className="pb-3">
-        <b className="text-base">About:</b>
-        <ShowMoreText lines={3} more="Show more" less="Show less">
+        <b>About: </b>
+        <ShowMoreText
+          className="inline"
+          lines={3}
+          more="Show more"
+          less="Show less"
+        >
           {about.split('\n').map(item => {
             return (
               <span>
@@ -43,8 +55,13 @@ const CompanyApplications = ({
         </ShowMoreText>
       </div>
       <div className="pb-5">
-        <b className="text-base">Requirements:</b>
-        <ShowMoreText lines={3} more="Show more" less="Show less">
+        <b>Requirements: </b>
+        <ShowMoreText
+          className="inline"
+          lines={3}
+          more="Show more"
+          less="Show less"
+        >
           {reqs.split('\n').map(item => {
             return (
               <span>
@@ -55,6 +72,12 @@ const CompanyApplications = ({
           })}{' '}
         </ShowMoreText>
       </div>
+      <p className="pb-3">
+        <b>Type: </b> {jobType}
+      </p>
+      <p className="pb-3">
+        <b>Payment: </b> {payment}
+      </p>
       {/* <Divider /> */}
       <p>
         <b>Project starts:</b>{' '}

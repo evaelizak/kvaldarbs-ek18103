@@ -47,7 +47,7 @@ const StudentProfile = () => {
           {profile.age ? profile.age : 'No age set'}
         </Descriptions.Item>
         <Descriptions.Item label="I am a">
-          {profile.studentType ? profile.studentType : 'No type set'}
+          {profile.profileType ? profile.profileType : 'No type set'}
         </Descriptions.Item>
       </Descriptions>
 

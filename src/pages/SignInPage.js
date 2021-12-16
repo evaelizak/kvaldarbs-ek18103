@@ -57,6 +57,7 @@ const SignInPage = () => {
           usertype: userType,
           phone: '',
           linkedin: '',
+          profileType: '',
           age: number,
         });
       } else if (userData.isNewUser) {

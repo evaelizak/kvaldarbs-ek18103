@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-vars */
-import { Button, Card, Divider, Drawer } from 'antd';
-import { off, onValue, ref } from 'firebase/database';
+import { Card, Divider } from 'antd';
+import { onValue, ref } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
 import ShowMoreText from 'react-show-more-text';
 import { db } from '../../../misc/firebase';
@@ -10,7 +10,6 @@ import CompanyApplicationAccept from './project-application-actions/CompanyAppli
 import CompanyApplicationReject from './project-application-actions/CompanyApplicationReject';
 
 const CompanyProjectApplicationCard = ({
-  type,
   about,
   experience,
   motivation,
@@ -80,18 +79,24 @@ const CompanyProjectApplicationCard = ({
               <br />
               <b>Linkedin: </b>
               {applicantData.linkedin ? applicantData.linkedin : 'Not added'}
-              <br />{' '}
+              <br /> <b>Person is a: </b>
+              {applicantData.profileType
+                ? applicantData.profileType
+                : 'Not set'}
             </div>
           ) : (
             'Loading...'
           )}
-          <b>Person is a: </b>
-          {type}
         </div>
         <Divider plain>Application</Divider>
         <div className="pb-3">
-          <b>About:</b>
-          <ShowMoreText lines={3} more="Show more" less="Show less">
+          <b>About: </b>
+          <ShowMoreText
+            className="inline"
+            lines={3}
+            more="Show more"
+            less="Show less"
+          >
             {about.split('\n').map(item => {
               return (
                 <span>
@@ -103,8 +108,13 @@ const CompanyProjectApplicationCard = ({
           </ShowMoreText>
         </div>
         <div className="pb-3">
-          <b>Experience:</b>
-          <ShowMoreText lines={3} more="Show more" less="Show less">
+          <b>Experience: </b>
+          <ShowMoreText
+            className="inline"
+            lines={3}
+            more="Show more"
+            less="Show less"
+          >
             {experience.split('\n').map(item => {
               return (
                 <span>
@@ -116,8 +126,13 @@ const CompanyProjectApplicationCard = ({
           </ShowMoreText>
         </div>
         <div className="pb-3">
-          <b>Motivation:</b>
-          <ShowMoreText lines={3} more="Show more" less="Show less">
+          <b>Motivation: </b>
+          <ShowMoreText
+            className="inline"
+            lines={3}
+            more="Show more"
+            less="Show less"
+          >
             {motivation.split('\n').map(item => {
               return (
                 <span>

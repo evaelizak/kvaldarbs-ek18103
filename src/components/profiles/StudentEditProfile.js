@@ -41,6 +41,9 @@ const StudentEditProfile = () => {
     if (!cleanedData.linkedin) {
       cleanedData.linkedin = '';
     }
+    if (!cleanedData.profileType) {
+      cleanedData.profileType = '';
+    }
     try {
       // reference to the database
       const dbref = ref(db, `profiles/${profile.uid}`);
@@ -51,6 +54,7 @@ const StudentEditProfile = () => {
         phone: cleanedData.phone,
         age: cleanedData.age,
         linkedin: cleanedData.linkedin,
+        profileType: cleanedData.profileType,
       });
       notification.open({
         message: 'Profile edited successfully!',
@@ -104,7 +108,7 @@ const StudentEditProfile = () => {
             phone: !profile.phone ? '' : profile.phone,
             age: !profile.age ? '' : profile.age,
             linkedin: !profile.linkedin ? '' : profile.linkedin,
-            studentType: !profile.studentType ? '' : profile.studentType,
+            profileType: !profile.profileType ? '' : profile.profileType,
           }}
         >
           <Form.Item />

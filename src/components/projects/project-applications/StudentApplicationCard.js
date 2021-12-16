@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import { Card, Divider } from 'antd';
 import React, { useState } from 'react';
@@ -68,9 +69,8 @@ const StudentApplicationCard = ({
       </>
     );
   }
-  // TODO: Add logic to disable editing after project deadline and after it has been accepted
 
-  // variable for storing company tab data, i had problems with the data not fetching on page load and this was the only way to get around this issue, its dumb
+  // variable for storing company tab data, i had problems with the data not fetching on page load and this was the only way to get around this issue
   let projectInfo;
   if (projectData) {
     projectInfo = (
@@ -82,8 +82,50 @@ const StudentApplicationCard = ({
         </div>
 
         <Divider />
-        <h1 className="text-xl">{projectData.title}</h1>
-        <h1>{projectData.about}</h1>
+        <div className="pb-3">
+          <b>About: </b>
+          <ShowMoreText
+            className="inline"
+            lines={3}
+            more="Show more"
+            less="Show less"
+          >
+            {projectData.about.split('\n').map(item => {
+              return (
+                <span>
+                  {item}
+                  <br />
+                </span>
+              );
+            })}
+          </ShowMoreText>
+        </div>
+        <div className="pb-3">
+          <b>Requirements: </b>
+          <ShowMoreText
+            className="inline"
+            lines={3}
+            more="Show more"
+            less="Show less"
+          >
+            {projectData.reqs.split('\n').map(item => {
+              return (
+                <span>
+                  {item}
+                  <br />
+                </span>
+              );
+            })}{' '}
+          </ShowMoreText>
+        </div>
+        <p className="pb-3">
+          <b>Type: </b> {projectData.jobType}
+        </p>
+        <p>
+          <b>Payment: </b>
+          {projectData.payment ? projectData.payment : 'unpaid'}
+        </p>
+
         <Divider />
         <p>
           <b>Project starts:</b>{' '}
@@ -106,7 +148,9 @@ const StudentApplicationCard = ({
       </>
     );
   } else {
-    projectInfo = 'Project has been deleted or data is still loading...';
+    projectInfo = (
+      <div>Project has been deleted or data is still loading...</div>
+    );
   }
 
   // tabs in the card
