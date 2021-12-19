@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import countryList from 'react-select-country-list';
 import { onValue, ref } from 'firebase/database';
 import { auth, db } from '../../misc/firebase';
-import CompanyEditProfile from './CompanyEditProfile';
-import CompanyDeleteProfile from './CompanyDeleteProfile';
+import CompanyEditProfile from './CompanyEditCompany';
+import CompanyDeleteCompany from './CompanyDeleteCompany';
 
 const CompanyInfo = () => {
   const [hasCompany, setHasCompany] = useState(null);
@@ -71,7 +71,7 @@ const CompanyInfo = () => {
   return (
     <>
       <Card>{shown}</Card>
-      <CompanyDeleteProfile />
+      <CompanyDeleteCompany />
     </>
   );
 };

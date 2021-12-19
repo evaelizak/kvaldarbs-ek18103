@@ -1,10 +1,8 @@
-/* eslint-disable no-unused-vars */
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Button, Descriptions, Divider, Tooltip } from 'antd';
 import React from 'react';
 import { useProfile } from '../../context/profile.context';
 import { onSignOut } from '../../misc/auth-functions';
-import CompanyEditProfile from './CompanyEditProfile';
 import CompanyEditUserProfile from './CompanyEditUserProfile';
 import CompanyInfo from './CompanyInfo';
 import NewCompanyForm from './NewCompanyForm';
