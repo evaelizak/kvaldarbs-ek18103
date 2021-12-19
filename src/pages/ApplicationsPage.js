@@ -1,4 +1,5 @@
 import React from 'react';
+import AdminCompanyJudging from '../components/admin-components/AdminCompanyJudging';
 import Applications from '../components/projects/project-applications/Applications';
 import { useProfile } from '../context/profile.context';
 
@@ -10,14 +11,11 @@ const ApplicationsPage = () => {
     shownPage = <Applications type="student" />;
   } else if (profile.usertype === 'company') {
     shownPage = <Applications type="company" />;
+  } else if (profile.usertype === 'admin') {
+    shownPage = <AdminCompanyJudging />;
   }
 
-  return (
-    <>
-      <h1 className="text-2xl">Here you can see all applications</h1>
-      {shownPage}
-    </>
-  );
+  return <>{shownPage}</>;
 };
 
 export default ApplicationsPage;

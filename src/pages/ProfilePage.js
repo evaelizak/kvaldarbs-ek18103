@@ -10,8 +10,10 @@ const ProfilePage = () => {
   let shownComponent;
   if (profile.usertype === 'student') {
     shownComponent = <StudentProfile />;
-  } else {
+  } else if (profile.usertype === 'company') {
     shownComponent = <CompanyProfile />;
+  } else if (profile.usertype === 'admin') {
+    shownComponent = 'Hey, admin!';
   }
 
   return <>{shownComponent}</>;

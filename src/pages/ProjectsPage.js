@@ -12,8 +12,10 @@ const ProjectsPage = () => {
   let shownComponent;
   if (profile.usertype === 'student') {
     shownComponent = <Projects />;
-  } else {
+  } else if (profile.usertype === 'company') {
     shownComponent = <CompanyProjects />;
+  } else if (profile.usertype === 'admin') {
+    shownComponent = <Projects type="admin" />;
   }
 
   return <>{shownComponent}</>;

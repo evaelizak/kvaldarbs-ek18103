@@ -6,8 +6,6 @@ import React, { useState } from 'react';
 import { auth, db } from '../../../misc/firebase';
 
 const StudentProjectApply = ({ id, title, companyID }) => {
-  // TODO: Add logic to disable this button if the current date is later than project app deadline
-
   // state for showing the modal for projects
   const [isModalVisible, setIsModalVisible] = useState(false);
 

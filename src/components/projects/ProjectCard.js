@@ -105,7 +105,7 @@ const ProjectCard = ({
         <CompanyDeleteProject id={id} companyUser={byUser} />
       </>
     );
-  } else {
+  } else if (type === 'company' && pastDeadline) {
     shownButtonFooter = (
       <>
         <p>
@@ -128,9 +128,12 @@ const ProjectCard = ({
         <CompanyDeleteProject id={id} companyUser={byUser} />
       </>
     );
+  } else if (type === 'admin') {
+    shownButtonFooter =
+      'hello, testing - id like to add some way to disable this and add a note';
   }
 
-  // variable for storing company tab data, i had problems with the data not fetching on page load and this was the only way to get around this issue, its dumb
+  // variable for storing company tab data, i had problems with the data not fetching on page load and this was the only way to get around this issue
   let companyInfo;
   if (companyData) {
     companyInfo = (
@@ -155,10 +158,6 @@ const ProjectCard = ({
             {companyData.website}
           </a>
         </p>
-        {/* <p>
-          
-          <b>Website:</b> {companyData.website}
-        </p> */}
       </>
     );
   } else {
@@ -211,16 +210,14 @@ const ProjectCard = ({
             more="Show more"
             less="Show less"
           >
-            {reqs
-              ? reqs.split('\n').map(item => {
-                  return (
-                    <span>
-                      {item}
-                      <br />
-                    </span>
-                  );
-                })
-              : 'Loading...'}{' '}
+            {reqs.split('\n').map(item => {
+              return (
+                <span>
+                  {item}
+                  <br />
+                </span>
+              );
+            })}
           </ShowMoreText>
         </div>
 

@@ -20,7 +20,7 @@ const Projects = ({ type = 'student' }) => {
   const companyRef = ref(db, `/companies/${key}/projects`);
   // database reference to take either specific company projects or show all for students
   let projectsRef;
-  if (type === 'student') {
+  if (type === 'student' || type === 'admin') {
     if (sortChild === 'isPaid') {
       projectsRef = query(studentRef, orderByChild('isPaid'), equalTo(true));
     } else if (sortChild !== 'appDeadline' && sortChild !== 'startDate') {

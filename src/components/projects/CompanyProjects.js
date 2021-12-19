@@ -1,17 +1,11 @@
-// import { onValue, ref } from 'firebase/database';
 import { Modal, Button } from 'antd';
 import React, { useEffect, useState } from 'react';
-
-// import firebase from 'firebase/compat/app';
 import { onValue, ref } from 'firebase/database';
 import { auth, db } from '../../misc/firebase';
-
-// import CompanyProjectCard from './CompanyProjectCard';
 import CompanyCreateProjectForm from './project-actions/CompanyCreateProjectForm';
-// import ProjectCard from './ProjectCard';
 import Projects from './Projects';
-// component for showing project page for companies
 
+// component for showing project page for companies
 const CompanyProjects = () => {
   const key = auth.currentUser.uid;
 
@@ -20,6 +14,7 @@ const CompanyProjects = () => {
   // state for showing the modal
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  // getting the project data
   const getProjectData = () => {
     onValue(ref(db, `/companies/${key}/projects`), snapshot => {
       if (snapshot.val()) {

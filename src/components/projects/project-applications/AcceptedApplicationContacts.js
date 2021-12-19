@@ -26,18 +26,10 @@ const AcceptedApplicationContacts = ({ applicantID }) => {
     <>
       <Button type="primary" onClick={setIsModalVisible}>
         {' '}
-        Show applicant contact information
+        Show contact info
       </Button>
 
       <Modal
-        // title="Basic Drawer"
-        //         placement="right"
-        //         // closable={true}
-        //         onClose={onDrawerClose()}
-        //         visible={false}
-        //         getContainer={false}
-        //         style={{ position: 'absolute' }}
-
         visible={isModalVisible}
         title="Applicant's contact info"
         onClose={handleCancel}
@@ -61,6 +53,12 @@ const AcceptedApplicationContacts = ({ applicantID }) => {
               {applicantData.phone
                 ? applicantData.phone
                 : 'No phone number added'}
+            </p>
+            <p>
+              <b>Linkedin</b>{' '}
+              {applicantData.linkedin
+                ? applicantData.linkedin
+                : 'No linkedin added'}
             </p>
           </>
         ) : (

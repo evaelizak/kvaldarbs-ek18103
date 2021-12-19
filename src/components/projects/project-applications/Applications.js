@@ -83,6 +83,7 @@ const Applications = ({ type = 'student' }) => {
           ))}
         {!loading && applications && isStudent && (
           <>
+            <h1 className="text-2xl">Here you can see all your applications</h1>
             <div>
               Filter by:
               <Select
@@ -128,6 +129,9 @@ const Applications = ({ type = 'student' }) => {
         )}
         {!loading && applications && !isStudent && (
           <>
+            <h1 className="text-2xl">
+              Here you can see all applications to your projects
+            </h1>
             <div>
               Filter by:
               <Select

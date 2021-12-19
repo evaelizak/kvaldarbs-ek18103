@@ -59,7 +59,6 @@ const CompanyDeleteCompany = () => {
         duration: 4,
       });
     } catch (err) {
-      console.log(err.message);
       notification.open({
         message: 'An error has occured, try again later',
         duration: 4,
@@ -70,7 +69,7 @@ const CompanyDeleteCompany = () => {
   // function for showing the delete confirmation modal
   const showDeleteConfirm = () => {
     confirm({
-      title: 'Are you sure you want to delete this application?',
+      title: 'Are you sure you want to delete your COMPANY?',
       icon: <ExclamationCircleTwoTone twoToneColor="#ff3030" />,
       content: 'You will not be able to revert this action',
       okText: 'Yes',
@@ -85,9 +84,8 @@ const CompanyDeleteCompany = () => {
 
   return (
     <>
-      {console.log('hello')}
-      <Button onClick={showDeleteConfirm} danger className="float-right">
-        Delete
+      <Button onClick={showDeleteConfirm} danger className="mt-2">
+        Delete company
       </Button>
     </>
   );
