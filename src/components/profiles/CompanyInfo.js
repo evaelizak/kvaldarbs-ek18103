@@ -17,6 +17,7 @@ const CompanyInfo = () => {
     });
   };
 
+  // console.log(hasCompany.isApproved);
   // function for showing the full country name, because the database contains only short 2 letter name, f.e. LV -> Latvia
   const GetFullCountry = countryLabel => {
     const countries = countryList().getData();
@@ -34,34 +35,41 @@ const CompanyInfo = () => {
     const countryLabel = GetFullCountry(hasCompany.country);
     shown = (
       <>
-        {' '}
-        <p className="pb-3">
-          <b>Name: </b>
-          {hasCompany.name}
-        </p>
-        <p className="pb-3">
-          <b>About: </b>
-          {hasCompany.about}
-        </p>
-        <p className="pb-3">
-          <b>Location: </b>
-          {countryLabel}
-        </p>
-        <p className="pb-3">
-          <b>Website: </b>
-          <a
-            href={hasCompany.website}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            {hasCompany.website}
-          </a>
-        </p>
-        <CompanyEditProfile
-          companyName={hasCompany.name}
-          companyAbout={hasCompany.about}
-          companyLocation={countryLabel}
-        />
+        <h1>
+          <b>Status: </b>
+          {hasCompany.isApproved ? 'Approved' : 'Not approved'}{' '}
+        </h1>
+        <Card>
+          <p className="pb-3">
+            <b>Name: </b>
+            {hasCompany.name}
+          </p>
+          <p className="pb-3">
+            <b>About: </b>
+            {hasCompany.about}
+          </p>
+          <p className="pb-3">
+            <b>Location: </b>
+            {countryLabel}
+          </p>
+          <p className="pb-3">
+            <b>Website: </b>
+            <a
+              href={hasCompany.website}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {hasCompany.website}
+            </a>
+          </p>
+
+          <CompanyEditProfile
+            companyName={hasCompany.name}
+            companyAbout={hasCompany.about}
+            companyLocation={countryLabel}
+            companyWebsite={hasCompany.website}
+          />
+        </Card>
       </>
     );
   } else {
@@ -70,11 +78,7 @@ const CompanyInfo = () => {
 
   return (
     <>
-      <h1>
-        <b>Status: </b>
-        {hasCompany.isApproved ? 'Approved' : 'Not approved'}{' '}
-      </h1>
-      <Card>{shown}</Card>
+      {shown}
       <CompanyDeleteCompany />
     </>
   );
