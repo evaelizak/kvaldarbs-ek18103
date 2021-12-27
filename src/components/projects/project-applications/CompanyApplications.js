@@ -28,10 +28,6 @@ const CompanyApplications = ({
 
   const [applications, loading, error] = useList(projectApplicationRef);
 
-  if (!payment) {
-    payment = 'unpaid';
-  }
-
   const projectInfo = (
     <>
       <Divider />
@@ -76,9 +72,8 @@ const CompanyApplications = ({
         <b>Type: </b> {jobType}
       </p>
       <p className="pb-3">
-        <b>Payment: </b> {payment}
+        <b>Payment: </b> {!payment ? 'unpaid' : payment}
       </p>
-      {/* <Divider /> */}
       <p>
         <b>Project starts:</b>{' '}
         {!startDate

@@ -66,7 +66,7 @@ const Projects = ({ type = 'student' }) => {
         {!loading && projects && (
           <>
             <div>
-              Filter by:
+              <span className="mr-1">Filter by: </span>
               <Select
                 defaultValue={sortChild}
                 style={{ width: 200 }}

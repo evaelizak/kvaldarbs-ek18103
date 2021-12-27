@@ -32,7 +32,7 @@ const CompanyDeleteCompany = () => {
               update(
                 ref(db, `profiles/${childKey}/projectApps/${companyProjects}`),
                 {
-                  status: 'check2',
+                  status: 'deleted',
                 }
               );
             });

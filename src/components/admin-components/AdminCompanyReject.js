@@ -53,7 +53,6 @@ const AdminCompanyReject = ({ companyKey }) => {
       onCancel() {},
     });
   };
-  console.log(formValues, formValues.adminMessage);
 
   const handleOk = () => {
     setIsModalVisible(false);

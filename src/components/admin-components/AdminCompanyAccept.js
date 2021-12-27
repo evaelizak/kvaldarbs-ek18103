@@ -1,7 +1,7 @@
 import { ExclamationCircleTwoTone } from '@ant-design/icons';
 import { Button, notification } from 'antd';
 import confirm from 'antd/lib/modal/confirm';
-import { ref, update } from 'firebase/database';
+import { ref, remove, update } from 'firebase/database';
 import React from 'react';
 import { db } from '../../misc/firebase';
 
@@ -15,6 +15,7 @@ const AdminCompanyAccept = ({ companyKey }) => {
       update(companyRef, {
         isApproved: 'true',
       });
+      remove(ref(db, `companies/${companyKey}/adminMessage`));
 
       notification.open({
         message: 'Company accepted successfully!',

@@ -9,6 +9,11 @@ import Projects from './Projects';
 const CompanyProjects = () => {
   const key = auth.currentUser.uid;
 
+  let isApproved;
+  onValue(ref(db, `companies/${key}`), snapshot => {
+    isApproved = snapshot.val().isApproved;
+  });
+
   const [hasProjects, setHasProjects] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   // state for showing the modal
@@ -38,6 +43,14 @@ const CompanyProjects = () => {
     setIsModalVisible(false);
   };
 
+  let adminMsg;
+  if (isApproved === false) {
+    onValue(ref(db, `companies/${key}`), snapshot => {
+      adminMsg = snapshot.val().adminMessage;
+    });
+  }
+  console.log(isApproved);
+
   // button for adding new project, which opens a modal with the new project form inside
   const newProjectBtn = (
     <>
@@ -59,23 +72,47 @@ const CompanyProjects = () => {
     </>
   );
 
+  // console.log(isApproved, '2');
   return (
     <>
-      {hasProjects ? newProjectBtn : <CompanyCreateProjectForm />}
-      {/* showing project cards if any are added */}
-      {isLoading && (
+      {isApproved === false ? (
         <>
-          <p>Data is loading...</p>
+          {console.log(isApproved, '3')}
+          <div>Your company is not approved yet</div>
+          <div>
+            {adminMsg ? (
+              <>
+                <h1 className="text-xl pt-5">
+                  {' '}
+                  <b>Admin message for rejection: </b>
+                  {adminMsg}
+                </h1>
+              </>
+            ) : (
+              'An admin will approve or reject your application in the nearest time'
+            )}
+            {/* <b>Admin message: </b> {!adminMsg : ""} */}
+          </div>
+        </>
+      ) : (
+        <>
+          {/* showing project cards if any are added */}
+          {isLoading && (
+            <>
+              <p>Data is loading...</p>
+            </>
+          )}
+          {hasProjects ? newProjectBtn : <CompanyCreateProjectForm />}
+          {hasProjects ? (
+            <Projects type="company" />
+          ) : (
+            <p className="pb-2">
+              No projects added... yet! Feel free to add one below.
+            </p>
+          )}
+          {/* TODO: + add update logic for projects */}
         </>
       )}
-      {hasProjects ? (
-        <Projects type="company" />
-      ) : (
-        <p className="pb-2">
-          No projects added... yet! Feel free to add one below.
-        </p>
-      )}
-      {/* TODO: + add update logic for projects */}
     </>
   );
 };

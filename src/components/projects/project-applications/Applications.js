@@ -3,13 +3,21 @@ import { Col, Row, notification, Select, Checkbox } from 'antd';
 import React, { useState } from 'react';
 import { useList } from 'react-firebase-hooks/database';
 import { DateTime } from 'luxon';
-import { equalTo, orderByChild, query, ref } from 'firebase/database';
+import { equalTo, onValue, orderByChild, query, ref } from 'firebase/database';
 import { auth, db } from '../../../misc/firebase';
 import StudentApplicationCard from './StudentApplicationCard';
 import CompanyApplications from './CompanyApplications';
 
 const Applications = ({ type = 'student' }) => {
   const key = auth.currentUser.uid;
+
+  // for showing the component if the company is approved
+  let isApproved;
+  if (type === 'company') {
+    onValue(ref(db, `companies/${key}`), snapshot => {
+      isApproved = snapshot.val().isApproved;
+    });
+  }
 
   // sorting state
   const [sortChild, setSortChild] = useState('appDeadline');
@@ -81,7 +89,7 @@ const Applications = ({ type = 'student' }) => {
               <div>No applications here... </div>
             </>
           ))}
-        {!loading && applications && isStudent && (
+        {!loading && applications && isStudent && applications.length > 0 && (
           <>
             <h1 className="text-2xl">Here you can see all your applications</h1>
             <div>
@@ -127,87 +135,102 @@ const Applications = ({ type = 'student' }) => {
             </Row>
           </>
         )}
-        {!loading && applications && !isStudent && (
-          <>
-            <h1 className="text-2xl">
-              Here you can see all applications to your projects
-            </h1>
-            <div>
-              Filter by:
-              <Select
-                defaultValue={sortChild}
-                style={{ width: 200 }}
-                onChange={changeSort}
-              >
-                <Select.Option value="appDeadline">
-                  Application Deadline
-                </Select.Option>
-                <Select.Option value="startDate">
-                  Project Start Deadline
-                </Select.Option>
-                <Select.Option value="endDate">Project End Date</Select.Option>
-                <Select.Option value="part-time">Type: Part time</Select.Option>
-                <Select.Option value="full-time">Type: Full time</Select.Option>
-                <Select.Option value="contract">Type: Contract</Select.Option>
-                <Select.Option value="temporary">Type: Temporary</Select.Option>
-                <Select.Option value="internship">
-                  Type: Internship
-                </Select.Option>
-                <Select.Option value="isPaid">Is Paid</Select.Option>
-              </Select>
-              <span className="ml-5">Show already started projects</span>{' '}
-              <Checkbox checked={showExpired} onChange={onCheckboxChange} />
-            </div>
-            {/* Mapping the application keys from the database list */}
-            <Row gutter={{ xs: 4, sm: 8 }} type="flex">
-              {applications.map((application, index) =>
-                showExpired ? (
-                  <Col
-                    key={index}
-                    className="xl:w-full md:w-full sm:w-full  pt-2"
-                    // span={{ xs: 24, m: 24 }}
-                  >
-                    <CompanyApplications
-                      projectID={application.key}
-                      title={application.val().title}
-                      about={application.val().about}
-                      reqs={application.val().reqs}
-                      jobType={application.val().jobType}
-                      startDate={application.val().startDate}
-                      endDate={application.val().endDate}
-                      deadline={application.val().appDeadline}
-                      type={type}
-                      payment={application.val().payment}
-                      byUser={application.val().byUser}
-                    />
-                  </Col>
-                ) : DateTime.fromISO(application.val().startDate) >
-                  DateTime.local() ? (
-                  <Col
-                    key={index}
-                    className="xl:w-full md:w-full sm:w-full  pt-2"
-                    // span={{ xs: 24, m: 24 }}
-                  >
-                    <CompanyApplications
-                      projectID={application.key}
-                      title={application.val().title}
-                      about={application.val().about}
-                      reqs={application.val().reqs}
-                      jobType={application.val().jobType}
-                      payment={application.val().payment}
-                      startDate={application.val().startDate}
-                      endDate={application.val().endDate}
-                      deadline={application.val().appDeadline}
-                      type={type}
-                      byUser={application.val().byUser}
-                    />
-                  </Col>
-                ) : (
-                  ' '
-                )
-              )}
-            </Row>
-          </>
+        {!loading &&
+          applications &&
+          !isStudent &&
+          isApproved &&
+          applications.length > 0 && (
+            <>
+              <h1 className="text-2xl">
+                Here you can see all applications to your projects
+              </h1>
+              <div>
+                Filter by:
+                <Select
+                  defaultValue={sortChild}
+                  style={{ width: 200 }}
+                  onChange={changeSort}
+                >
+                  <Select.Option value="appDeadline">
+                    Application Deadline
+                  </Select.Option>
+                  <Select.Option value="startDate">
+                    Project Start Deadline
+                  </Select.Option>
+                  <Select.Option value="endDate">
+                    Project End Date
+                  </Select.Option>
+                  <Select.Option value="part-time">
+                    Type: Part time
+                  </Select.Option>
+                  <Select.Option value="full-time">
+                    Type: Full time
+                  </Select.Option>
+                  <Select.Option value="contract">Type: Contract</Select.Option>
+                  <Select.Option value="temporary">
+                    Type: Temporary
+                  </Select.Option>
+                  <Select.Option value="internship">
+                    Type: Internship
+                  </Select.Option>
+                  <Select.Option value="isPaid">Is Paid</Select.Option>
+                </Select>
+                <span className="ml-5">Show already started projects</span>{' '}
+                <Checkbox checked={showExpired} onChange={onCheckboxChange} />
+              </div>
+              {/* Mapping the application keys from the database list */}
+              <Row gutter={{ xs: 4, sm: 8 }} type="flex">
+                {applications.map((application, index) =>
+                  showExpired ? (
+                    <Col
+                      key={index}
+                      className="xl:w-full md:w-full sm:w-full  pt-2"
+                      // span={{ xs: 24, m: 24 }}
+                    >
+                      <CompanyApplications
+                        projectID={application.key}
+                        title={application.val().title}
+                        about={application.val().about}
+                        reqs={application.val().reqs}
+                        jobType={application.val().jobType}
+                        startDate={application.val().startDate}
+                        endDate={application.val().endDate}
+                        deadline={application.val().appDeadline}
+                        type={type}
+                        payment={application.val().payment}
+                        byUser={application.val().byUser}
+                      />
+                    </Col>
+                  ) : DateTime.fromISO(application.val().startDate) >
+                    DateTime.local() ? (
+                    <Col
+                      key={index}
+                      className="xl:w-full md:w-full sm:w-full  pt-2"
+                      // span={{ xs: 24, m: 24 }}
+                    >
+                      <CompanyApplications
+                        projectID={application.key}
+                        title={application.val().title}
+                        about={application.val().about}
+                        reqs={application.val().reqs}
+                        jobType={application.val().jobType}
+                        payment={application.val().payment}
+                        startDate={application.val().startDate}
+                        endDate={application.val().endDate}
+                        deadline={application.val().appDeadline}
+                        type={type}
+                        byUser={application.val().byUser}
+                      />
+                    </Col>
+                  ) : (
+                    ' '
+                  )
+                )}
+              </Row>
+            </>
+          )}
+        {!loading && applications && !isStudent && isApproved === false && (
+          <> Your company is not approved yet</>
         )}
       </div>
     </div>

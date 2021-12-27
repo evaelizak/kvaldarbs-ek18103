@@ -33,6 +33,7 @@ const AcceptedApplicationContacts = ({ applicantID }) => {
         visible={isModalVisible}
         title="Applicant's contact info"
         onClose={handleCancel}
+        onCancel={handleCancel}
         footer={[
           <Button key="back" type="ghost" onClick={handleCancel}>
             Close

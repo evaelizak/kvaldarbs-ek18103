@@ -29,6 +29,9 @@ const AdminCompanyJudging = () => {
         ))}
       {!loading && companies && (
         <>
+          <h1 className="text-2xl">
+            This is a page for seeing all new company applications
+          </h1>
           <Row gutter={{ xs: 4, sm: 8 }} type="flex">
             {companies.map((company, index) =>
               company.val().isApproved ? (
@@ -53,6 +56,11 @@ const AdminCompanyJudging = () => {
                         {company.val().website}
                       </a>
                     </p>
+                    <div>
+                      <AcceptedApplicationContacts
+                        applicantID={company.val().byUser}
+                      />
+                    </div>
                   </Card>{' '}
                 </Col>
               ) : (

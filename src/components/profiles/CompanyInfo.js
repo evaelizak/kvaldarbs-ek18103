@@ -70,6 +70,10 @@ const CompanyInfo = () => {
 
   return (
     <>
+      <h1>
+        <b>Status: </b>
+        {hasCompany.isApproved ? 'Approved' : 'Not approved'}{' '}
+      </h1>
       <Card>{shown}</Card>
       <CompanyDeleteCompany />
     </>
