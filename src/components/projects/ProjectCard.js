@@ -248,7 +248,6 @@ const ProjectCard = ({
     <Card
       headStyle={{ fontSize: '20px' }}
       title={title}
-      // loading={loading}
       tabList={tabList}
       activeTabKey={activeTab}
       onTabChange={key => {

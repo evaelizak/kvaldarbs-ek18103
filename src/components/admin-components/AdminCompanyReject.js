@@ -41,7 +41,7 @@ const AdminCompanyReject = ({ companyKey }) => {
   // function for showing the delete confirmation modal
   const showRejectConfirm = () => {
     confirm({
-      title: 'Are you sure you want to reject this application?',
+      title: 'Are you sure you want to reject this company?',
       icon: <ExclamationCircleTwoTone twoToneColor="#ff3030" />,
       content: 'You will not be able to revert this action',
       okText: 'Yes',

@@ -56,7 +56,7 @@ const AcceptedApplicationContacts = ({ applicantID }) => {
                 : 'No phone number added'}
             </p>
             <p>
-              <b>Linkedin</b>{' '}
+              <b>Linkedin: </b>{' '}
               {applicantData.linkedin
                 ? applicantData.linkedin
                 : 'No linkedin added'}

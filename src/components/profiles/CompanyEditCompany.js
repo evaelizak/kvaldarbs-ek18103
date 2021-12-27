@@ -14,7 +14,12 @@ import countryList from 'react-select-country-list';
 import { useProfile } from '../../context/profile.context';
 import { db } from '../../misc/firebase';
 
-const CompanyEditProfile = ({ companyName, companyAbout, companyLocation }) => {
+const CompanyEditProfile = ({
+  companyName,
+  companyAbout,
+  companyLocation,
+  companyWebsite,
+}) => {
   // profile for getting the uid
   const { profile } = useProfile();
 
@@ -103,6 +108,7 @@ const CompanyEditProfile = ({ companyName, companyAbout, companyLocation }) => {
             name: companyName,
             about: companyAbout,
             country: companyLocation,
+            website: companyWebsite,
           }}
         >
           <Form.Item />

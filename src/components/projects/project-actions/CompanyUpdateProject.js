@@ -127,7 +127,7 @@ const CompanyUpdateProject = ({
     <>
       <Button type="primary" onClick={setIsModalVisible}>
         <EditOutlined />
-        Edit TBA
+        Edit Project
       </Button>
       <Modal
         visible={isModalVisible}

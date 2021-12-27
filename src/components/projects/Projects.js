@@ -97,7 +97,7 @@ const Projects = ({ type = 'student' }) => {
                 // eslint-disable-next-line no-nested-ternary
                 showExpired ? (
                   <Col
-                    key={index}
+                    key={project.key}
                     className="xl:w-1/3 md:w-1/2 sm:w-full  pt-2"
                     span={{ xs: 16, m: 8 }}
                   >
@@ -118,7 +118,7 @@ const Projects = ({ type = 'student' }) => {
                 ) : DateTime.fromISO(project.val().appDeadline) >
                   DateTime.local() ? (
                   <Col
-                    key={index}
+                    key={project.key}
                     className="xl:w-1/3 md:w-1/2 sm:w-full  pt-2"
                     span={{ xs: 16, m: 8 }}
                   >
