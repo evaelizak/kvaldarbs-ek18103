@@ -2,39 +2,17 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Descriptions, Divider, Tooltip } from 'antd';
 import React from 'react';
 import { useProfile } from '../../context/profile.context';
-import CompanyEditUserProfile from './CompanyEditUserProfile';
-import CompanyInfo from './CompanyInfo';
-import NewCompanyForm from './NewCompanyForm';
+import AdminEditProfile from './AdminEditProfile';
 
-const CompanyProfile = () => {
-  // for getting profile data
+const AdminProfile = () => {
   const { profile } = useProfile();
-  let shownComponent;
-  if (profile.hasCompany === true) {
-    shownComponent = <CompanyInfo />;
-  } else {
-    shownComponent = <NewCompanyForm />;
-  }
 
-  // for saving form values
   return (
     <>
       <div className="mb-5">
-        <h1 className="text-3xl">
-          Hey, {profile.username}!
-          {/* <Button
-            className="float-right inline"
-            color="red-500"
-            danger
-            type="primary"
-            onClick={onSignOut}
-          >
-            Sign out
-          </Button> */}
-        </h1>
+        <h1 className="text-3xl">Hey, {profile.username}!</h1>
       </div>
-      <Divider>Your profile info</Divider>
-      <Divider plain>Contact info</Divider>
+      <Divider>Your profile information</Divider>
       <Descriptions
         bordered
         size="small"
@@ -54,13 +32,9 @@ const CompanyProfile = () => {
           </Tooltip>
         </Descriptions.Item>
       </Descriptions>
-      <CompanyEditUserProfile />
-
-      <Divider>Company info</Divider>
-      {/* If the user has a company, then only info will show, if not - the new company form will show */}
-      {shownComponent}
+      <AdminEditProfile />
     </>
   );
 };
 
-export default CompanyProfile;
+export default AdminProfile;

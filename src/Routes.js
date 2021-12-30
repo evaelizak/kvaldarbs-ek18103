@@ -7,6 +7,7 @@ import { useProfile } from './context/profile.context';
 import AboutPage from './pages/AboutPage';
 import ApplicationsPage from './pages/ApplicationsPage';
 import HomePage from './pages/HomePage';
+import NotFound from './pages/NotFound';
 import ProfilePage from './pages/ProfilePage';
 import ProjectsPage from './pages/ProjectsPage';
 import SignInPage from './pages/SignInPage';
@@ -48,6 +49,7 @@ export const Routes = () => {
   const projectsPage = <ProjectsPage />;
   const signinPage = <SignInPage />;
   const appsPage = <ApplicationsPage />;
+  const notFoundPage = <NotFound />;
 
   return (
     <BrowserRouter>
@@ -73,7 +75,7 @@ export const Routes = () => {
         </PrivateRoute>
         {/* When the route is not set to any of the above */}
         <Route path="*">
-          <HomePage props={<div>404 page :( </div>} />
+          <HomePage props={notFoundPage} />
         </Route>
       </Switch>
     </BrowserRouter>

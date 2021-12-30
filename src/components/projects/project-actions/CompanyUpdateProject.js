@@ -95,7 +95,7 @@ const CompanyUpdateProject = ({
       });
 
       notification.open({
-        message: 'Company information edited successfully!',
+        message: 'Project edited successfully!',
         duration: 4,
       });
     } catch (err) {

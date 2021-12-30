@@ -5,28 +5,36 @@ import React, { useState } from 'react';
 import { useProfile } from '../../context/profile.context';
 import { db } from '../../misc/firebase';
 
-const CompanyEditUserProfile = () => {
-  // profile for getting the uid
+const AdminEditProfile = () => {
   const { profile } = useProfile();
 
-  // state for showing the modal
+  // state for showing the modal for projects
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   // state for saving the form values from the project form application
   const [formValues, setFormValues] = useState({});
   const [form] = Form.useForm();
-
   // submit user form to the database
   const submitUserForm = () => {
     // transforming the form data into json
     const newUserData = {
       ...formValues,
     };
-    console.log(newUserData);
-
     // removes all the undefined values in case there are some
     const cleanedData = JSON.parse(JSON.stringify(newUserData));
 
+    if (!cleanedData.phone) {
+      cleanedData.phone = '';
+    }
+    if (!cleanedData.age) {
+      cleanedData.age = '';
+    }
+    if (!cleanedData.linkedin) {
+      cleanedData.linkedin = '';
+    }
+    if (!cleanedData.profileType) {
+      cleanedData.profileType = '';
+    }
     try {
       // reference to the database
       const dbref = ref(db, `profiles/${profile.uid}`);
@@ -37,7 +45,6 @@ const CompanyEditUserProfile = () => {
         phone: cleanedData.phone,
         linkedin: cleanedData.linkedin,
       });
-
       notification.open({
         message: 'Profile edited successfully!',
         duration: 4,
@@ -49,7 +56,6 @@ const CompanyEditUserProfile = () => {
       });
     }
   };
-
   const handleCancel = () => {
     setIsModalVisible(false);
   };
@@ -110,7 +116,6 @@ const CompanyEditUserProfile = () => {
           >
             <Input />
           </Form.Item>
-
           <Form.Item>
             <Button type="primary" htmlType="submit">
               Submit
@@ -122,4 +127,4 @@ const CompanyEditUserProfile = () => {
   );
 };
 
-export default CompanyEditUserProfile;
+export default AdminEditProfile;

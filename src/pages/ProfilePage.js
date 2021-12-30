@@ -3,6 +3,7 @@ import StudentProfile from '../components/profiles/StudentProfile';
 import CompanyProfile from '../components/profiles/CompanyProfile';
 
 import { useProfile } from '../context/profile.context';
+import AdminProfile from '../components/profiles/AdminProfile';
 
 const ProfilePage = () => {
   const { profile } = useProfile();
@@ -13,7 +14,7 @@ const ProfilePage = () => {
   } else if (profile.usertype === 'company') {
     shownComponent = <CompanyProfile />;
   } else if (profile.usertype === 'admin') {
-    shownComponent = 'Hey, admin!';
+    shownComponent = <AdminProfile />;
   }
 
   return <>{shownComponent}</>;

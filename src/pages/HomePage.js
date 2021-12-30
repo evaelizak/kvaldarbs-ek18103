@@ -8,12 +8,69 @@ import SideNav from '../components/SideNav';
 
 // import { useProfile } from '../context/profile.context';
 import logo from '../img/logo.png';
+import { useProfile } from '../context/profile.context';
 
 const HomePage = ({ props }) => {
+  const { profile } = useProfile();
   // for when there is no other content in the home page
   // TODO: add some more buttons for page links etc
-  if (!props) {
-    props = <div>Hey and welcome to the site :)</div>;
+  if (!props && profile.usertype === 'company') {
+    props = (
+      <div>
+        <p>Hey and welcome to the site!</p>
+        <p>
+          To use the full site you must first add a company to your profile and
+          wait until an administrator approves it.
+        </p>
+        <p>
+          <Link to="/profile">Profile</Link> - here you can see your profile
+          page, your contact info, and add a new company
+        </p>
+        <p>
+          <Link to="/projects">Projects</Link> - here you can add new projects
+        </p>
+        <p>
+          <Link to="/applications">Applications</Link> - here you can see all
+          applications to your added projects
+        </p>
+      </div>
+    );
+  } else if (!props && profile.usertype === 'student') {
+    props = (
+      <div>
+        <p>Hey and welcome to the site!</p>
+        <p>
+          <Link to="/profile">Profile</Link> - here you can see your profile
+          page, your contact info
+        </p>
+        <p>
+          <Link to="/projects">Projects</Link> - here you can see all the
+          available projects
+        </p>
+        <p>
+          <Link to="/applications">Applications</Link> - here you can see all
+          applications you have submitted to projects
+        </p>
+      </div>
+    );
+  } else if (!props && profile.usertype === 'admin') {
+    props = (
+      <div>
+        <p>Hey and welcome to the site!</p>
+        <p>
+          <Link to="/profile">Profile</Link> - here you can see your profile
+          page
+        </p>
+        <p>
+          <Link to="/projects">Projects</Link> - here you can see all the added
+          projects
+        </p>
+        <p>
+          <Link to="/applications">Applications</Link> - here you can see all
+          applications from companies waiting your judging
+        </p>
+      </div>
+    );
   }
 
   return (

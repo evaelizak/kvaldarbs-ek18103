@@ -130,7 +130,7 @@ const ProjectCard = ({
     );
   } else if (type === 'admin') {
     shownButtonFooter =
-      'hello, testing - id like to add some way to disable this and add a note';
+      'If there are any issues, please contact the company directly';
   }
 
   // variable for storing company tab data, i had problems with the data not fetching on page load and this was the only way to get around this issue

@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import { equalTo, ref } from 'firebase/database';
+import { ref } from 'firebase/database';
 import { useList } from 'react-firebase-hooks/database';
-import { Button, Card, Col, notification, Row } from 'antd';
+import { Card, Col, notification, Row } from 'antd';
 import { db } from '../../misc/firebase';
 import AcceptedApplicationContacts from '../projects/project-applications/AcceptedApplicationContacts';
 import AdminCompanyAccept from './AdminCompanyAccept';
@@ -44,8 +44,14 @@ const AdminCompanyJudging = () => {
                     title={company.val().name}
                   >
                     <p> Approved</p>
-                    <p> {company.val().about}</p>
-                    <p> {company.val().country} </p>
+                    <p>
+                      <b>About: </b>
+                      {company.val().about}
+                    </p>
+                    <p>
+                      <b>Country: </b>
+                      {company.val().country}
+                    </p>
                     <p className="pb-3">
                       <b>Website: </b>
                       <a
@@ -79,8 +85,16 @@ const AdminCompanyJudging = () => {
                         ? company.val().adminMessage
                         : 'no'}
                     </p>
-                    <p> {company.val().about}</p>
-                    <p> {company.val().country} </p>
+                    <p>
+                      {' '}
+                      <b>About: </b>
+                      {company.val().about}
+                    </p>
+                    <p>
+                      {' '}
+                      <b>Country: </b>
+                      {company.val().country}{' '}
+                    </p>
                     <p className="pb-3">
                       <b>Website: </b>
                       <a
@@ -98,7 +112,10 @@ const AdminCompanyJudging = () => {
                     </div>
                     <AdminCompanyAccept companyKey={company.key} />
                     {company.val().adminMessage ? (
-                      <p className="float-right">Rejection message sent</p>
+                      <>
+                        <span> Send a new message?</span>
+                        <AdminCompanyReject companyKey={company.key} />{' '}
+                      </>
                     ) : (
                       <AdminCompanyReject companyKey={company.key} />
                     )}

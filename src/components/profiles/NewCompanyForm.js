@@ -18,7 +18,6 @@ const NewCompanyForm = () => {
     // transforming the form data into json
     const newCompany = {
       ...formValues,
-      byUser: auth.currentUser.uid,
       isApproved: false,
       createdAt: serverTimestamp(),
     };
