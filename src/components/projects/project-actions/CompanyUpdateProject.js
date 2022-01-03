@@ -99,7 +99,7 @@ const CompanyUpdateProject = ({
         duration: 4,
       });
     } catch (err) {
-      notification.open({
+      notification.error({
         message: 'An error has occured, try again later',
         duration: 4,
       });
@@ -131,7 +131,7 @@ const CompanyUpdateProject = ({
       </Button>
       <Modal
         visible={isModalVisible}
-        title="Edit your data"
+        title="Edit your project"
         onCancel={handleCancel}
         footer={[
           <Button key="back" type="ghost" onClick={handleCancel}>

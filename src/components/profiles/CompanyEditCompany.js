@@ -1,3 +1,4 @@
+/* eslint-disable no-unneeded-ternary */
 import { EditOutlined } from '@ant-design/icons';
 import {
   Button,
@@ -33,6 +34,12 @@ const CompanyEditProfile = ({
   // memo for the country options
   const options = useMemo(() => countryList().getData(), []);
 
+  const GetFullCountry = countryLabel => {
+    const countries = countryList().getData();
+    countryLabel = countries.find(country => country.label === countryLabel);
+    return countryLabel.value;
+  };
+  const correctCountry = GetFullCountry(companyLocation);
   // submit user form to the database
 
   const submitUserForm = () => {
@@ -107,8 +114,8 @@ const CompanyEditProfile = ({
           initialValues={{
             name: companyName,
             about: companyAbout,
-            country: companyLocation,
-            website: companyWebsite,
+            country: correctCountry,
+            website: companyWebsite ? companyWebsite : '',
           }}
         >
           <Form.Item />

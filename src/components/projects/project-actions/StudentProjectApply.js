@@ -55,7 +55,7 @@ const StudentProjectApply = ({ id, title, companyID }) => {
         duration: 4,
       });
     } catch (err) {
-      notification.open({
+      notification.error({
         message: 'An error has occured, try again later',
         duration: 4,
       });

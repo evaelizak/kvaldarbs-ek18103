@@ -1,9 +1,10 @@
-import { Col, Divider, notification, Row } from 'antd';
+import { Col, Collapse, notification, Row } from 'antd';
 import React from 'react';
 import { DateTime } from 'luxon';
 import ShowMoreText from 'react-show-more-text';
 import { useList } from 'react-firebase-hooks/database';
 import { ref } from 'firebase/database';
+import CollapsePanel from 'antd/lib/collapse/CollapsePanel';
 import { auth, db } from '../../../misc/firebase';
 import CompanyProjectApplicationCard from './CompanyProjectApplicationCard';
 
@@ -30,7 +31,6 @@ const CompanyApplications = ({
 
   const projectInfo = (
     <>
-      <Divider />
       <h1 className="text-xl">{title}</h1>
       <div className="pb-3">
         <b>About: </b>
@@ -98,8 +98,11 @@ const CompanyApplications = ({
   return (
     <div>
       <div>
-        {projectInfo}
-        {/* {console.log(DateTime.local().ts)} */}
+        <Collapse>
+          <CollapsePanel header="Project info" key="1">
+            <p>{projectInfo}</p>
+          </CollapsePanel>
+        </Collapse>
         {error &&
           notification.error({
             message: 'An error has occured, try again later',

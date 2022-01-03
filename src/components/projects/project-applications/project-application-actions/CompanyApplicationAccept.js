@@ -31,7 +31,7 @@ const CompanyApplicationAccept = ({ companyID, projectID, applicantID }) => {
         duration: 4,
       });
     } catch (err) {
-      notification.open({
+      notification.error({
         message: 'An error has occured, try again later',
         duration: 4,
       });
@@ -55,7 +55,6 @@ const CompanyApplicationAccept = ({ companyID, projectID, applicantID }) => {
 
   return (
     <>
-      {console.log(applicantID, companyID, projectID)}{' '}
       <Button
         style={{
           borderColor: 'mediumseagreen',

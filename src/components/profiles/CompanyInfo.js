@@ -17,7 +17,6 @@ const CompanyInfo = () => {
     });
   };
 
-  // console.log(hasCompany.isApproved);
   // function for showing the full country name, because the database contains only short 2 letter name, f.e. LV -> Latvia
   const GetFullCountry = countryLabel => {
     const countries = countryList().getData();

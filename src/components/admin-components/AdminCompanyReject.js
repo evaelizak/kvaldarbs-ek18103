@@ -71,7 +71,7 @@ const AdminCompanyReject = ({ companyKey }) => {
       </Button>
       <Modal
         visible={isModalVisible}
-        title="Application form"
+        title="Rejection"
         onOk={handleOk}
         onCancel={handleCancel}
       >

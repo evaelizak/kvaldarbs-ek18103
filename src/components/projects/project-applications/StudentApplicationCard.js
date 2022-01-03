@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 import { Card, Divider } from 'antd';
 import React, { useState } from 'react';
 import ShowMoreText from 'react-show-more-text';
@@ -141,9 +139,9 @@ const StudentApplicationCard = ({
         </p>
         <p>
           <b>Application deadline:</b>{' '}
-          {!projectData.deadline
+          {!projectData.appDeadline
             ? 'No specified deadline'
-            : DateTime.fromISO(projectData.deadline).toFormat('dd.LL.yyyy')}
+            : DateTime.fromISO(projectData.appDeadline).toFormat('dd.LL.yyyy')}
         </p>
       </>
     );
@@ -232,7 +230,6 @@ const StudentApplicationCard = ({
   return (
     <Card
       headStyle={{ fontSize: '20px' }}
-      title="Your application"
       tabList={tabList}
       activeTabKey={activeTab}
       onTabChange={key => {

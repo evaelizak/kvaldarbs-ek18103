@@ -22,7 +22,6 @@ const CompanyEditUserProfile = () => {
     const newUserData = {
       ...formValues,
     };
-    console.log(newUserData);
 
     // removes all the undefined values in case there are some
     const cleanedData = JSON.parse(JSON.stringify(newUserData));
@@ -43,7 +42,7 @@ const CompanyEditUserProfile = () => {
         duration: 4,
       });
     } catch (err) {
-      notification.open({
+      notification.error({
         message: 'An error has occured, try again later',
         duration: 4,
       });

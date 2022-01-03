@@ -63,7 +63,7 @@ const AcceptedApplicationContacts = ({ applicantID }) => {
             </p>
           </>
         ) : (
-          'no'
+          'Data not found...'
         )}
       </Modal>
     </>

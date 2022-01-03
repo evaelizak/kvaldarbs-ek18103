@@ -49,7 +49,6 @@ const CompanyProjects = () => {
       adminMsg = snapshot.val().adminMessage;
     });
   }
-  console.log(isApproved);
 
   // button for adding new project, which opens a modal with the new project form inside
   const newProjectBtn = (
@@ -72,12 +71,10 @@ const CompanyProjects = () => {
     </>
   );
 
-  // console.log(isApproved, '2');
   return (
     <>
       {isApproved === false ? (
         <>
-          {console.log(isApproved, '3')}
           <div>Your company is not approved yet</div>
           <div>
             {adminMsg ? (

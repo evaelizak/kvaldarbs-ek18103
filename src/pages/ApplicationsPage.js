@@ -6,15 +6,6 @@ import { useProfile } from '../context/profile.context';
 
 const ApplicationsPage = () => {
   const { profile } = useProfile();
-  // const [isApproved, setIsApproved] = useState(false);
-  // let isApproved;
-  // // if (profile.usertype === 'company') {
-  // onValue(ref(db, `companies/${profile.uid}`), snapshot => {
-  //   isApproved = snapshot.val().isApproved;
-  // });
-  // // }
-
-  // console.log(isApproved);
 
   let shownPage;
   if (profile.usertype === 'student') {

@@ -51,7 +51,6 @@ const Projects = ({ type = 'student' }) => {
   return (
     <div>
       <div>
-        {/* {console.log(DateTime.local().ts)} */}
         {error &&
           notification.error({
             message: 'An error has occured, try again later',

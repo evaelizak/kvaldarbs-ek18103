@@ -19,7 +19,7 @@ const StudentDeleteApplication = ({ companyID, id }) => {
         duration: 4,
       });
     } catch (err) {
-      notification.open({
+      notification.error({
         message: 'An error has occured, try again later',
         duration: 4,
       });
@@ -44,7 +44,6 @@ const StudentDeleteApplication = ({ companyID, id }) => {
 
   return (
     <>
-      {console.log(id)}
       <Button onClick={showDeleteConfirm} danger className="float-right">
         Delete
       </Button>

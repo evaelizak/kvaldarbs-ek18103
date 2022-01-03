@@ -6,7 +6,6 @@ import React from 'react';
 import { db } from '../../misc/firebase';
 
 const AdminCompanyAccept = ({ companyKey }) => {
-  console.log(companyKey);
   const onConfirmation = () => {
     try {
       const companyRef = ref(db, `companies/${companyKey}`);

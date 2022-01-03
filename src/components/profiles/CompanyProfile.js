@@ -20,18 +20,7 @@ const CompanyProfile = () => {
   return (
     <>
       <div className="mb-5">
-        <h1 className="text-3xl">
-          Hey, {profile.username}!
-          {/* <Button
-            className="float-right inline"
-            color="red-500"
-            danger
-            type="primary"
-            onClick={onSignOut}
-          >
-            Sign out
-          </Button> */}
-        </h1>
+        <h1 className="text-3xl">Hey, {profile.username}!</h1>
       </div>
       <Divider>Your profile info</Divider>
       <Divider plain>Contact info</Divider>

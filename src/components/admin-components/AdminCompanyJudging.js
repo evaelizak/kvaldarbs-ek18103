@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import { ref } from 'firebase/database';
+import { orderByChild, query, ref } from 'firebase/database';
 import { useList } from 'react-firebase-hooks/database';
 import { Card, Col, notification, Row } from 'antd';
 import { db } from '../../misc/firebase';
@@ -11,8 +11,8 @@ import AdminCompanyReject from './AdminCompanyReject';
 // component for admins to make sure that the companies who make projects are approved without issues
 const AdminCompanyJudging = () => {
   const companyRef = ref(db, `/companies`);
-
-  const [companies, loading, error] = useList(companyRef);
+  const orderedRef = query(companyRef, orderByChild('createdAt'));
+  const [companies, loading, error] = useList(orderedRef);
 
   return (
     <>
@@ -63,9 +63,7 @@ const AdminCompanyJudging = () => {
                       </a>
                     </p>
                     <div>
-                      <AcceptedApplicationContacts
-                        applicantID={company.val().byUser}
-                      />
+                      <AcceptedApplicationContacts applicantID={company.key} />
                     </div>
                   </Card>{' '}
                 </Col>
@@ -106,9 +104,7 @@ const AdminCompanyJudging = () => {
                       </a>
                     </p>
                     <div>
-                      <AcceptedApplicationContacts
-                        applicantID={company.val().byUser}
-                      />
+                      <AcceptedApplicationContacts applicantID={company.key} />
                     </div>
                     <AdminCompanyAccept companyKey={company.key} />
                     {company.val().adminMessage ? (

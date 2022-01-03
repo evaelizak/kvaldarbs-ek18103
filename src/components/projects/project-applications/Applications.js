@@ -116,10 +116,6 @@ const Applications = ({ type = 'student' }) => {
                   className="xl:w-1/3 md:w-1/2 sm:w-full  pt-2"
                   span={{ xs: 16, m: 8 }}
                 >
-                  {console.log(
-                    DateTime.fromISO(application.val().appDeadline) <
-                      DateTime.local()
-                  )}
                   <StudentApplicationCard
                     projectID={application.key}
                     companyID={application.val().companyID}
