@@ -32,7 +32,7 @@ const StudentApplicationCard = ({
     companyData = snapshot.val();
   });
 
-  // the button thats shown in the footer - different for students and companies
+  // the button thats shown in the footer - different for students and companies and different statuses
   let shownButtonFooter;
   if (status !== 'accepted' && status !== 'rejected' && status !== 'deleted') {
     shownButtonFooter = (

@@ -10,7 +10,7 @@ const AdminCompanyAccept = ({ companyKey }) => {
     try {
       const companyRef = ref(db, `companies/${companyKey}`);
 
-      // changes the application status in the database
+      // changes the company status in the database
       update(companyRef, {
         isApproved: 'true',
       });
@@ -28,6 +28,7 @@ const AdminCompanyAccept = ({ companyKey }) => {
     }
   };
 
+  // double check before company is accepted
   const showAcceptConfirm = () => {
     confirm({
       title: 'Are you sure you want to approve this company?',

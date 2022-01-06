@@ -16,7 +16,6 @@ const CompanyProfile = () => {
     shownComponent = <NewCompanyForm />;
   }
 
-  // for saving form values
   return (
     <>
       <div className="mb-5">

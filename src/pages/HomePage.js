@@ -12,8 +12,7 @@ import { useProfile } from '../context/profile.context';
 
 const HomePage = ({ props }) => {
   const { profile } = useProfile();
-  // for when there is no other content in the home page
-  // TODO: add some more buttons for page links etc
+  // for when there is no other content in the home (base) page
   if (!props && profile.usertype === 'company') {
     props = (
       <div>

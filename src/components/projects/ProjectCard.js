@@ -40,12 +40,13 @@ const ProjectCard = ({
       isStudentApplied = snapshot.val();
     }
   );
-
+  // for showing expired / not expired projects
   let pastDeadline;
   if (DateTime.fromISO(deadline) > DateTime.local()) {
     pastDeadline = false;
   } else pastDeadline = true;
 
+  // saving the dates for the editing form to function correctly
   const startDate2 = startDate;
   const endDate2 = endDate;
   const deadline2 = deadline;
@@ -61,6 +62,7 @@ const ProjectCard = ({
     deadline = DateTime.fromISO(deadline).toFormat('dd.LL.yyyy');
   }
 
+  // gets the country name
   const GetFullCountry = countryLabel => {
     const countries = countryList().getData();
     countryLabel = countries.find(country => country.value === countryLabel);

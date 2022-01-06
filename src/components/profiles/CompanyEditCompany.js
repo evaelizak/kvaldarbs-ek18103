@@ -34,14 +34,15 @@ const CompanyEditProfile = ({
   // memo for the country options
   const options = useMemo(() => countryList().getData(), []);
 
+  // gets the correct country value for the form to work correctly
   const GetFullCountry = countryLabel => {
     const countries = countryList().getData();
     countryLabel = countries.find(country => country.label === countryLabel);
     return countryLabel.value;
   };
   const correctCountry = GetFullCountry(companyLocation);
-  // submit user form to the database
 
+  // submit user form to the database
   const submitUserForm = () => {
     // transforming the form data into json
     const newUserData = {

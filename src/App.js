@@ -4,9 +4,10 @@ import { ProfileProvider } from './context/profile.context';
 import { Routes } from './Routes';
 
 function App() {
-  // Routing the paths for this project
   return (
+    // profile context
     <ProfileProvider>
+      {/* routing */}
       <Routes />
     </ProfileProvider>
   );

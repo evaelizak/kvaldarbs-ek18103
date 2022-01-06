@@ -11,7 +11,7 @@ const StudentDeleteApplication = ({ companyID, id }) => {
     try {
       const applicationRef1 = `companies/${companyID}/projects/${id}/applications/${auth.currentUser.uid}`;
       const applicationRef2 = `profiles/${auth.currentUser.uid}/projectApps/${id}/`;
-      // removes the project from the database
+      // removes the application from the database
       remove(ref(db, applicationRef1));
       remove(ref(db, applicationRef2));
       notification.open({

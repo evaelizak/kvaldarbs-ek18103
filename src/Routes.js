@@ -63,7 +63,7 @@ export const Routes = () => {
         <PrivateRoute exact path="/home">
           <HomePage />
         </PrivateRoute>
-        {/* This is for rendering the correct component based on the selected route */}
+        {/* This is for rendering the correct component inside home page (base page) based on the selected route */}
         <PrivateRoute exact path="/profile">
           <HomePage props={profilePage} />
         </PrivateRoute>

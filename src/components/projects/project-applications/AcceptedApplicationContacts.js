@@ -12,12 +12,14 @@ const AcceptedApplicationContacts = ({ applicantID }) => {
     setIsModalVisible(false);
   };
 
+  // gets the data from the database
   const getData = () => {
     onValue(ref(db, `profiles/${applicantID}`), snapshot => {
       setApplicantData(snapshot.val());
     });
   };
 
+  // use effect hook to get the data from the database
   useEffect(() => {
     getData();
   }, []);

@@ -23,6 +23,7 @@ const AdminEditProfile = () => {
     // removes all the undefined values in case there are some
     const cleanedData = JSON.parse(JSON.stringify(newUserData));
 
+    // checks the data that could be empty
     if (!cleanedData.phone) {
       cleanedData.phone = '';
     }

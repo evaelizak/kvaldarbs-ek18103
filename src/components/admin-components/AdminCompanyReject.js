@@ -38,7 +38,7 @@ const AdminCompanyReject = ({ companyKey }) => {
     setIsModalVisible(false);
   };
 
-  // function for showing the delete confirmation modal
+  // function for showing the delete confirmation modal to double check
   const showRejectConfirm = () => {
     confirm({
       title: 'Are you sure you want to reject this company?',

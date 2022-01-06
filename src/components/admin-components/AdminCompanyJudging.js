@@ -10,6 +10,7 @@ import AdminCompanyReject from './AdminCompanyReject';
 
 // component for admins to make sure that the companies who make projects are approved without issues
 const AdminCompanyJudging = () => {
+  // references for the company fetching from the db
   const companyRef = ref(db, `/companies`);
   const orderedRef = query(companyRef, orderByChild('createdAt'));
   const [companies, loading, error] = useList(orderedRef);
@@ -21,6 +22,7 @@ const AdminCompanyJudging = () => {
           message: 'An error has occured, try again later',
           duration: 4,
         })}
+      {/* if there are no companies added */}
       {(!loading && !companies) ||
         (companies.length < 1 && (
           <>
@@ -34,6 +36,7 @@ const AdminCompanyJudging = () => {
           </h1>
           <Row gutter={{ xs: 4, sm: 8 }} type="flex">
             {companies.map((company, index) =>
+              // mapping the companies to show the correct cards
               company.val().isApproved ? (
                 <Col
                   className="xl:w-1/3 md:w-1/2 sm:w-full  pt-2"

@@ -31,14 +31,14 @@ const SignInPage = () => {
 
   // sign in with google
   const signInWithGoogle = async () => {
-    // sets the provider
+    // gets the user type
     let userType;
     if (value === 1) {
       userType = 'student';
     } else {
       userType = 'company';
     }
-
+    // sets the provider
     const provider = new GoogleAuthProvider();
 
     try {

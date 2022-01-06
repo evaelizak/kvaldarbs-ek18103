@@ -1,7 +1,6 @@
 import React from 'react';
 import StudentProfile from '../components/profiles/StudentProfile';
 import CompanyProfile from '../components/profiles/CompanyProfile';
-
 import { useProfile } from '../context/profile.context';
 import AdminProfile from '../components/profiles/AdminProfile';
 

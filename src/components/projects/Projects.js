@@ -13,13 +13,16 @@ const Projects = ({ type = 'student' }) => {
   const key = auth.currentUser.uid;
   const [sortChild, setSortChild] = useState('appDeadline');
   const [showExpired, setShowExpired] = useState(false);
+  // for the paid / not paid checkbox
   const onCheckboxChange = e => {
     setShowExpired(e.target.checked);
   };
+  // reference to the db
   const studentRef = ref(db, '/projects');
   const companyRef = ref(db, `/companies/${key}/projects`);
   // database reference to take either specific company projects or show all for students
   let projectsRef;
+  // if / else statements depending on chosen sorting
   if (type === 'student' || type === 'admin') {
     if (sortChild === 'isPaid') {
       projectsRef = query(studentRef, orderByChild('isPaid'), equalTo(true));
@@ -44,6 +47,7 @@ const Projects = ({ type = 'student' }) => {
   // react firebase hook to get a list of keys from the database reference
   const [projects, loading, error] = useList(projectsRef);
 
+  // gets the sort value from the filter dropdown
   const changeSort = value => {
     setSortChild(value);
   };
@@ -65,6 +69,7 @@ const Projects = ({ type = 'student' }) => {
         {!loading && projects && (
           <>
             <div>
+              {/* sorting filters */}
               <span className="mr-1">Filter by: </span>
               <Select
                 defaultValue={sortChild}
@@ -93,6 +98,7 @@ const Projects = ({ type = 'student' }) => {
             {/* Mapping the projects keys from the database list */}
             <Row gutter={{ xs: 4, sm: 8 }} type="flex">
               {projects.map((project, index) =>
+                // if the show expired button is clicked
                 // eslint-disable-next-line no-nested-ternary
                 showExpired ? (
                   <Col
@@ -114,7 +120,8 @@ const Projects = ({ type = 'student' }) => {
                       byUser={project.val().byUser}
                     />
                   </Col>
-                ) : DateTime.fromISO(project.val().appDeadline) >
+                ) : // if the show expired button is not clicked then do not show expired projects
+                DateTime.fromISO(project.val().appDeadline) >
                   DateTime.local() ? (
                   <Col
                     key={project.key}

@@ -8,6 +8,7 @@ import { db } from '../../../../misc/firebase';
 
 const CompanyApplicationAccept = ({ companyID, projectID, applicantID }) => {
   const onConfirmation = () => {
+    // gets the database reference
     try {
       const applicationRef1 = ref(
         db,

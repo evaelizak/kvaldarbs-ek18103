@@ -8,6 +8,7 @@ import { db } from '../../../../misc/firebase';
 const CompanyApplicationReject = ({ companyID, projectID, applicantID }) => {
   const onConfirmation = () => {
     try {
+      // gets the database reference
       const applicationRef1 = ref(
         db,
         `companies/${companyID}/projects/${projectID}/applications/${applicantID}`
@@ -16,7 +17,7 @@ const CompanyApplicationReject = ({ companyID, projectID, applicantID }) => {
         db,
         `profiles/${applicantID}/projectApps/${projectID}/`
       );
-
+      // updates the status
       update(applicationRef1, {
         status: 'rejected',
       });
